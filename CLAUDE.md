@@ -155,15 +155,138 @@ interface EventEnvelope {
 - ✅ 所有文件/命令操作**必须**经过 Workspace 沙箱
 - ✅ 异常必须带上下文（不写 `throw new Error('failed')`）
 - ✅ 纯函数放 `packages/shared/`，副作用集中在各服务的 `src/` 内
+- ✅ 每个功能模块**必须**配套测试文件（见 §5 TDD 约束）
 - ❌ 不用 `any`，需要时用 `unknown` 再 narrow
 - ❌ 不引入新依赖不经讨论
 - ❌ 不在业务代码里 `console.log`（用结构化 logger）
 - ❌ 不写 `// TODO` 不跟进
 - ❌ 不为「将来可能用到」加抽象
+- ❌ 不提交未经测试的代码——测试和实现在同一个 commit
 
 ---
 
-## 5. 安全模型
+## 5. 测试驱动开发（TDD）— 强制约束
+
+**所有功能代码必须配套测试。不允许提交未经测试的实现。**
+
+### 5.1 TDD 工作流
+
+```
+1. RED：先写失败的测试，验证测试确实会失败
+2. GREEN：写最少代码让测试通过
+3. REFACTOR：重构代码，保持测试通过
+4. COMMIT：测试 + 实现一起提交
+```
+
+**铁律**：不允许先写实现再补测试。测试和实现必须在同一个 commit 中。
+
+### 5.2 测试金字塔
+
+```
+         ┌──────┐
+         │ E2E  │  ← 关键用户路径
+        ┌┴──────┴┐
+        │ 集成测试 │  ← 服务边界、API 契约、DB 交互
+       ┌┴────────┴┐
+       │  单元测试  │  ← 纯函数、策略逻辑、工具函数、校验器
+      └───────────┘
+```
+
+| 层级 | 覆盖目标 | 工具 | 占比 |
+|------|---------|------|------|
+| 单元测试 | 纯函数、策略实现、Zod schema、工具校验逻辑 | Vitest | ~60% |
+| 集成测试 | API 端点、DB 查询、事件发布/消费、跨服务契约 | Vitest + Supertest | ~30% |
+| E2E | 关键用户路径（创建会话→发消息→Agent 回复→产物展示） | Playwright | ~10% |
+
+### 5.3 测试文件约定
+
+```
+src/
+├── server/
+│   ├── agent-runner.ts
+│   ├── agent-runner.test.ts        ← 与被测文件同目录
+│   ├── dispatch-plan.ts
+│   ├── dispatch-plan.test.ts
+│   └── adapters/
+│       ├── deepseek-adapter.ts
+│       └── deepseek-adapter.test.ts
+├── shared/
+│   ├── types.ts                    ← 类型定义（无需测试文件）
+│   └── validation.ts
+│       └── validation.test.ts
+└── __tests__/                      ← 集成测试（跨模块）
+    ├── api/
+    │   ├── conversations.test.ts
+    │   └── agents.test.ts
+    └── contracts/
+        └── event-schema.test.ts
+```
+
+### 5.4 必须测试的场景
+
+| 场景 | 测试类型 | 示例 |
+|------|---------|------|
+| **正常路径** | 单元/集成 | 策略接口的默认实现产生预期输出 |
+| **边界条件** | 单元 | 空输入、超长输入、token 预算耗尽 |
+| **错误处理** | 单元/集成 | Adapter 抛出时 AgentRunner 返回 failed 状态 |
+| **并发场景** | 集成 | DAG 调度中同波次并行任务 + 信号量上限 |
+| **安全路径** | 单元 | Bash 黑名单拒绝 `rm -rf /`、路径穿越拒绝 `../../etc` |
+| **Schema 校验** | 单元 | Event Envelope 各 eventType 的合法/非法 payload |
+| **策略替换** | 单元 | 切换 `AGENT_ADAPTER` 环境变量后工厂返回正确实现 |
+| **级联行为** | 集成 | 父 run abort → 子 run 收到 abort 信号 → 状态标记为 aborted |
+
+### 5.5 测试工具链
+
+```bash
+pnpm test              # 全量单元 + 集成测试
+pnpm test:watch        # watch 模式（开发时使用）
+pnpm test:coverage     # 覆盖率报告（目标 ≥ 80%）
+pnpm e2e               # Playwright E2E
+pnpm e2e:ui            # Playwright UI 模式
+```
+
+### 5.6 覆盖率门槛
+
+| 模块 | 最低行覆盖率 |
+|------|------------|
+| `packages/shared/` 纯函数 | 95% |
+| Core Engine 核心逻辑（AgentRunner, DispatchPlan, ToolExecutor） | 85% |
+| Adapter 层 | 80% |
+| API 路由 | 80% |
+| 前端组件 | 70% |
+| MCP Gateway (Go) | 80% |
+
+**低于门槛的 PR 不允许合并。** 覆盖率报告在 CI 中自动生成。
+
+### 5.7 测试命名约定
+
+```typescript
+// describe('被测模块', () => {
+//   describe('方法/场景', () => {
+//     it('should 预期行为 when 条件', () => { ... })
+//   })
+// })
+
+describe('AgentRunner', () => {
+  describe('executeSimpleRun', () => {
+    it('should return complete status when adapter streams successfully', async () => { ... })
+    it('should return failed status when adapter throws an error', async () => { ... })
+    it('should abort mid-stream when signal is triggered', async () => { ... })
+  })
+})
+```
+
+### 5.8 Mock 策略
+
+- **LLM API 调用**：必须 mock（不烧 token）。每个 Adapter 提供对应的 `MockAdapter`。
+- **数据库**：单元测试用内存 SQLite 或 mock DB 层；集成测试用真实 PostgreSQL（testcontainers）。
+- **Redis / RabbitMQ**：集成测试用 testcontainers；单元测试 mock 接口。
+- **文件系统**：用 `memfs` 或 `tmpdir`，不操作真实文件系统。
+- **环境变量**：测试中显式设置，不依赖 `.env` 文件。
+
+---
+
+## 6. 安全模型
 
 - LLM 输出视为**不可信输入**
 - 生成的 HTML 在 sandboxed iframe 渲染
@@ -175,9 +298,9 @@ interface EventEnvelope {
 
 ---
 
-## 6. AI 协作规则
+## 7. AI 协作规则
 
-### 6.1 三种工作模式
+### 7.1 三种工作模式
 
 | 模式 | 触发 | 行为 |
 |------|------|------|
@@ -185,7 +308,7 @@ interface EventEnvelope {
 | **修复驱动** | 「修 bug」 | 先定位根因（不是症状）→ 在 PR 说明根因 |
 | **探索驱动** | 「研究 / 设计 X」 | 不写实现代码，输出 spec / ADR |
 
-### 6.2 必须停下来问
+### 7.2 必须停下来问
 
 - 需要新增依赖
 - 需要修改 spec 里定义的接口 / 数据结构
@@ -193,18 +316,20 @@ interface EventEnvelope {
 - 需要修改安全约束（黑名单、沙箱规则）
 - 用户的请求和某个 spec 冲突
 
-### 6.3 完成自检
+### 7.3 完成自检
 
 - [ ] `pnpm typecheck` 通过
 - [ ] `pnpm lint` 通过
+- [ ] `pnpm test` 全部通过（新增代码必须有对应测试）
+- [ ] `pnpm test:coverage` 覆盖率不低于模块门槛（§5.6）
 - [ ] 涉及 spec 的修改，spec 已同步更新
-- [ ] 新增策略实现了对应接口
+- [ ] 新增策略实现了对应接口，且测试验证了策略可替换性
 - [ ] 环境变量已在 `.env.example` 中声明
 - [ ] 没有遗留的 `console.log` / `TODO` / 注释代码
 
 ---
 
-## 7. 提交规范
+## 8. 提交规范
 
 ```
 <type>(<scope>): <subject>
@@ -215,7 +340,7 @@ type: feat | fix | refactor | docs | chore | test | spec
 
 ---
 
-## 8. 环境变量约定
+## 9. 环境变量约定
 
 ```bash
 # LLM
@@ -248,7 +373,7 @@ QUEUE_BACKEND=rabbitmq         # rabbitmq | redis | nats
 
 ---
 
-## 9. 文档索引
+## 10. 文档索引
 
 | 文档 | 用途 |
 |------|------|
