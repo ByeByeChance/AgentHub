@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+dist/
+release/
+dist-electron/
+
+# Environment (contains API keys)
+.env
+.env.local
+.env.*.local
+
+# Data
+.agenthub-data/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Superpowers brainstorming cache
+.superpowers/
+
+# Docs (not ready for public)
+docs/
+
+# Test coverage
+coverage/
+
+# Playwright
+test-results/
+playwright-report/
+
+# Electron
+out/
+
+# Mobile
+apps/mobile/android/app/build/
+apps/mobile/ios/Pods/
