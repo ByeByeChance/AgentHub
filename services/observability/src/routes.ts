@@ -4,6 +4,7 @@ import type { AuditLogger } from './audit-logger.js';
 import { recordTokenSchema, UnknownModelError } from './token-recorder.js';
 import { createAuditEntrySchema } from './audit-logger.js';
 import { z } from 'zod';
+import { TIME_PERIODS } from '@agenthub/shared/constants';
 
 export function registerObservabilityRoutes(
   app: FastifyInstance,
@@ -30,8 +31,8 @@ export function registerObservabilityRoutes(
   // GET /api/obs/costs — cost aggregation
   app.get('/api/obs/costs', async (request, reply) => {
     const query = (request.query as Record<string, string> | undefined) ?? {};
-    const period = (query['period'] as 'daily' | 'weekly' | 'monthly' | undefined) ?? 'daily';
-    if (!['daily', 'weekly', 'monthly'].includes(period)) {
+    const period = (query['period'] as (typeof TIME_PERIODS)[number] | undefined) ?? TIME_PERIODS[0];
+    if (!(TIME_PERIODS as readonly string[]).includes(period)) {
       return reply.status(400).send({ error: 'Invalid period. Use daily, weekly, or monthly.' });
     }
     const report = await tokenRecorder.getCosts({ period });

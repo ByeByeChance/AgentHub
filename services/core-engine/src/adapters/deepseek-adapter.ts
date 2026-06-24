@@ -6,6 +6,7 @@ import type {
   ToolDefinition,
   AgentConfig,
 } from '@agenthub/shared/adapter';
+import { STREAM_CHUNK_TYPE } from '@agenthub/shared/adapter';
 
 export class DeepSeekAdapter implements AgentAdapter {
   readonly name = 'deepseek';
@@ -65,13 +66,13 @@ export class DeepSeekAdapter implements AgentAdapter {
 
       // Text content
       if (delta?.content) {
-        yield { type: 'text_delta', content: delta.content };
+        yield { type: STREAM_CHUNK_TYPE.TEXT_DELTA, content: delta.content };
       }
 
       // Reasoning/thinking content (DeepSeek R1 models)
       if ((delta as Record<string, unknown>)?.['reasoning_content']) {
         yield {
-          type: 'thinking_delta',
+          type: STREAM_CHUNK_TYPE.THINKING_DELTA,
           content: (delta as Record<string, string>)['reasoning_content'] ?? '',
         };
       }
@@ -89,7 +90,7 @@ export class DeepSeekAdapter implements AgentAdapter {
             });
 
             yield {
-              type: 'tool_use_start',
+              type: STREAM_CHUNK_TYPE.TOOL_USE_START,
               id: toolCallsInProgress.get(index)!.id,
               name: toolCallsInProgress.get(index)!.name,
             };
@@ -99,7 +100,7 @@ export class DeepSeekAdapter implements AgentAdapter {
             const entry = toolCallsInProgress.get(index)!;
             entry.arguments += tc.function.arguments;
             yield {
-              type: 'tool_use_delta',
+              type: STREAM_CHUNK_TYPE.TOOL_USE_DELTA,
               id: entry.id,
               argumentDelta: tc.function.arguments,
             };
@@ -114,12 +115,14 @@ export class DeepSeekAdapter implements AgentAdapter {
           let parsedInput: Record<string, unknown> = {};
           try {
             parsedInput = JSON.parse(entry.arguments);
-          } catch {
+          } catch (err) {
+            // Log malformed tool call arguments for debugging
+            console.warn(`[deepseek-adapter] Failed to parse tool call arguments for '${entry.name}': ${err instanceof Error ? err.message : String(err)}`);
             parsedInput = { raw: entry.arguments };
           }
 
           yield {
-            type: 'tool_use_end',
+            type: STREAM_CHUNK_TYPE.TOOL_USE_END,
             id: entry.id,
             name: entry.name,
             input: parsedInput,
@@ -128,7 +131,7 @@ export class DeepSeekAdapter implements AgentAdapter {
 
         if (usage) {
           yield {
-            type: 'done',
+            type: STREAM_CHUNK_TYPE.DONE,
             finishReason: finishReason as 'stop' | 'tool_calls' | 'length',
             usage: {
               promptTokens: usage.prompt_tokens,
@@ -137,7 +140,7 @@ export class DeepSeekAdapter implements AgentAdapter {
           };
         } else {
           yield {
-            type: 'done',
+            type: STREAM_CHUNK_TYPE.DONE,
             finishReason: finishReason as 'stop' | 'tool_calls' | 'length',
             usage: { promptTokens: 0, completionTokens: 0 },
           };

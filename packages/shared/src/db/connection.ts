@@ -1,4 +1,4 @@
-import type { Database, AgentRecord, ConversationRecord, MessageRecord, ArtifactRecord, DocumentRecord, SearchResult } from './repository.js';
+import type { Database, AgentRecord, ConversationRecord, MessageRecord, ArtifactRecord, DocumentRecord, SearchResult } from './repository.interface.js';
 
 // ---- In-Memory implementation (for tests only) ----
 

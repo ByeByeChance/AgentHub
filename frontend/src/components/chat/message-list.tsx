@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { MessageBubble } from './message-bubble';
 import { StreamingIndicator } from './streaming-indicator';
-import type { Message } from '@/store/index';
+import type { Message } from '@/store/interfaces';
 import { useStreamingMessageId } from '@/store/selectors/message-selectors';
 
 interface MessageListProps {

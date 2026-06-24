@@ -91,8 +91,9 @@ export async function seedAgents(
       });
 
       imported++;
-    } catch {
-      // Skip agents that fail to parse
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`[seed] Failed to parse agent file, skipping: ${msg}`);
     }
   }
 

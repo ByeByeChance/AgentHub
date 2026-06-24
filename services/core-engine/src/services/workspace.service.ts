@@ -1,6 +1,7 @@
 import { validatePath, validateBashCommand } from '@agenthub/shared/security';
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
+import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
@@ -19,22 +20,30 @@ export class RealWorkspaceService implements WorkspaceService {
   constructor(private readonly workspaceRoot: string) {}
 
   async read(relativePath: string): Promise<string> {
-    const pathResult = validatePath(relativePath, this.workspaceRoot);
-    if (!pathResult.allowed) {
-      throw new Error(`Path blocked: ${pathResult.blockedReason}`);
+    try {
+      const pathResult = validatePath(relativePath, this.workspaceRoot);
+      if (!pathResult.allowed) {
+        throw new Error(`Path blocked: ${pathResult.blockedReason}`);
+      }
+      return readFile(pathResult.resolvedPath!, 'utf-8');
+    } catch (err) {
+      throw new Error(`Failed to read workspace file '${relativePath}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
     }
-    return readFile(pathResult.resolvedPath!, 'utf-8');
   }
 
   async write(relativePath: string, content: string): Promise<void> {
-    const pathResult = validatePath(relativePath, this.workspaceRoot);
-    if (!pathResult.allowed) {
-      throw new Error(`Path blocked: ${pathResult.blockedReason}`);
+    try {
+      const pathResult = validatePath(relativePath, this.workspaceRoot);
+      if (!pathResult.allowed) {
+        throw new Error(`Path blocked: ${pathResult.blockedReason}`);
+      }
+      // Ensure parent directories exist
+      const dir = join(pathResult.resolvedPath!, '..');
+      await mkdir(dir, { recursive: true });
+      await writeFile(pathResult.resolvedPath!, content, 'utf-8');
+    } catch (err) {
+      throw new Error(`Failed to write workspace file '${relativePath}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
     }
-    // Ensure parent directories exist
-    const dir = join(pathResult.resolvedPath!, '..');
-    await mkdir(dir, { recursive: true });
-    await writeFile(pathResult.resolvedPath!, content, 'utf-8');
   }
 
   async exec(
@@ -53,8 +62,8 @@ export class RealWorkspaceService implements WorkspaceService {
     try {
       const { stdout, stderr } = await execAsync(command, {
         cwd: this.workspaceRoot,
-        timeout: 30000,
-        maxBuffer: 10 * 1024 * 1024, // 10MB
+        timeout: SERVICE_DEFAULTS.workspace.timeout,
+        maxBuffer: SERVICE_DEFAULTS.workspace.maxBuffer,
       });
       return { stdout, stderr, exitCode: 0 };
     } catch (err: unknown) {

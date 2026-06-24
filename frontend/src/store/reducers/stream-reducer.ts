@@ -1,92 +1,19 @@
-import { EVENT_TYPES, type EventEnvelope } from '@/lib/constants';
-import type { AgentHubState } from '../index';
-
-// Payload type definitions for each event type
-interface AgentRunStartPayload {
-  agentId: string;
-  agentName: string;
-  conversationId: string;
-  messageId: string;
-}
-
-interface AgentRunCompletePayload {
-  agentId: string;
-  conversationId: string;
-  messageId: string;
-  usage: {
-    promptTokens: number;
-    completionTokens: number;
-  };
-}
-
-interface AgentRunFailedPayload {
-  agentId: string;
-  conversationId: string;
-  messageId: string;
-  error: string;
-}
-
-interface AgentRunAbortedPayload {
-  agentId: string;
-  conversationId: string;
-  messageId: string;
-}
-
-interface MessagePartTextPayload {
-  messageId: string;
-  content: string;
-}
-
-interface MessagePartThinkingPayload {
-  messageId: string;
-  content: string;
-}
-
-interface MessagePartToolUsePayload {
-  messageId: string;
-  toolCallId: string;
-  toolName: string;
-  phase?: string;
-}
-
-interface MessagePartToolResultPayload {
-  messageId: string;
-  toolCallId: string;
-  toolName: string;
-  result: unknown;
-  isError: boolean;
-}
-
-interface ToolCallPayload {
-  conversationId: string;
-  messageId: string;
-  toolCallId: string;
-  toolName: string;
-  input: Record<string, unknown>;
-}
-
-interface ToolResultPayload {
-  conversationId: string;
-  messageId: string;
-  toolCallId: string;
-  toolName: string;
-  result: unknown;
-  isError: boolean;
-}
-
-interface ArtifactCreatedPayload {
-  id: string;
-  conversationId: string;
-  type: 'web_app' | 'document' | 'code' | 'image';
-  title: string;
-  content: unknown;
-}
-
-interface ArtifactUpdatedPayload {
-  id: string;
-  content: unknown;
-  version: number;
-}
+import { EVENT_TYPES, MESSAGE_STATUS, type EventEnvelope } from '@/lib/constants';
+import type { AgentHubState } from '../interfaces/index.js';
+import type {
+  AgentRunStartPayload,
+  AgentRunCompletePayload,
+  AgentRunFailedPayload,
+  AgentRunAbortedPayload,
+  MessagePartTextPayload,
+  MessagePartThinkingPayload,
+  MessagePartToolUsePayload,
+  MessagePartToolResultPayload,
+  ToolCallPayload,
+  ToolResultPayload,
+  ArtifactCreatedPayload,
+  ArtifactUpdatedPayload,
+} from './interfaces/stream-payloads.interface.js';
 
 /**
  * Core stream reducer — applies an EventEnvelope to the draft state.
@@ -109,7 +36,7 @@ export function applyStreamEvent(
       const payload = event.payload as AgentRunCompletePayload;
       const msg = draft.messages[payload.messageId];
       if (msg) {
-        msg.status = 'complete';
+        msg.status = MESSAGE_STATUS.COMPLETE;
       }
       draft.ui.isStreaming = false;
       draft.ui.streamingMessageId = null;
@@ -120,7 +47,7 @@ export function applyStreamEvent(
       const payload = event.payload as AgentRunFailedPayload;
       const msg = draft.messages[payload.messageId];
       if (msg) {
-        msg.status = 'failed';
+        msg.status = MESSAGE_STATUS.FAILED;
       }
       draft.ui.isStreaming = false;
       draft.ui.streamingMessageId = null;
@@ -131,7 +58,7 @@ export function applyStreamEvent(
       const payload = event.payload as AgentRunAbortedPayload;
       const msg = draft.messages[payload.messageId];
       if (msg) {
-        msg.status = 'aborted';
+        msg.status = MESSAGE_STATUS.ABORTED;
       }
       draft.ui.isStreaming = false;
       draft.ui.streamingMessageId = null;

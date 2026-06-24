@@ -1,84 +1,82 @@
 import type { Database, ConversationRecord, MessageRecord, MessagePart } from '@agenthub/shared/db';
-
-export interface Conversation {
-  id: string;
-  title: string;
-  mode: 'single' | 'group';
-  agentIds: string[];
-  pinnedAt: string | null;
-  createdAt: string;
-}
-
-export interface Message {
-  id: string;
-  conversationId: string;
-  role: 'user' | 'assistant' | 'system';
-  parts: MessagePart[];
-  status: 'streaming' | 'complete' | 'aborted' | 'failed';
-  createdAt: string;
-}
-
-export interface CreateConversationInput {
-  title?: string;
-  mode?: 'single' | 'group';
-  agentIds: string[];
-}
-
-export interface CreateMessageInput {
-  conversationId: string;
-  role: 'user' | 'assistant' | 'system';
-  parts?: MessagePart[];
-  id?: string;
-}
+import type { Conversation, Message, CreateConversationInput, CreateMessageInput } from './interfaces/conversation.interface.js';
 
 export class ConversationService {
   constructor(private readonly db: Database) {}
 
   async createConversation(input: CreateConversationInput): Promise<Conversation> {
-    const id = crypto.randomUUID();
-    const now = new Date().toISOString();
-    const record: ConversationRecord = {
-      id, title: input.title ?? 'New Conversation',
-      mode: input.mode ?? 'single', agentIds: input.agentIds,
-      pinnedAt: null, createdAt: now,
-    };
-    await this.db.conversations.insert(record);
-    return record;
+    try {
+      const id = crypto.randomUUID();
+      const now = new Date().toISOString();
+      const record: ConversationRecord = {
+        id, title: input.title ?? 'New Conversation',
+        mode: input.mode ?? 'single', agentIds: input.agentIds,
+        pinnedAt: null, createdAt: now,
+      };
+      await this.db.conversations.insert(record);
+      return record;
+    } catch (err) {
+      throw new Error(`Failed to create conversation: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async getConversation(id: string): Promise<Conversation | null> {
-    return this.db.conversations.findById(id);
+    try {
+      return this.db.conversations.findById(id);
+    } catch (err) {
+      throw new Error(`Failed to get conversation '${id}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async listConversations(): Promise<Conversation[]> {
-    return this.db.conversations.listAll();
+    try {
+      return this.db.conversations.listAll();
+    } catch (err) {
+      throw new Error(`Failed to list conversations: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async createMessage(input: CreateMessageInput): Promise<Message> {
-    const id = input.id ?? crypto.randomUUID();
-    const now = new Date().toISOString();
-    const record: MessageRecord = {
-      id, conversationId: input.conversationId,
-      role: input.role, parts: input.parts ?? [],
-      status: 'streaming', createdAt: now,
-    };
-    await this.db.messages.insert(record);
-    return record;
+    try {
+      const id = input.id ?? crypto.randomUUID();
+      const now = new Date().toISOString();
+      const record: MessageRecord = {
+        id, conversationId: input.conversationId,
+        role: input.role, parts: input.parts ?? [],
+        status: 'streaming', createdAt: now,
+      };
+      await this.db.messages.insert(record);
+      return record;
+    } catch (err) {
+      throw new Error(`Failed to create message in conversation '${input.conversationId}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async getMessages(conversationId: string, limit = 50, offset = 0): Promise<Message[]> {
-    const msgs = await this.db.messages.listByConversation(conversationId);
-    return msgs.slice(offset, offset + limit);
+    try {
+      const msgs = await this.db.messages.listByConversation(conversationId);
+      return msgs.slice(offset, offset + limit);
+    } catch (err) {
+      throw new Error(`Failed to get messages for conversation '${conversationId}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async appendPart(messageId: string, part: MessagePart): Promise<void> {
-    const existing = await this.db.messages.findById(messageId);
-    if (!existing) throw new Error(`Message ${messageId} not found`);
-    const parts = [...existing.parts, part];
-    await this.db.messages.update(messageId, { parts });
+    try {
+      const existing = await this.db.messages.findById(messageId);
+      if (!existing) throw new Error(`Message ${messageId} not found`);
+      const parts = [...existing.parts, part];
+      await this.db.messages.update(messageId, { parts });
+    } catch (err) {
+      throw new Error(`Failed to append part to message '${messageId}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async updateStatus(messageId: string, status: Message['status']): Promise<void> {
-    await this.db.messages.update(messageId, { status });
+    try {
+      await this.db.messages.update(messageId, { status });
+    } catch (err) {
+      throw new Error(`Failed to update status for message '${messageId}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 }

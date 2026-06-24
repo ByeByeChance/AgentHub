@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import semver from 'semver';
-import type { SkillDatabase, SkillRecord, SkillVersionRecord } from './repository.js';
+import type { SkillDatabase, SkillRecord, SkillVersionRecord } from './repository.interface.js';
 
 // ---- Zod Schemas ----
 export const createSkillSchema = z.object({

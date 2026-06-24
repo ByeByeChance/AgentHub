@@ -6,6 +6,7 @@ import {
   jsonb,
   numeric,
 } from 'drizzle-orm/pg-core';
+import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 
 // ---- Token Records Table ----
 export const tokenRecords = pgTable('token_records', {
@@ -13,7 +14,7 @@ export const tokenRecords = pgTable('token_records', {
   model: text('model').notNull(),
   tokensIn: integer('tokens_in').notNull(),
   tokensOut: integer('tokens_out').notNull(),
-  cost: numeric('cost', { precision: 12, scale: 6 }).notNull(),
+  cost: numeric('cost', { precision: 12, scale: SERVICE_DEFAULTS.cost.roundingPrecision }).notNull(),
   conversationId: text('conversation_id'),
   agentId: text('agent_id'),
   createdAt: timestamp('created_at').notNull().defaultNow(),

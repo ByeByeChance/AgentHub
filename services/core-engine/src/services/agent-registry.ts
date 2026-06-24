@@ -1,84 +1,80 @@
 import type { Database, AgentRecord } from '@agenthub/shared/db';
-
-export interface AgentMetadata {
-  id: string;
-  name: string;
-  emoji: string;
-  description: string;
-  category: string;
-  isBuiltin: boolean;
-  isOrchestrator: boolean;
-  createdAt: string;
-}
-
-export interface AgentFull extends AgentMetadata {
-  systemPrompt: string;
-  adapterName: string;
-  modelId: string;
-  toolNames: string[];
-}
-
-export interface CreateAgentInput {
-  name: string;
-  emoji: string;
-  description: string;
-  category: string;
-  systemPrompt: string;
-  adapterName?: string;
-  modelId?: string;
-  toolNames?: string[];
-}
+import type { AgentMetadata, AgentFull, CreateAgentInput } from './interfaces/agent.interface.js';
 
 export class AgentRegistry {
   constructor(private readonly db: Database) {}
 
   async listByCategory(category: string): Promise<AgentMetadata[]> {
-    const agents = await this.db.agents.listByCategory(category);
-    return agents.map(toAgentMetadata);
+    try {
+      const agents = await this.db.agents.listByCategory(category);
+      return agents.map(toAgentMetadata);
+    } catch (err) {
+      throw new Error(`Failed to list agents by category '${category}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async listAll(): Promise<AgentMetadata[]> {
-    const agents = await this.db.agents.listAll();
-    return agents.map(toAgentMetadata);
+    try {
+      const agents = await this.db.agents.listAll();
+      return agents.map(toAgentMetadata);
+    } catch (err) {
+      throw new Error(`Failed to list all agents: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async getById(id: string): Promise<AgentFull | null> {
-    const raw = await this.db.agents.findById(id);
-    if (!raw) return null;
-    return toAgentFull(raw);
+    try {
+      const raw = await this.db.agents.findById(id);
+      if (!raw) return null;
+      return toAgentFull(raw);
+    } catch (err) {
+      throw new Error(`Failed to get agent '${id}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async create(input: CreateAgentInput): Promise<AgentFull> {
-    const id = crypto.randomUUID();
-    const now = new Date().toISOString();
+    try {
+      const id = crypto.randomUUID();
+      const now = new Date().toISOString();
 
-    const record: AgentRecord = {
-      id,
-      name: input.name,
-      emoji: input.emoji,
-      description: input.description,
-      category: input.category,
-      systemPrompt: input.systemPrompt,
-      adapterName: input.adapterName ?? 'deepseek',
-      modelId: input.modelId ?? 'deepseek-v4-pro',
-      toolNames: input.toolNames ?? [],
-      isBuiltin: false,
-      isOrchestrator: false,
-      createdAt: now,
-      updatedAt: now,
-    };
+      const record: AgentRecord = {
+        id,
+        name: input.name,
+        emoji: input.emoji,
+        description: input.description,
+        category: input.category,
+        systemPrompt: input.systemPrompt,
+        adapterName: input.adapterName ?? 'deepseek',
+        modelId: input.modelId ?? 'deepseek-v4-pro',
+        toolNames: input.toolNames ?? [],
+        isBuiltin: false,
+        isOrchestrator: false,
+        createdAt: now,
+        updatedAt: now,
+      };
 
-    await this.db.agents.insert(record);
-    return toAgentFull(record);
+      await this.db.agents.insert(record);
+      return toAgentFull(record);
+    } catch (err) {
+      throw new Error(`Failed to create agent '${input.name}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async search(query: string): Promise<AgentMetadata[]> {
-    const agents = await this.db.agents.search(query);
-    return agents.map(toAgentMetadata);
+    try {
+      const agents = await this.db.agents.search(query);
+      return agents.map(toAgentMetadata);
+    } catch (err) {
+      throw new Error(`Failed to search agents with query '${query}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 
   async count(): Promise<number> {
-    return this.db.agents.count();
+    try {
+      return this.db.agents.count();
+    } catch (err) {
+      throw new Error(`Failed to count agents: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
   }
 }
 

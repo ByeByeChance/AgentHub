@@ -1,6 +1,6 @@
 'use client';
 
-import type { Conversation, AgentMetadata } from '@/store/index';
+import type { Conversation, AgentMetadata } from '@/store/interfaces';
 import { Button } from '@/components/ui/button';
 import { useStore } from '@/store/index';
 import { PanelRight, Pin, Archive } from 'lucide-react';

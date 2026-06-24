@@ -4,160 +4,31 @@ import type { EventEnvelope } from '@/lib/constants';
 import { applyStreamEvent } from './reducers/stream-reducer';
 import { apiClient } from '@/lib/api-client';
 import { logger } from '@/lib/logger';
+import type {
+  Conversation,
+  Message,
+  MessagePart,
+  AgentMetadata,
+  AgentFull,
+  UIState,
+  AgentHubState,
+  AgentHubStore,
+} from './interfaces/index.js';
 
-// ---- Types (mirror backend) ----
-
-export interface Conversation {
-  id: string;
-  title: string;
-  mode: 'single' | 'group';
-  agentIds: string[];
-  pinnedAt: string | null;
-  createdAt: string;
-}
-
-export interface MessagePart {
-  type: 'text' | 'thinking' | 'tool_use' | 'tool_result' | 'artifact_ref';
-  content?: string;
-  toolCallId?: string;
-  toolName?: string;
-  toolInput?: Record<string, unknown>;
-  toolResult?: unknown;
-  artifactId?: string;
-  isError?: boolean;
-}
-
-export interface Message {
-  id: string;
-  conversationId: string;
-  role: 'user' | 'assistant' | 'system';
-  parts: MessagePart[];
-  status: 'streaming' | 'complete' | 'aborted' | 'failed';
-  createdAt: string;
-}
-
-export interface AgentMetadata {
-  id: string;
-  name: string;
-  emoji: string;
-  description: string;
-  category: string;
-  isBuiltin: boolean;
-  isOrchestrator: boolean;
-  createdAt: string;
-}
-
-export interface AgentFull extends AgentMetadata {
-  systemPrompt: string;
-  adapterName: string;
-  modelId: string;
-  toolNames: string[];
-}
-
-export interface Artifact {
-  id: string;
-  conversationId: string;
-  type: 'web_app' | 'document' | 'code' | 'image';
-  title: string;
-  content: unknown;
-  version: number;
-  parentArtifactId: string | null;
-  createdAt: string;
-}
-
-export interface ApiKeyEntry {
-  provider: string;
-  keyPrefix: string;
-  createdAt: string;
-}
-
-export interface UIState {
-  activeConversationId: string | null;
-  isDetailPanelOpen: boolean;
-  detailPanelTab: 'agent' | 'artifacts';
-  selectedArtifactId: string | null;
-  sidebarTab: 'chat' | 'agents' | 'settings';
-  isCreatingConversation: boolean;
-  isStreaming: boolean;
-  streamingMessageId: string | null;
-  globalSSEStatus: 'connecting' | 'connected' | 'disconnected';
-  conversationSearchQuery: string;
-  agentSearchQuery: string;
-  agentCategoryFilter: string | null;
-}
-
-// ---- Complete State Shape ----
-
-export interface AgentHubState {
-  conversations: Record<string, Conversation>;
-  messages: Record<string, Message>;
-  agents: Record<string, AgentMetadata>;
-  agentDetails: Record<string, AgentFull>;
-  artifacts: Record<string, Artifact>;
-  ui: UIState;
-  settings: {
-    apiKeys: ApiKeyEntry[];
-    theme: 'light' | 'dark' | 'system';
-  };
-}
-
-export interface AgentHubActions {
-  // Stream event dispatcher
-  dispatchStreamEvent: (event: EventEnvelope) => void;
-
-  // Conversations
-  fetchConversations: () => Promise<void>;
-  createConversation: (input: {
-    title?: string;
-    mode?: 'single' | 'group';
-    agentIds: string[];
-  }) => Promise<Conversation>;
-  pinConversation: (id: string) => void;
-  archiveConversation: (id: string) => void;
-
-  // Messages
-  fetchMessages: (conversationId: string) => Promise<void>;
-  sendMessage: (
-    conversationId: string,
-    content: string,
-  ) => Promise<void>;
-  addOptimisticMessage: (message: Message) => void;
-  appendMessagePart: (messageId: string, part: MessagePart) => void;
-  updateMessageStatus: (
-    messageId: string,
-    status: Message['status'],
-  ) => void;
-
-  // Agents
-  fetchAgents: (category?: string, search?: string) => Promise<void>;
-  fetchAgentDetail: (agentId: string) => Promise<void>;
-  createAgent: (input: {
-    name: string;
-    emoji: string;
-    description: string;
-    category: string;
-    systemPrompt: string;
-    toolNames?: string[];
-  }) => Promise<AgentFull>;
-
-  // UI actions
-  setActiveConversation: (id: string | null) => void;
-  setDetailPanelOpen: (open: boolean) => void;
-  setDetailPanelTab: (tab: 'agent' | 'artifacts') => void;
-  setSelectedArtifact: (id: string | null) => void;
-  setSidebarTab: (tab: 'chat' | 'agents' | 'settings') => void;
-  setSSEStatus: (status: 'connecting' | 'connected' | 'disconnected') => void;
-  setConversationSearchQuery: (query: string) => void;
-  setAgentSearchQuery: (query: string) => void;
-  setAgentCategoryFilter: (category: string | null) => void;
-
-  // Settings
-  addApiKey: (entry: ApiKeyEntry) => void;
-  removeApiKey: (provider: string) => void;
-  setTheme: (theme: 'light' | 'dark' | 'system') => void;
-}
-
-export type AgentHubStore = AgentHubState & AgentHubActions;
+// Re-export types for backward compatibility
+export type {
+  Conversation,
+  Message,
+  MessagePart,
+  AgentMetadata,
+  AgentFull,
+  Artifact,
+  ApiKeyEntry,
+  UIState,
+  AgentHubState,
+  AgentHubActions,
+  AgentHubStore,
+} from './interfaces/index.js';
 
 // ---- Initial State ----
 
@@ -221,15 +92,20 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
   },
 
   createConversation: async (input) => {
-    const data = await apiClient.post<Conversation>(
-      '/api/conversations',
-      input,
-    );
-    set((draft) => {
-      draft.conversations[data.id] = data;
-      draft.ui.activeConversationId = data.id;
-    });
-    return data;
+    try {
+      const data = await apiClient.post<Conversation>(
+        '/api/conversations',
+        input,
+      );
+      set((draft) => {
+        draft.conversations[data.id] = data;
+        draft.ui.activeConversationId = data.id;
+      });
+      return data;
+    } catch (err) {
+      logger.error('Failed to create conversation', { error: String(err), input });
+      throw err;
+    }
   },
 
   pinConversation: (id: string) => {
@@ -406,21 +282,26 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
   },
 
   createAgent: async (input) => {
-    const data = await apiClient.post<AgentFull>('/api/agents', input);
-    set((draft) => {
-      draft.agents[data.id] = {
-        id: data.id,
-        name: data.name,
-        emoji: data.emoji,
-        description: data.description,
-        category: data.category,
-        isBuiltin: data.isBuiltin,
-        isOrchestrator: data.isOrchestrator,
-        createdAt: data.createdAt,
-      };
-      draft.agentDetails[data.id] = data;
-    });
-    return data;
+    try {
+      const data = await apiClient.post<AgentFull>('/api/agents', input);
+      set((draft) => {
+        draft.agents[data.id] = {
+          id: data.id,
+          name: data.name,
+          emoji: data.emoji,
+          description: data.description,
+          category: data.category,
+          isBuiltin: data.isBuiltin,
+          isOrchestrator: data.isOrchestrator,
+          createdAt: data.createdAt,
+        };
+        draft.agentDetails[data.id] = data;
+      });
+      return data;
+    } catch (err) {
+      logger.error('Failed to create agent', { error: String(err), input });
+      throw err;
+    }
   },
 
   // ---- UI Actions ----

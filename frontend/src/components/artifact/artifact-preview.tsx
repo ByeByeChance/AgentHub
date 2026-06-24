@@ -1,6 +1,6 @@
 'use client';
 
-import type { Artifact } from '@/store/index';
+import type { Artifact } from '@/store/interfaces';
 import { ArtifactIframe } from './artifact-iframe';
 import { ArtifactMarkdown } from './artifact-markdown';
 import { ArtifactCode } from './artifact-code';

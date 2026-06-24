@@ -105,24 +105,20 @@ export function registerKnowledgeRoutes(
 
   // POST /api/knowledge/memory/long-term — store long-term memory
   app.post('/api/knowledge/memory/long-term', async (request, reply) => {
-    try {
-      const { content, metadata, conversationId } = request.body as {
-        content?: string;
-        metadata?: Record<string, unknown>;
-        conversationId?: string;
-      };
-      if (!content || typeof content !== 'string') {
-        return reply.status(400).send({ error: 'content is required' });
-      }
-      const result = await memoryService.storeLongTermMemory({
-        content,
-        metadata,
-        conversationId,
-      });
-      return reply.status(201).send(result);
-    } catch (err) {
-      throw err;
+    const { content, metadata, conversationId } = request.body as {
+      content?: string;
+      metadata?: Record<string, unknown>;
+      conversationId?: string;
+    };
+    if (!content || typeof content !== 'string') {
+      return reply.status(400).send({ error: 'content is required' });
     }
+    const result = await memoryService.storeLongTermMemory({
+      content,
+      metadata,
+      conversationId,
+    });
+    return reply.status(201).send(result);
   });
 
   // POST /api/knowledge/memory/long-term/recall — recall long-term memory

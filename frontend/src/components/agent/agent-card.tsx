@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import type { AgentMetadata } from '@/store/index';
+import type { AgentMetadata } from '@/store/interfaces';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 

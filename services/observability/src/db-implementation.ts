@@ -1,8 +1,9 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { gte } from 'drizzle-orm';
+import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 import { tokenRecords, auditLog } from './schema.js';
-import type { ObservabilityDatabase, TokenRecordData, AuditEntryData } from './repository.js';
+import type { ObservabilityDatabase, TokenRecordData, AuditEntryData } from './repository.interface.js';
 import * as schema from './schema.js';
 
 // ---- Drizzle Implementation ----
@@ -15,8 +16,8 @@ export class DrizzleObservabilityDB implements ObservabilityDatabase {
   constructor(databaseUrl: string) {
     this.pool = new Pool({
       connectionString: databaseUrl,
-      max: Number(process.env.DB_POOL_MAX) || 10,
-      min: Number(process.env.DB_POOL_MIN) || 2,
+      max: Number(process.env.DB_POOL_MAX) || SERVICE_DEFAULTS.dbPool.max,
+      min: Number(process.env.DB_POOL_MIN) || SERVICE_DEFAULTS.dbPool.min,
     });
     const db = drizzle(this.pool, { schema });
     this.tokenRecords = new DrizzleTokenRepo(db);

@@ -200,22 +200,27 @@ interface EventEnvelope {
 
 ### 5.3 测试文件约定
 
+所有测试文件放在 `src/__tests__/` 目录下，目录结构镜像 `src/` 的目录结构：
+
 ```
 src/
 ├── server/
 │   ├── agent-runner.ts
-│   ├── agent-runner.test.ts        ← 与被测文件同目录
 │   ├── dispatch-plan.ts
-│   ├── dispatch-plan.test.ts
 │   └── adapters/
-│       ├── deepseek-adapter.ts
-│       └── deepseek-adapter.test.ts
+│       └── deepseek-adapter.ts
 ├── shared/
 │   ├── types.ts                    ← 类型定义（无需测试文件）
 │   └── validation.ts
-│       └── validation.test.ts
-└── __tests__/                      ← 集成测试（跨模块）
-    ├── api/
+└── __tests__/                      ← 所有测试文件
+    ├── server/
+    │   ├── agent-runner.test.ts
+    │   ├── dispatch-plan.test.ts
+    │   └── adapters/
+    │       └── deepseek-adapter.test.ts
+    ├── shared/
+    │   └── validation.test.ts
+    ├── api/                        ← 集成测试（跨模块）
     │   ├── conversations.test.ts
     │   └── agents.test.ts
     └── contracts/

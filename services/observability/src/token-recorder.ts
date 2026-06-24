@@ -1,10 +1,11 @@
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
-import type { ObservabilityDatabase, TokenRecordData } from './repository.js';
+import { TIME_PERIODS, SERVICE_DEFAULTS } from '@agenthub/shared/constants';
+import type { ObservabilityDatabase, TokenRecordData } from './repository.interface.js';
 
 // ---- Pricing Table (USD per 1K tokens) ----
 const MODEL_PRICING: Record<string, { input: number; output: number }> = {
-  'deepseek-v4-pro': { input: 0.00014, output: 0.00028 },
+  'deepseek-v4-flash': { input: 0.00014, output: 0.00028 },
   'deepseek-v4-pro': { input: 0.00028, output: 0.00112 },
   'claude-sonnet-4-20250514': { input: 0.003, output: 0.015 },
   'claude-opus-4-8': { input: 0.015, output: 0.075 },
@@ -23,7 +24,7 @@ export const recordTokenSchema = z.object({
 export type RecordTokenInput = z.infer<typeof recordTokenSchema>;
 
 export const getCostsSchema = z.object({
-  period: z.enum(['daily', 'weekly', 'monthly']).optional().default('daily'),
+  period: z.enum(TIME_PERIODS).optional().default(TIME_PERIODS[0]),
 });
 
 export type GetCostsInput = z.infer<typeof getCostsSchema>;
@@ -63,7 +64,7 @@ export class TokenRecorder {
       model: parsed.model,
       tokensIn: parsed.tokensIn,
       tokensOut: parsed.tokensOut,
-      cost: Math.round(cost * 1e6) / 1e6, // Round to 6 decimal places
+      cost: Math.round(cost * 10 ** SERVICE_DEFAULTS.cost.roundingPrecision) / 10 ** SERVICE_DEFAULTS.cost.roundingPrecision,
       conversationId: parsed.conversationId ?? null,
       agentId: parsed.agentId ?? null,
       createdAt: new Date().toISOString(),
@@ -101,11 +102,11 @@ export class TokenRecorder {
       period: parsed.period,
       totalTokensIn,
       totalTokensOut,
-      totalCost: Math.round(totalCost * 1e6) / 1e6,
+      totalCost: Math.round(totalCost * 10 ** SERVICE_DEFAULTS.cost.roundingPrecision) / 10 ** SERVICE_DEFAULTS.cost.roundingPrecision,
       breakdown: Array.from(breakdown.entries()).map(([model, data]) => ({
         model,
         ...data,
-        cost: Math.round(data.cost * 1e6) / 1e6,
+        cost: Math.round(data.cost * 10 ** SERVICE_DEFAULTS.cost.roundingPrecision) / 10 ** SERVICE_DEFAULTS.cost.roundingPrecision,
       })),
     };
   }
@@ -114,13 +115,13 @@ export class TokenRecorder {
 function getPeriodSince(period: string): string {
   const now = new Date();
   switch (period) {
-    case 'daily':
+    case TIME_PERIODS[0]: // 'daily'
       now.setHours(0, 0, 0, 0);
       break;
-    case 'weekly':
+    case TIME_PERIODS[1]: // 'weekly'
       now.setDate(now.getDate() - 7);
       break;
-    case 'monthly':
+    case TIME_PERIODS[2]: // 'monthly'
       now.setMonth(now.getMonth() - 1);
       break;
   }

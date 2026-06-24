@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useStore } from '@/store/index';
 import { Button } from '@/components/ui/button';
-import type { Conversation, AgentMetadata } from '@/store/index';
+import type { Conversation, AgentMetadata } from '@/store/interfaces';
 import { Pin, MoreHorizontal } from 'lucide-react';
 import {
   DropdownMenu,

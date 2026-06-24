@@ -24,8 +24,8 @@ export function registerEventRoutes(
       for await (const event of subscriber) {
         reply.raw.write(`data: ${JSON.stringify(event)}\n\n`);
       }
-    } catch {
-      // Client disconnected
+    } catch (err) {
+      app.log.debug('SSE client disconnected');
     } finally {
       reply.raw.end();
     }

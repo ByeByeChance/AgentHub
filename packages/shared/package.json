@@ -11,7 +11,9 @@
     "./adapter": "./src/adapter/index.ts",
     "./event-bus": "./src/event-bus/index.ts",
     "./security": "./src/security/index.ts",
-    "./db": "./src/db/index.ts"
+    "./db": "./src/db/index.ts",
+    "./constants": "./src/constants/index.ts",
+    "./logging": "./src/logging/index.ts"
   },
   "scripts": {
     "dev": "tsc --watch",

@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import type { EmbeddingStrategy } from './embedding-strategy.js';
+import type { EmbeddingStrategy } from './embedding-strategy.interface.js';
 
 /**
  * DeepSeek embedding strategy using OpenAI-compatible API.

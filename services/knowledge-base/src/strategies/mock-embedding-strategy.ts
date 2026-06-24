@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import type { EmbeddingStrategy } from './embedding-strategy.js';
+import type { EmbeddingStrategy } from './embedding-strategy.interface.js';
 
 /**
  * Mock embedding strategy that produces deterministic embeddings from text hash.

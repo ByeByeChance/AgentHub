@@ -1,8 +1,9 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { eq, like, or, and } from 'drizzle-orm';
+import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 import { skills, skillVersions } from './schema.js';
-import type { SkillDatabase, SkillRecord, SkillVersionRecord } from './repository.js';
+import type { SkillDatabase, SkillRecord, SkillVersionRecord } from './repository.interface.js';
 import * as schema from './schema.js';
 
 // ---- Drizzle Implementation ----
@@ -15,8 +16,8 @@ export class DrizzleSkillDB implements SkillDatabase {
   constructor(databaseUrl: string) {
     this.pool = new Pool({
       connectionString: databaseUrl,
-      max: Number(process.env.DB_POOL_MAX) || 10,
-      min: Number(process.env.DB_POOL_MIN) || 2,
+      max: Number(process.env.DB_POOL_MAX) || SERVICE_DEFAULTS.dbPool.max,
+      min: Number(process.env.DB_POOL_MIN) || SERVICE_DEFAULTS.dbPool.min,
     });
     const db = drizzle(this.pool, { schema });
     this.skills = new DrizzleSkillRepo(db);

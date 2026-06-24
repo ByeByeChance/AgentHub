@@ -1,5 +1,5 @@
 import type { DocumentRecord, SearchResult, SearchOptions } from '@agenthub/shared/db';
-import type { VectorStoreBackend } from './vector-store.js';
+import type { VectorStoreBackend } from './vector-store.interface.js';
 import type { Database } from '@agenthub/shared/db';
 
 /**

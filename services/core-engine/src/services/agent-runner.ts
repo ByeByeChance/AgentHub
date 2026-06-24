@@ -3,6 +3,8 @@ import type {
   AgentConfig,
   LLMMessage,
 } from '@agenthub/shared/adapter';
+import { STREAM_CHUNK_TYPE } from '@agenthub/shared/adapter';
+import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 import type { EventBus } from '@agenthub/shared/event-bus';
 import { createEventEnvelope, EVENT_TYPES } from '@agenthub/contracts';
 import type { EventEnvelope, EventSource } from '@agenthub/contracts';
@@ -10,6 +12,30 @@ import type { ToolExecutor, ToolContext } from './tool-executor.js';
 import type { ConversationService } from './conversation.service.js';
 import type { WorkspaceService } from './workspace.service.js';
 import type { Database } from '@agenthub/shared/db';
+import type { Logger } from '@agenthub/shared/logging';
+
+/**
+ * Minimal interface for token recording to avoid coupling to observability service.
+ */
+interface TokenRecorderLike {
+  record(input: {
+    model: string;
+    tokensIn: number;
+    tokensOut: number;
+    conversationId?: string;
+    agentId?: string;
+  }): Promise<unknown>;
+}
+
+/**
+ * Minimal interface for audit logging to avoid coupling to observability service.
+ */
+interface AuditLoggerLike {
+  log(input: {
+    entryType: string;
+    payload: Record<string, unknown>;
+  }): Promise<unknown>;
+}
 
 export interface AgentRunInput {
   agentConfig: AgentConfig;
@@ -24,6 +50,9 @@ export interface AgentRunInput {
   db: Database;
   signal: AbortSignal & { aborted: boolean };
   maxToolRounds?: number;
+  logger: Logger;
+  tokenRecorder?: TokenRecorderLike;
+  auditLogger?: AuditLoggerLike;
 }
 
 export class AgentRunner {
@@ -43,8 +72,17 @@ export class AgentRunner {
       workspaceService,
       db,
       signal,
-      maxToolRounds = 10,
+      maxToolRounds = SERVICE_DEFAULTS.agentRunner.maxToolRounds,
+      logger,
+      tokenRecorder,
+      auditLogger,
     } = input;
+
+    logger.info('Agent run started', {
+      agentId: agentConfig.id,
+      conversationId,
+      messageId,
+    });
 
     const makeEnvelope = (eventType: string, payload: unknown) =>
       createEventEnvelope(eventType, payload, source);
@@ -93,7 +131,7 @@ export class AgentRunner {
         )) {
           // Yield stream chunks as MESSAGE_PART events
           switch (chunk.type) {
-            case 'text_delta': {
+            case STREAM_CHUNK_TYPE.TEXT_DELTA: {
               const event = makeEnvelope(EVENT_TYPES.MESSAGE_PART_TEXT, {
                 messageId,
                 content: chunk.content,
@@ -107,7 +145,7 @@ export class AgentRunner {
               });
               break;
             }
-            case 'thinking_delta': {
+            case STREAM_CHUNK_TYPE.THINKING_DELTA: {
               const event = makeEnvelope(EVENT_TYPES.MESSAGE_PART_THINKING, {
                 messageId,
                 content: chunk.content,
@@ -120,7 +158,7 @@ export class AgentRunner {
               });
               break;
             }
-            case 'tool_use_start': {
+            case STREAM_CHUNK_TYPE.TOOL_USE_START: {
               const event = makeEnvelope(EVENT_TYPES.MESSAGE_PART_TOOL_USE, {
                 messageId,
                 toolCallId: chunk.id,
@@ -131,7 +169,7 @@ export class AgentRunner {
               yield event;
               break;
             }
-            case 'tool_use_end': {
+            case STREAM_CHUNK_TYPE.TOOL_USE_END: {
               toolCalls.push({
                 id: chunk.id,
                 name: chunk.name,
@@ -139,7 +177,7 @@ export class AgentRunner {
               });
               break;
             }
-            case 'done': {
+            case STREAM_CHUNK_TYPE.DONE: {
               totalPromptTokens += chunk.usage.promptTokens;
               totalCompletionTokens += chunk.usage.completionTokens;
               break;
@@ -171,6 +209,13 @@ export class AgentRunner {
             tc.input,
             toolContext,
           );
+
+          logger.debug('Tool executed', {
+            toolName: tc.name,
+            isError: result.isError,
+            agentId: agentConfig.id,
+            conversationId,
+          });
 
           // Yield tool result
           const event = makeEnvelope(EVENT_TYPES.MESSAGE_PART_TOOL_RESULT, {
@@ -217,6 +262,26 @@ export class AgentRunner {
       });
       eventBus.emit(completeEvent);
       yield completeEvent;
+
+      // 7. Record token usage (best-effort)
+      if (tokenRecorder) {
+        tokenRecorder.record({
+          model: agentConfig.modelId,
+          tokensIn: totalPromptTokens,
+          tokensOut: totalCompletionTokens,
+          conversationId,
+          agentId: agentConfig.id,
+        }).catch(() => { /* token recording is best-effort */ });
+      }
+
+      logger.info('Agent run completed', {
+        agentId: agentConfig.id,
+        conversationId,
+        usage: {
+          promptTokens: totalPromptTokens,
+          completionTokens: totalCompletionTokens,
+        },
+      });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : String(err);
       const isAborted = errorMessage === 'Aborted';
@@ -230,6 +295,11 @@ export class AgentRunner {
         eventBus.emit(abortEvent);
         yield abortEvent;
         await conversationService.updateStatus(messageId, 'aborted');
+        logger.warn('Agent run aborted', {
+          agentId: agentConfig.id,
+          conversationId,
+          messageId,
+        });
       } else {
         const failEvent = makeEnvelope(EVENT_TYPES.AGENT_RUN_FAILED, {
           agentId: agentConfig.id,
@@ -240,6 +310,26 @@ export class AgentRunner {
         eventBus.emit(failEvent);
         yield failEvent;
         await conversationService.updateStatus(messageId, 'failed');
+
+        // Audit log for non-abort failures (best-effort)
+        if (auditLogger) {
+          auditLogger.log({
+            entryType: 'agent.run.failed',
+            payload: {
+              agentId: agentConfig.id,
+              conversationId,
+              messageId,
+              error: errorMessage,
+            },
+          }).catch(() => { /* audit logging is best-effort */ });
+        }
+
+        logger.error('Agent run failed', {
+          agentId: agentConfig.id,
+          conversationId,
+          messageId,
+          error: errorMessage,
+        });
       }
     }
   }

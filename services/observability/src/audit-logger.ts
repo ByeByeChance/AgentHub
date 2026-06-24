@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { z } from 'zod';
-import type { ObservabilityDatabase, AuditEntryData } from './repository.js';
+import type { ObservabilityDatabase, AuditEntryData } from './repository.interface.js';
 
 // ---- Zod Schema ----
 export const createAuditEntrySchema = z.object({

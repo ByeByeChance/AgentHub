@@ -1,6 +1,8 @@
 import { createHealthServer } from '@agenthub/shared/server';
 import { getEventBus } from '@agenthub/shared/event-bus';
 import { InMemoryDB, DrizzleDB, type Database } from '@agenthub/shared/db';
+import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
+import { createPinoLogger } from '@agenthub/shared/logging';
 import { DeepSeekAdapter } from './adapters/deepseek-adapter.js';
 import { AgentRegistry } from './services/agent-registry.js';
 import { ConversationService } from './services/conversation.service.js';
@@ -12,10 +14,11 @@ import type { AgentAdapter } from '@agenthub/shared/adapter';
 import { join } from 'node:path';
 import { mkdir } from 'node:fs/promises';
 
-const port = Number(process.env.CORE_ENGINE_PORT) || 3001;
+const port = Number(process.env.CORE_ENGINE_PORT) || SERVICE_DEFAULTS.ports.coreEngine;
 
 async function main(): Promise<void> {
   const app = createHealthServer({ serviceName: 'core-engine', port });
+  const logger = createPinoLogger(app.log, { service: 'core-engine' });
 
   // Initialize database
   const dbUrl = process.env.DATABASE_URL;
@@ -23,9 +26,9 @@ async function main(): Promise<void> {
     ? new DrizzleDB(dbUrl)
     : new InMemoryDB();
   if (dbUrl) {
-    app.log.info('Using PostgreSQL database');
+    logger.info('Using PostgreSQL database');
   } else {
-    app.log.warn('DATABASE_URL not set, using in-memory database (data will not persist!)');
+    logger.warn('DATABASE_URL not set, using in-memory database (data will not persist!)');
   }
   const eventBus = getEventBus();
   const source = {
@@ -44,6 +47,11 @@ async function main(): Promise<void> {
 
   const agentRunner = new AgentRunner();
 
+  // TODO: Wire TokenRecorder and AuditLogger from observability service.
+  // When the observability service integration is prioritized, create
+  // TokenRecorder and AuditLogger instances here and pass them via
+  // ConversationRouteDeps so they flow into AgentRunInput.
+
   const adapterFactory = (): AgentAdapter => {
     const adapterName = process.env.AGENT_ADAPTER ?? 'deepseek';
     if (adapterName === 'deepseek') return new DeepSeekAdapter();
@@ -57,7 +65,7 @@ async function main(): Promise<void> {
 
   // Graceful shutdown
   const shutdown = async (signal: string) => {
-    app.log.info(`core-engine received ${signal}, shutting down...`);
+    logger.info(`core-engine received ${signal}, shutting down...`);
     if (db instanceof DrizzleDB) await db.close();
     await app.close();
     process.exit(0);
@@ -67,10 +75,10 @@ async function main(): Promise<void> {
   process.on('SIGINT', () => shutdown('SIGINT'));
 
   try {
-    await app.listen({ port, host: '0.0.0.0' });
-    app.log.info(`core-engine listening on :${port}`);
+    await app.listen({ port, host: SERVICE_DEFAULTS.host });
+    logger.info(`core-engine listening on :${port}`);
   } catch (err) {
-    app.log.error(err);
+    logger.error('core-engine failed to start', { error: String(err) });
     process.exit(1);
   }
 }

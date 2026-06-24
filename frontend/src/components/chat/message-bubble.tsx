@@ -1,6 +1,6 @@
 'use client';
 
-import type { Message } from '@/store/index';
+import type { Message } from '@/store/interfaces';
 import { MessagePartRenderer } from '@/components/message-parts/message-part-renderer';
 
 interface MessageBubbleProps {

@@ -1,6 +1,6 @@
 'use client';
 
-import type { MessagePart } from '@/store/index';
+import type { MessagePart } from '@/store/interfaces';
 import { TextPart } from './text-part';
 import { ThinkingPart } from './thinking-part';
 import { ToolUsePart } from './tool-use-part';

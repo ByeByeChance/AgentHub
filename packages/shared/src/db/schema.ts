@@ -7,12 +7,13 @@ import {
   jsonb,
   customType,
 } from 'drizzle-orm/pg-core';
+import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 
-// pgvector vector column type (1536-dimensional embedding)
+// pgvector vector column type (embedding)
 // Uses customType because drizzle-orm does not have native pgvector support
 const vector = customType<{ data: number[]; driverData: string }>({
   dataType() {
-    return 'vector(1536)';
+    return `vector(${SERVICE_DEFAULTS.embedding.dimension})`;
   },
   fromDriver(value: unknown): number[] {
     if (typeof value === 'string') {

@@ -7,8 +7,9 @@ import type { AgentAdapter } from '@agenthub/shared/adapter';
 import type { ToolExecutor } from '../services/tool-executor.js';
 import type { WorkspaceService } from '../services/workspace.service.js';
 import type { EventBus } from '@agenthub/shared/event-bus';
-import type { EventSource } from '@agenthub/contracts';
+import { EVENT_TYPES, type EventSource } from '@agenthub/contracts';
 import type { Database } from '@agenthub/shared/db';
+import { createPinoLogger } from '@agenthub/shared/logging';
 
 const createConvSchema = z.object({
   title: z.string().optional(),
@@ -134,6 +135,11 @@ export function registerConversationRoutes(
     request.raw.on('close', () => controller.abort());
     const adapter = adapterFactory();
 
+    const logger = createPinoLogger(app.log, {
+      service: 'core-engine',
+      route: 'conversations',
+    });
+
     try {
       const stream = agentRunner.run(
         {
@@ -157,6 +163,7 @@ export function registerConversationRoutes(
           workspaceService,
           db,
           signal,
+          logger,
         },
         assistantMessage.id,
       );
@@ -166,11 +173,11 @@ export function registerConversationRoutes(
       }
 
       reply.raw.write(
-        `data: ${JSON.stringify({ eventType: 'message.complete', conversationId })}\n\n`,
+        `data: ${JSON.stringify({ eventType: EVENT_TYPES.MESSAGE_COMPLETE, conversationId })}\n\n`,
       );
     } catch (err) {
       reply.raw.write(
-        `data: ${JSON.stringify({ eventType: 'agent.run.failed', payload: { error: String(err) } })}\n\n`,
+        `data: ${JSON.stringify({ eventType: EVENT_TYPES.AGENT_RUN_FAILED, payload: { error: String(err) } })}\n\n`,
       );
     } finally {
       reply.raw.end();

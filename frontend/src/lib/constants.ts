@@ -1,6 +1,15 @@
 // Event type constants (inlined from @agenthub/contracts to avoid
 // NodeNext .js extension resolution issues with Next.js bundler)
 
+/** Message status lifecycle. */
+export const MESSAGE_STATUS = {
+  STREAMING: 'streaming',
+  COMPLETE: 'complete',
+  ABORTED: 'aborted',
+  FAILED: 'failed',
+} as const;
+export type MessageStatus = (typeof MESSAGE_STATUS)[keyof typeof MESSAGE_STATUS];
+
 export const EVENT_TYPES = {
   // Agent lifecycle
   AGENT_RUN_START: 'agent.run.start',
