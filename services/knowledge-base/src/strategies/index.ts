@@ -1,6 +1,6 @@
-export type { EmbeddingStrategy } from './embedding-strategy.interface.js';
-export type { ChunkingStrategy, Chunk, ChunkOptions } from './chunking-strategy.interface.js';
-export type { VectorStoreBackend } from './vector-store.interface.js';
+export type { EmbeddingStrategy } from './interfaces/embedding-strategy.interface.js';
+export type { ChunkingStrategy, Chunk, ChunkOptions } from './interfaces/chunking-strategy.interface.js';
+export type { VectorStoreBackend } from './interfaces/vector-store.interface.js';
 export { MockEmbeddingStrategy } from './mock-embedding-strategy.js';
 export { MockChunker } from './mock-chunker.js';
 export { InMemoryVectorStore } from './inmemory-vector-store.js';

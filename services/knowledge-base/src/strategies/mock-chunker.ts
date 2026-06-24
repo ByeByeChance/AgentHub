@@ -1,4 +1,4 @@
-import type { ChunkingStrategy, Chunk, ChunkOptions } from './chunking-strategy.interface.js';
+import type { ChunkingStrategy, Chunk, ChunkOptions } from './interfaces/chunking-strategy.interface.js';
 
 /**
  * Mock chunker for tests — splits by sentences or returns text as-is.

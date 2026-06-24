@@ -1,4 +1,4 @@
-import type { ChunkingStrategy, Chunk, ChunkOptions } from './chunking-strategy.interface.js';
+import type { ChunkingStrategy, Chunk, ChunkOptions } from './interfaces/chunking-strategy.interface.js';
 
 const DEFAULT_MAX_CHUNK_SIZE = 512;
 const DEFAULT_OVERLAP = 50;
