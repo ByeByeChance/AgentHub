@@ -1,0 +1,176 @@
+services:
+  # === Infrastructure ===
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: agenthub
+      POSTGRES_PASSWORD: agenthub
+      POSTGRES_DB: agenthub
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agenthub"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - agenthub-net
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - agenthub-net
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: agenthub
+      RABBITMQ_DEFAULT_PASS: agenthub
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      - agenthub-net
+
+  # === Application Services ===
+  core-engine:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.core-engine
+    ports:
+      - "3001:3001"
+    environment:
+      - CORE_ENGINE_PORT=3001
+      - DATABASE_URL=postgresql://agenthub:agenthub@postgres:5432/agenthub
+      - REDIS_URL=redis://redis:6379
+      - RABBITMQ_URL=amqp://agenthub:agenthub@rabbitmq:5672
+      - MCP_GATEWAY_URL=http://mcp-gateway:8080
+      - SKILL_REGISTRY_URL=http://skill-registry:3002
+      - KNOWLEDGE_BASE_URL=http://knowledge-base:3003
+      - OBSERVABILITY_URL=http://observability:3004
+      - LOG_LEVEL=info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3001/health').then(r => { if (!r.ok) process.exit(1) })"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - agenthub-net
+
+  mcp-gateway:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.mcp-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - MCP_GATEWAY_PORT=8080
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 2s
+    networks:
+      - agenthub-net
+
+  skill-registry:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.skill-registry
+    ports:
+      - "3002:3002"
+    environment:
+      - SKILL_REGISTRY_PORT=3002
+      - DATABASE_URL=postgresql://agenthub:agenthub@postgres:5432/agenthub
+      - LOG_LEVEL=info
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3002/health').then(r => { if (!r.ok) process.exit(1) })"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - agenthub-net
+
+  knowledge-base:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.knowledge-base
+    ports:
+      - "3003:3003"
+    environment:
+      - KNOWLEDGE_BASE_PORT=3003
+      - DATABASE_URL=postgresql://agenthub:agenthub@postgres:5432/agenthub
+      - LOG_LEVEL=info
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3003/health').then(r => { if (!r.ok) process.exit(1) })"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - agenthub-net
+
+  observability:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.observability
+    ports:
+      - "3004:3004"
+    environment:
+      - OBSERVABILITY_PORT=3004
+      - DATABASE_URL=postgresql://agenthub:agenthub@postgres:5432/agenthub
+      - LOG_LEVEL=info
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3004/health').then(r => { if (!r.ok) process.exit(1) })"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - agenthub-net
+
+volumes:
+  postgres_data:
+  redis_data:
+  rabbitmq_data:
+
+networks:
+  agenthub-net:
+    driver: bridge

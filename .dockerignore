@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.next/
+.git/
+.gitignore
+.DS_Store
+.superpowers/
+docs/
+coverage/
+test-results/
+playwright-report/
+*.md
+.env
+.env.local
+.env.*.local

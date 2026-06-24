@@ -1,0 +1,31 @@
+{
+  "name": "@agenthub/core-engine",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@agenthub/contracts": "workspace:*",
+    "@agenthub/shared": "workspace:*",
+    "drizzle-orm": "catalog:",
+    "fastify": "^5.3.0",
+    "gray-matter": "^4.0.3",
+    "openai": "^4.77.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "memfs": "^4.15.0",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

@@ -1,0 +1,57 @@
+// Event type constants (inlined from @agenthub/contracts to avoid
+// NodeNext .js extension resolution issues with Next.js bundler)
+
+export const EVENT_TYPES = {
+  // Agent lifecycle
+  AGENT_RUN_START: 'agent.run.start',
+  AGENT_RUN_COMPLETE: 'agent.run.complete',
+  AGENT_RUN_FAILED: 'agent.run.failed',
+  AGENT_RUN_ABORTED: 'agent.run.aborted',
+
+  // Message streaming
+  MESSAGE_CREATED: 'message.created',
+  MESSAGE_PART_TEXT: 'message.part.text',
+  MESSAGE_PART_THINKING: 'message.part.thinking',
+  MESSAGE_PART_TOOL_USE: 'message.part.tool_use',
+  MESSAGE_PART_TOOL_RESULT: 'message.part.tool_result',
+  MESSAGE_COMPLETE: 'message.complete',
+
+  // Tool system
+  TOOL_CALL: 'tool.call',
+  TOOL_RESULT: 'tool.result',
+
+  // Artifact lifecycle
+  ARTIFACT_CREATED: 'artifact.created',
+  ARTIFACT_UPDATED: 'artifact.updated',
+
+  // Knowledge
+  KNOWLEDGE_WRITE: 'knowledge.write',
+  KNOWLEDGE_QUERY: 'knowledge.query',
+
+  // Skill
+  SKILL_INVOKE: 'skill.invoke',
+
+  // Audit
+  AUDIT_LOG: 'audit.log',
+
+  // System
+  SYSTEM_HEARTBEAT: 'system.heartbeat',
+} as const;
+
+export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];
+
+// Event Envelope type (inlined from @agenthub/contracts)
+export interface EventEnvelope<
+  TEventType extends string = string,
+  TPayload = unknown,
+> {
+  eventId: string;
+  eventType: TEventType;
+  timestamp: string;
+  traceId: string;
+  source: { service: string; instanceId: string };
+  payload: TPayload;
+}
+
+export const CORE_ENGINE_URL =
+  process.env.NEXT_PUBLIC_CORE_ENGINE_URL ?? 'http://localhost:3001';

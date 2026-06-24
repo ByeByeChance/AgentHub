@@ -1,0 +1,36 @@
+{
+  "name": "@agenthub/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server/index.ts",
+    "./adapter": "./src/adapter/index.ts",
+    "./event-bus": "./src/event-bus/index.ts",
+    "./security": "./src/security/index.ts",
+    "./db": "./src/db/index.ts"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@agenthub/contracts": "workspace:*",
+    "drizzle-orm": "catalog:",
+    "fastify": "^5.3.0",
+    "pg": "^8.13.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/pg": "^8.11.0",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
