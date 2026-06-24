@@ -4,6 +4,7 @@ import {
   conversations,
   messages,
   artifacts,
+  documents,
   type MessagePart,
 } from './schema.js';
 
@@ -43,6 +44,25 @@ describe('DB Schema', () => {
   describe('artifacts table', () => {
     it('should be defined', () => {
       expect(artifacts).toBeDefined();
+    });
+  });
+
+  describe('documents table', () => {
+    it('should be defined', () => {
+      expect(documents).toBeDefined();
+    });
+
+    it('should have expected columns including embedding', () => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const tableAny = documents as any;
+      const cols = tableAny[Symbol.for('drizzle:Columns')] as Record<
+        string,
+        unknown
+      > | undefined;
+      expect(cols).toBeDefined();
+      const keys = Object.keys(cols ?? {});
+      expect(keys.length).toBeGreaterThanOrEqual(6); // id, content, embedding, metadata, source, created_at
+      expect(keys).toContain('embedding');
     });
   });
 

@@ -1,8 +1,8 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import { eq, like, or } from 'drizzle-orm';
-import { agents, conversations, messages, artifacts } from './schema.js';
-import type { Database, AgentRecord, ConversationRecord, MessageRecord, ArtifactRecord } from './repository.js';
+import { agents, conversations, messages, artifacts, documents } from './schema.js';
+import type { Database, AgentRecord, ConversationRecord, MessageRecord, ArtifactRecord, DocumentRecord, SearchResult } from './repository.js';
 import * as schema from './schema.js';
 
 export class DrizzleDB implements Database {
@@ -10,6 +10,7 @@ export class DrizzleDB implements Database {
   conversations: DrizzleConversationRepo;
   messages: DrizzleMessageRepo;
   artifacts: DrizzleArtifactRepo;
+  documents: DrizzleDocumentRepo;
 
   private pool: Pool;
 
@@ -24,6 +25,7 @@ export class DrizzleDB implements Database {
     this.conversations = new DrizzleConversationRepo(db);
     this.messages = new DrizzleMessageRepo(db);
     this.artifacts = new DrizzleArtifactRepo(db);
+    this.documents = new DrizzleDocumentRepo(db, this.pool);
   }
 
   async close(): Promise<void> {
@@ -221,4 +223,84 @@ class DrizzleArtifactRepo {
       createdAt: r.createdAt instanceof Date ? r.createdAt.toISOString() : String(r.createdAt),
     }));
   }
+}
+
+class DrizzleDocumentRepo {
+  constructor(
+    private db: ReturnType<typeof drizzle>,
+    private pool: Pool,
+  ) {}
+
+  async insert(record: DocumentRecord): Promise<void> {
+    await this.db.insert(documents).values({
+      id: record.id,
+      content: record.content,
+      embedding: record.embedding ?? undefined,
+      metadata: record.metadata as Record<string, unknown>,
+      source: record.source,
+      createdAt: new Date(record.createdAt),
+    });
+  }
+
+  async findById(id: string): Promise<DocumentRecord | null> {
+    const result = await this.db.select().from(documents).where(eq(documents.id, id)).limit(1);
+    if (result.length === 0) return null;
+    return mapDocument(result[0]!);
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.db.delete(documents).where(eq(documents.id, id));
+  }
+
+  async searchByVector(embedding: number[], options?: {
+    topK?: number;
+    threshold?: number;
+    filters?: Record<string, unknown>;
+  }): Promise<SearchResult[]> {
+    const topK = options?.topK ?? 10;
+    const threshold = options?.threshold ?? 0.0;
+    const vectorStr = `[${embedding.join(',')}]`;
+
+    // Use raw SQL for pgvector cosine similarity search
+    // cosine similarity = 1 - (embedding <=> query_vector)
+    const queryText = `
+      SELECT
+        id, content, embedding::text AS embedding, metadata, source, created_at,
+        1 - (embedding <=> $1::vector) AS score
+      FROM documents
+      WHERE 1 - (embedding <=> $1::vector) >= $2
+      ORDER BY embedding <=> $1::vector
+      LIMIT $3
+    `;
+
+    const result = await this.pool.query(queryText, [vectorStr, threshold, topK]);
+    return result.rows.map((row: Record<string, unknown>) => ({
+      id: row['id'] as string,
+      content: row['content'] as string,
+      embedding: typeof row['embedding'] === 'string'
+        ? (row['embedding'] as string).replace(/[[\]\s]/g, '').split(',').filter(Boolean).map(Number)
+        : (Array.isArray(row['embedding']) ? row['embedding'] as number[] : null),
+      metadata: (row['metadata'] as Record<string, unknown>) ?? {},
+      source: (row['source'] as string) ?? null,
+      createdAt: row['created_at'] instanceof Date
+        ? (row['created_at'] as Date).toISOString()
+        : String(row['created_at']),
+      score: Number(row['score']),
+    }));
+  }
+}
+
+function mapDocument(r: Record<string, unknown>): DocumentRecord {
+  return {
+    id: r['id'] as string,
+    content: r['content'] as string,
+    embedding: typeof r['embedding'] === 'string'
+      ? (r['embedding'] as string).replace(/[[\]\s]/g, '').split(',').filter(Boolean).map(Number)
+      : (Array.isArray(r['embedding']) ? r['embedding'] as number[] : null),
+    metadata: (r['metadata'] as Record<string, unknown>) ?? {},
+    source: (r['source'] as string) ?? null,
+    createdAt: r['created_at'] instanceof Date
+      ? (r['created_at'] as Date).toISOString()
+      : String(r['created_at']),
+  };
 }

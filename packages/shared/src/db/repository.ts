@@ -77,10 +77,44 @@ export interface ArtifactRepository {
   listByConversation(conversationId: string): Promise<ArtifactRecord[]>;
 }
 
+// ---- Document Repository (Knowledge Base) ----
+export interface DocumentRecord {
+  id: string;
+  content: string;
+  embedding: number[] | null;
+  metadata: Record<string, unknown>;
+  source: string | null;
+  createdAt: string;
+}
+
+export interface DocumentRepository {
+  insert(doc: DocumentRecord): Promise<void>;
+  findById(id: string): Promise<DocumentRecord | null>;
+  delete(id: string): Promise<void>;
+  searchByVector(embedding: number[], options?: SearchOptions): Promise<SearchResult[]>;
+}
+
+export interface SearchOptions {
+  topK?: number;
+  threshold?: number;
+  filters?: Record<string, unknown>;
+}
+
+export interface SearchResult {
+  id: string;
+  content: string;
+  embedding: number[] | null;
+  metadata: Record<string, unknown>;
+  source: string | null;
+  createdAt: string;
+  score: number;
+}
+
 // ---- Combined Database interface ----
 export interface Database {
   agents: AgentRepository;
   conversations: ConversationRepository;
   messages: MessageRepository;
   artifacts: ArtifactRepository;
+  documents: DocumentRepository;
 }

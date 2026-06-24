@@ -28,6 +28,7 @@ export interface CreateMessageInput {
   conversationId: string;
   role: 'user' | 'assistant' | 'system';
   parts?: MessagePart[];
+  id?: string;
 }
 
 export class ConversationService {
@@ -54,7 +55,7 @@ export class ConversationService {
   }
 
   async createMessage(input: CreateMessageInput): Promise<Message> {
-    const id = crypto.randomUUID();
+    const id = input.id ?? crypto.randomUUID();
     const now = new Date().toISOString();
     const record: MessageRecord = {
       id, conversationId: input.conversationId,

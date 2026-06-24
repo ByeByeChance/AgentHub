@@ -18,6 +18,8 @@ const createConvSchema = z.object({
 
 const sendMessageSchema = z.object({
   content: z.string().min(1),
+  userMessageId: z.string().optional(),
+  assistantMessageId: z.string().optional(),
 });
 
 export interface ConversationRouteDeps {
@@ -57,6 +59,10 @@ export function registerConversationRoutes(
     const conv = await conversationService.createConversation(result.data);
     reply.code(201);
     return conv;
+  });
+
+  app.get('/api/conversations', async () => {
+    return conversationService.listConversations();
   });
 
   app.get('/api/conversations/:id/messages', async (request) => {
@@ -105,6 +111,7 @@ export function registerConversationRoutes(
       conversationId,
       role: 'user',
       parts: [{ type: 'text', content: bodyResult.data.content }],
+      id: bodyResult.data.userMessageId,
     });
 
     // Create assistant message (streaming)
@@ -112,6 +119,7 @@ export function registerConversationRoutes(
       conversationId,
       role: 'assistant',
       parts: [],
+      id: bodyResult.data.assistantMessageId,
     });
 
     // Set up SSE response

@@ -303,7 +303,7 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
     try {
       const stream = await apiClient.streamPost(
         `/api/conversations/${conversationId}/messages`,
-        { content },
+        { content, userMessageId: userMsgId, assistantMessageId: assistantMsgId },
       );
 
       const reader = stream.getReader();

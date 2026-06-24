@@ -166,6 +166,27 @@ services:
     networks:
       - agenthub-net
 
+  # === Frontend ===
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_CORE_ENGINE_URL=http://core-engine:3001
+    depends_on:
+      core-engine:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then(r => { if (!r.ok) process.exit(1) })"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - agenthub-net
+
 volumes:
   postgres_data:
   redis_data:

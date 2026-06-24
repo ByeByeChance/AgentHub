@@ -51,4 +51,82 @@ describe('InMemoryDB', () => {
       expect(arts).toHaveLength(1);
     });
   });
+
+  describe('documents', () => {
+    it('should insert and find by id', async () => {
+      await db.documents.insert({
+        id: 'd1', content: 'Hello world', embedding: [0.1, 0.2, 0.3],
+        metadata: { topic: 'greeting' }, source: 'test', createdAt: 'now',
+      });
+      const doc = await db.documents.findById('d1');
+      expect(doc).toBeDefined();
+      expect(doc!.content).toBe('Hello world');
+      expect(doc!.metadata).toEqual({ topic: 'greeting' });
+    });
+
+    it('should delete document', async () => {
+      await db.documents.insert({
+        id: 'd2', content: 'Temp', embedding: [0.5], metadata: {}, source: null, createdAt: 'now',
+      });
+      await db.documents.delete('d2');
+      const doc = await db.documents.findById('d2');
+      expect(doc).toBeNull();
+    });
+
+    it('should search by vector with cosine similarity', async () => {
+      await db.documents.insert({
+        id: 'd3', content: 'AI and machine learning',
+        embedding: [1.0, 0.0, 0.0], metadata: {}, source: null, createdAt: 'now',
+      });
+      await db.documents.insert({
+        id: 'd4', content: 'Banana recipes',
+        embedding: [0.0, 1.0, 0.0], metadata: {}, source: null, createdAt: 'now',
+      });
+      await db.documents.insert({
+        id: 'd5', content: 'Deep learning intro',
+        embedding: [0.9, 0.1, 0.0], metadata: { topic: 'ai' }, source: null, createdAt: 'now',
+      });
+
+      const results = await db.documents.searchByVector([1.0, 0.0, 0.0], { topK: 2 });
+      expect(results.length).toBeGreaterThan(0);
+      expect(results[0]!.id).toBe('d3'); // Most similar to [1,0,0]
+      expect(results[0]!.score).toBeGreaterThan(0.9);
+    });
+
+    it('should apply metadata filters in search', async () => {
+      await db.documents.insert({
+        id: 'd6', content: 'AI article',
+        embedding: [1.0, 0.0, 0.0], metadata: { topic: 'ai' }, source: null, createdAt: 'now',
+      });
+      await db.documents.insert({
+        id: 'd7', content: 'Cooking article',
+        embedding: [1.0, 0.0, 0.0], metadata: { topic: 'cooking' }, source: null, createdAt: 'now',
+      });
+
+      const results = await db.documents.searchByVector(
+        [1.0, 0.0, 0.0],
+        { filters: { topic: 'ai' } },
+      );
+      expect(results).toHaveLength(1);
+      expect(results[0]!.id).toBe('d6');
+    });
+
+    it('should respect threshold in search', async () => {
+      await db.documents.insert({
+        id: 'd8', content: 'Similar content',
+        embedding: [1.0, 0.0, 0.0], metadata: {}, source: null, createdAt: 'now',
+      });
+      await db.documents.insert({
+        id: 'd9', content: 'Different content',
+        embedding: [-1.0, 0.0, 0.0], metadata: {}, source: null, createdAt: 'now',
+      });
+
+      const results = await db.documents.searchByVector(
+        [1.0, 0.0, 0.0],
+        { threshold: 0.9 },
+      );
+      expect(results).toHaveLength(1);
+      expect(results[0]!.id).toBe('d8');
+    });
+  });
 });
