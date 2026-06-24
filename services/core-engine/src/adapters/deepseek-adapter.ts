@@ -29,7 +29,7 @@ export class DeepSeekAdapter implements AgentAdapter {
 
     const stream = await this.client.chat.completions.create(
       {
-        model: process.env.DEEPSEEK_MODEL_ID ?? 'deepseek-v4-flash',
+        model: process.env.DEEPSEEK_MODEL_ID ?? 'deepseek-v4-pro',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         messages: messages as any,
         tools:

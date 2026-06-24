@@ -89,7 +89,7 @@ describe('AgentAdapter Interface', () => {
         name: 'Test Agent',
         systemPrompt: 'You are a helpful assistant.',
         adapterName: 'deepseek',
-        modelId: 'deepseek-v4-flash',
+        modelId: 'deepseek-v4-pro',
         toolNames: ['fs_read', 'fs_write', 'bash'],
       };
 

@@ -34,7 +34,7 @@ export const agents = pgTable('agents', {
   category: text('category').notNull(), // e.g. "engineering", "marketing"
   systemPrompt: text('system_prompt').notNull(),
   adapterName: text('adapter_name').notNull().default('deepseek'),
-  modelId: text('model_id').notNull().default('deepseek-v4-flash'),
+  modelId: text('model_id').notNull().default('deepseek-v4-pro'),
   toolNames: jsonb('tool_names').$type<string[]>().notNull().default([]),
   isBuiltin: boolean('is_builtin').notNull().default(false),
   isOrchestrator: boolean('is_orchestrator').notNull().default(false),

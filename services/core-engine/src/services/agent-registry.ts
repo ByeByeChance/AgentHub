@@ -60,7 +60,7 @@ export class AgentRegistry {
       category: input.category,
       systemPrompt: input.systemPrompt,
       adapterName: input.adapterName ?? 'deepseek',
-      modelId: input.modelId ?? 'deepseek-v4-flash',
+      modelId: input.modelId ?? 'deepseek-v4-pro',
       toolNames: input.toolNames ?? [],
       isBuiltin: false,
       isOrchestrator: false,

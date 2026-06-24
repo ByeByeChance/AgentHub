@@ -14,11 +14,11 @@ describe('TokenRecorder', () => {
   describe('record', () => {
     it('should record token usage and calculate cost correctly', async () => {
       const result = await recorder.record({
-        model: 'deepseek-v4-flash',
+        model: 'deepseek-v4-pro',
         tokensIn: 1000,
         tokensOut: 500,
       });
-      expect(result.model).toBe('deepseek-v4-flash');
+      expect(result.model).toBe('deepseek-v4-pro');
       expect(result.tokensIn).toBe(1000);
       expect(result.tokensOut).toBe(500);
       // cost = (1000 * 0.00014 + 500 * 0.00028) / 1000 = 0.00028
@@ -82,12 +82,12 @@ describe('TokenRecorder', () => {
 
     it('should break down costs by model', async () => {
       await recorder.record({ model: 'gpt-4o', tokensIn: 1000, tokensOut: 0 });
-      await recorder.record({ model: 'deepseek-v4-flash', tokensIn: 1000, tokensOut: 0 });
+      await recorder.record({ model: 'deepseek-v4-pro', tokensIn: 1000, tokensOut: 0 });
 
       const report = await recorder.getCosts({ period: 'daily' });
       expect(report.breakdown).toHaveLength(2);
       expect(report.breakdown.map(b => b.model).sort()).toEqual(
-        ['deepseek-v4-flash', 'gpt-4o'].sort(),
+        ['deepseek-v4-pro', 'gpt-4o'].sort(),
       );
     });
   });

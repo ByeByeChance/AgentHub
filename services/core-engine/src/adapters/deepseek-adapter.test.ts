@@ -10,7 +10,7 @@ describe('DeepSeekAdapter (via MockDeepSeekAdapter)', () => {
     name: 'Frontend Developer',
     systemPrompt: 'You are a frontend developer.',
     adapterName: 'deepseek',
-    modelId: 'deepseek-v4-flash',
+    modelId: 'deepseek-v4-pro',
     toolNames: ['fs_read', 'fs_write', 'bash'],
   };
 
