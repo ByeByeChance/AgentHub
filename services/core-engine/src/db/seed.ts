@@ -1,38 +1,10 @@
 import type { AgentRegistry } from '../services/agent-registry.js';
+import type { AgentSeedData } from './interfaces/seed.interface.js';
+import { CATEGORY_TOOLS } from './constants/category-tools.js';
 
 // gray-matter imports (dynamic, only when used)
 async function getMatter() {
   return (await import('gray-matter')).default;
-}
-
-const CATEGORY_TOOLS: Record<string, string[]> = {
-  engineering: ['fs_read', 'fs_write', 'bash', 'write_artifact'],
-  security: ['fs_read', 'bash', 'write_artifact'],
-  design: ['write_artifact', 'ask_user'],
-  marketing: ['write_artifact', 'ask_user'],
-  testing: ['fs_read', 'bash', 'write_artifact'],
-  'game-development': ['fs_write', 'bash', 'write_artifact'],
-  'project-management': ['write_artifact', 'ask_user'],
-  product: ['write_artifact', 'ask_user'],
-  finance: ['write_artifact', 'bash'],
-  academic: ['fs_read', 'write_artifact'],
-  sales: ['write_artifact', 'ask_user'],
-  support: ['ask_user', 'write_artifact'],
-  strategy: ['write_artifact', 'ask_user'],
-  specialized: ['write_artifact', 'ask_user'],
-  'paid-media': ['write_artifact', 'ask_user'],
-  'spatial-computing': ['fs_write', 'bash', 'write_artifact'],
-  integrations: ['bash', 'write_artifact'],
-  gis: ['fs_read', 'write_artifact'],
-  examples: ['ask_user'],
-};
-
-export interface AgentSeedData {
-  name: string;
-  emoji: string;
-  description: string;
-  category: string;
-  systemPrompt: string;
 }
 
 export async function parseAgentContent(

@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { AuditLogger, createAuditEntrySchema } from '../audit-logger.js';
+import { AuditLogger } from '../audit-logger.js';
+import { createAuditEntrySchema } from '../validation/audit-schemas.js';
 import { InMemoryObservabilityDB } from '../db-implementation.js';
 
 describe('AuditLogger', () => {

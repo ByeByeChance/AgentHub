@@ -3,15 +3,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useStore } from '@/store/index';
 import { logger } from '@/lib/logger';
-
-interface UseSSEOptions {
-  enabled?: boolean;
-}
-
-interface UseSSEReturn {
-  status: 'connecting' | 'connected' | 'disconnected';
-  reconnect: () => void;
-}
+import type { UseSSEOptions, UseSSEReturn } from './interfaces/sse.interface.js';
 
 /**
  * Global SSE hook — connects to /api/events and dispatches all

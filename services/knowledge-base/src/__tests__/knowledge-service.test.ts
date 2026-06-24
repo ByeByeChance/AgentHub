@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { KnowledgeService, addDocumentSchema, searchQuerySchema } from '../knowledge-service.js';
+import { KnowledgeService } from '../knowledge-service.js';
+import { addDocumentSchema, searchQuerySchema } from '../validation/knowledge-schemas.js';
 import { MockEmbeddingStrategy, MockChunker, InMemoryVectorStore } from '../strategies/index.js';
 
 describe('KnowledgeService', () => {

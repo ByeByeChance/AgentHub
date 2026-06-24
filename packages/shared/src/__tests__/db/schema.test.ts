@@ -5,8 +5,8 @@ import {
   messages,
   artifacts,
   documents,
-  type MessagePart,
 } from '../../db/schema.js';
+import type { MessagePart } from '../../db/index.js';
 
 describe('DB Schema', () => {
   describe('agents table', () => {

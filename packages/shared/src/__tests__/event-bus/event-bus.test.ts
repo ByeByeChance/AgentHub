@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { getEventBus, type EventBus } from '../../event-bus/event-bus.js';
+import { getEventBus } from '../../event-bus/event-bus.js';
+import type { EventBus } from '../../event-bus/index.js';
 import { EVENT_TYPES } from '@agenthub/contracts';
 import type { EventEnvelope } from '@agenthub/contracts';
 

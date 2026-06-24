@@ -1,48 +1,10 @@
 import { randomUUID } from 'node:crypto';
-import { z } from 'zod';
 import { TIME_PERIODS, SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 import type { ObservabilityDatabase, TokenRecordData } from './repository.interface.js';
-
-// ---- Pricing Table (USD per 1K tokens) ----
-const MODEL_PRICING: Record<string, { input: number; output: number }> = {
-  'deepseek-v4-flash': { input: 0.00014, output: 0.00028 },
-  'deepseek-v4-pro': { input: 0.00028, output: 0.00112 },
-  'claude-sonnet-4-20250514': { input: 0.003, output: 0.015 },
-  'claude-opus-4-8': { input: 0.015, output: 0.075 },
-  'gpt-4o': { input: 0.0025, output: 0.01 },
-};
-
-// ---- Zod Schemas ----
-export const recordTokenSchema = z.object({
-  model: z.string().min(1),
-  tokensIn: z.number().int().nonnegative(),
-  tokensOut: z.number().int().nonnegative(),
-  conversationId: z.string().optional(),
-  agentId: z.string().optional(),
-});
-
-export type RecordTokenInput = z.infer<typeof recordTokenSchema>;
-
-export const getCostsSchema = z.object({
-  period: z.enum(TIME_PERIODS).optional().default(TIME_PERIODS[0]),
-});
-
-export type GetCostsInput = z.infer<typeof getCostsSchema>;
-
-export interface CostReport {
-  period: string;
-  totalTokensIn: number;
-  totalTokensOut: number;
-  totalCost: number;
-  breakdown: CostBreakdown[];
-}
-
-export interface CostBreakdown {
-  model: string;
-  tokensIn: number;
-  tokensOut: number;
-  cost: number;
-}
+import { MODEL_PRICING } from './constants/model-pricing.js';
+import { recordTokenSchema, getCostsSchema } from './validation/token-schemas.js';
+import type { RecordTokenInput, GetCostsInput } from './validation/token-schemas.js';
+import type { CostReport } from './interfaces/token.interface.js';
 
 // ---- TokenRecorder ----
 export class TokenRecorder {

@@ -1,26 +1,8 @@
 import { randomUUID } from 'node:crypto';
-import { z } from 'zod';
 import type { EmbeddingStrategy, ChunkingStrategy, VectorStoreBackend } from './strategies/index.js';
 import type { DocumentRecord, SearchResult, SearchOptions } from '@agenthub/shared/db';
-
-// ---- Zod Schemas ----
-export const addDocumentSchema = z.object({
-  text: z.string().min(1),
-  metadata: z.record(z.unknown()).optional().default({}),
-  source: z.string().optional(),
-  parentDocumentId: z.string().optional(),
-});
-
-export type AddDocumentInput = z.input<typeof addDocumentSchema>;
-
-export const searchQuerySchema = z.object({
-  query: z.string().min(1),
-  topK: z.number().int().positive().optional().default(10),
-  threshold: z.number().min(0).max(1).optional().default(0.0),
-  filters: z.record(z.unknown()).optional(),
-});
-
-export type SearchQueryInput = z.input<typeof searchQuerySchema>;
+import { addDocumentSchema, searchQuerySchema } from './validation/knowledge-schemas.js';
+import type { AddDocumentInput, SearchQueryInput } from './interfaces/knowledge.interface.js';
 
 // ---- KnowledgeService ----
 export class KnowledgeService {

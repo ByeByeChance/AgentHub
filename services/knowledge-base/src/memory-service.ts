@@ -1,51 +1,11 @@
-import { z } from 'zod';
 import type { KnowledgeService } from './knowledge-service.js';
 import type { SearchResult } from '@agenthub/shared/db';
-
-// ---- Types ----
-export interface WorkingMemoryEntry {
-  key: string;
-  value: unknown;
-  ttl?: number; // TTL in ms (undefined = no expiry)
-  createdAt: number;
-}
-
-export interface MemoryMessage {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
-  timestamp: string;
-}
-
-export interface ShortTermMemoryInput {
-  conversationId: string;
-  messages: MemoryMessage[];
-}
-
-export interface LongTermMemoryInput {
-  content: string;
-  metadata?: Record<string, unknown>;
-  conversationId?: string;
-}
-
-// ---- Zod Schemas ----
-export const shortTermSchema = z.object({
-  conversationId: z.string().min(1),
-  messages: z.array(z.object({
-    role: z.enum(['user', 'assistant', 'system']),
-    content: z.string(),
-    timestamp: z.string(),
-  })),
-});
-
-export const workingMemorySchema = z.object({
-  conversationId: z.string().min(1),
-  entries: z.array(z.object({
-    key: z.string().min(1),
-    // value is required but can be any JSON-compatible value
-    value: z.unknown().transform(v => v),
-    ttl: z.number().positive().optional(),
-  })),
-});
+import type {
+  WorkingMemoryEntry,
+  ShortTermMemoryInput,
+  LongTermMemoryInput,
+} from './interfaces/memory.interface.js';
+import { shortTermSchema } from './validation/memory-schemas.js';
 
 // ---- MemoryService ----
 export class MemoryService {

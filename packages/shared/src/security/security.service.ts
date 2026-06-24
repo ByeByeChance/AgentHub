@@ -1,13 +1,4 @@
-export interface BashValidationResult {
-  allowed: boolean;
-  blockedReason?: string;
-}
-
-export interface PathValidationResult {
-  allowed: boolean;
-  resolvedPath?: string;
-  blockedReason?: string;
-}
+import type { BashValidationResult, PathValidationResult } from './interfaces/security.interface.js';
 
 // POSIX blacklist patterns — each entry is a regex that, if matched, blocks the command
 const POSIX_BLACKLIST: Array<{ pattern: RegExp; reason: string }> = [

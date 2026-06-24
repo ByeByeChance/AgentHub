@@ -1,9 +1,5 @@
 import Fastify, { type FastifyInstance } from 'fastify';
-
-export interface HealthServerOptions {
-  serviceName: string;
-  port?: number;
-}
+import type { HealthServerOptions } from './interfaces/health-server.interface.js';
 
 export function createHealthServer(options: HealthServerOptions): FastifyInstance {
   const app = Fastify({

@@ -1,9 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import {
-  EventEnvelopeSchema,
-  EventSourceSchema,
-  createEventEnvelope,
-} from '../event-envelope.js';
+import { createEventEnvelope } from '../event-envelope.js';
+import { EventEnvelopeSchema, EventSourceSchema } from '../validation/event-schemas.js';
 import { EVENT_TYPES } from '../event-types.js';
 
 describe('EventEnvelopeSchema', () => {

@@ -1,42 +1,9 @@
 import { randomUUID } from 'node:crypto';
-import { z } from 'zod';
 import semver from 'semver';
 import type { SkillDatabase, SkillRecord, SkillVersionRecord } from './repository.interface.js';
-
-// ---- Zod Schemas ----
-export const createSkillSchema = z.object({
-  name: z.string().min(1).max(128),
-  description: z.string().min(1),
-  toolSet: z.array(z.string()).optional().default([]),
-  promptTemplate: z.string().min(1),
-  parameterSchema: z.record(z.unknown()).optional().default({}),
-});
-
-export type CreateSkillInput = z.infer<typeof createSkillSchema>;
-
-export const publishVersionSchema = z.object({
-  promptTemplate: z.string().min(1),
-  toolSet: z.array(z.string()).optional().default([]),
-  parameterSchema: z.record(z.unknown()).optional().default({}),
-  version: z.string().refine((v) => semver.valid(v), 'Invalid semver version').optional(),
-});
-
-export type PublishVersionInput = z.infer<typeof publishVersionSchema>;
-
-// ---- Output types ----
-export interface SkillMetadata {
-  id: string;
-  name: string;
-  description: string;
-  currentVersion: string;
-  toolSet: string[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface SkillFull extends SkillMetadata {
-  versions: SkillVersionRecord[];
-}
+import { createSkillSchema, publishVersionSchema } from './validation/skill-schemas.js';
+import type { CreateSkillInput, PublishVersionInput } from './validation/skill-schemas.js';
+import type { SkillMetadata, SkillFull } from './interfaces/skill.interface.js';
 
 // ---- Operations ----
 export class SkillRegistryOperations {

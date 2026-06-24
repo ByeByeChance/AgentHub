@@ -4,17 +4,10 @@ import { promisify } from 'node:util';
 import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import type { WorkspaceService } from './interfaces/workspace.interface.js';
+export type { WorkspaceService };
 
 const execAsync = promisify(exec);
-
-export interface WorkspaceService {
-  read(relativePath: string): Promise<string>;
-  write(relativePath: string, content: string): Promise<void>;
-  exec(
-    command: string,
-    platform?: 'posix' | 'windows',
-  ): Promise<{ stdout: string; stderr: string; exitCode: number }>;
-}
 
 export class RealWorkspaceService implements WorkspaceService {
   constructor(private readonly workspaceRoot: string) {}

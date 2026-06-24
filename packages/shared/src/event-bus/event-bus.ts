@@ -1,17 +1,10 @@
 import type { EventEnvelope } from '@agenthub/contracts';
+import type { EventBus } from './interfaces/event-bus.interface.js';
 
 interface SubscriberEntry {
   topicPrefix: string;
   queue: EventEnvelope[];
   resolveWait: (() => void) | null;
-}
-
-export interface EventBus {
-  emit(envelope: EventEnvelope): void;
-  subscribe(topicPrefix: string): AsyncGenerator<EventEnvelope>;
-  unsubscribe(topicPrefix: string): void;
-  /** Reset all subscribers — for testing only */
-  reset(): void;
 }
 
 class EventBusImpl implements EventBus {

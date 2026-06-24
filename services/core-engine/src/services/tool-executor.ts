@@ -1,21 +1,6 @@
 import type { ToolDefinition, ToolResult } from '@agenthub/shared/adapter';
-import type { WorkspaceService } from './workspace.service.js';
-import type { Database } from '@agenthub/shared/db';
-
-export interface ToolContext {
-  conversationId: string;
-  workspaceService: WorkspaceService;
-  db: Database;
-  agentId: string;
-  signal: AbortSignal & { aborted: boolean };
-}
-
-export interface ToolRegistration {
-  name: string;
-  description: string;
-  parameters: Record<string, unknown>;
-  handler: (args: Record<string, unknown>, context: ToolContext) => Promise<unknown>;
-}
+import type { ToolContext, ToolRegistration } from './interfaces/tool-executor.interface.js';
+export type { ToolContext, ToolRegistration };
 
 export class ToolExecutor {
   private tools = new Map<string, ToolRegistration>();

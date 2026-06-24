@@ -1,39 +1,8 @@
 import type { FastifyInstance } from 'fastify';
-import { z } from 'zod';
-import type { ConversationService } from '../services/conversation.service.js';
-import type { AgentRegistry } from '../services/agent-registry.js';
-import type { AgentRunner } from '../services/agent-runner.js';
-import type { AgentAdapter } from '@agenthub/shared/adapter';
-import type { ToolExecutor } from '../services/tool-executor.js';
-import type { WorkspaceService } from '../services/workspace.service.js';
-import type { EventBus } from '@agenthub/shared/event-bus';
-import { EVENT_TYPES, type EventSource } from '@agenthub/contracts';
-import type { Database } from '@agenthub/shared/db';
+import { EVENT_TYPES } from '@agenthub/contracts';
 import { createPinoLogger } from '@agenthub/shared/logging';
-
-const createConvSchema = z.object({
-  title: z.string().optional(),
-  mode: z.enum(['single', 'group']).optional(),
-  agentIds: z.array(z.string()).min(1),
-});
-
-const sendMessageSchema = z.object({
-  content: z.string().min(1),
-  userMessageId: z.string().optional(),
-  assistantMessageId: z.string().optional(),
-});
-
-export interface ConversationRouteDeps {
-  conversationService: ConversationService;
-  agentRegistry: AgentRegistry;
-  agentRunner: AgentRunner;
-  toolExecutor: ToolExecutor;
-  workspaceService: WorkspaceService;
-  eventBus: EventBus;
-  source: EventSource;
-  db: Database;
-  adapterFactory: () => AgentAdapter;
-}
+import type { ConversationRouteDeps } from '../services/interfaces/conversation-routes.interface.js';
+import { createConvSchema, sendMessageSchema } from './validation/conversation-schemas.js';
 
 export function registerConversationRoutes(
   app: FastifyInstance,

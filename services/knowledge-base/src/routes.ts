@@ -1,8 +1,8 @@
 import type { FastifyInstance } from 'fastify';
 import type { KnowledgeService } from './knowledge-service.js';
 import type { MemoryService } from './memory-service.js';
-import { addDocumentSchema, searchQuerySchema } from './knowledge-service.js';
-import { shortTermSchema, workingMemorySchema } from './memory-service.js';
+import { addDocumentSchema, searchQuerySchema } from './validation/knowledge-schemas.js';
+import { shortTermSchema, workingMemorySchema } from './validation/memory-schemas.js';
 import { z } from 'zod';
 
 export function registerKnowledgeRoutes(

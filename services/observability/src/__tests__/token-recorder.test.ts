@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { TokenRecorder, UnknownModelError, recordTokenSchema } from '../token-recorder.js';
+import { TokenRecorder, UnknownModelError } from '../token-recorder.js';
+import { recordTokenSchema } from '../validation/token-schemas.js';
 import { InMemoryObservabilityDB } from '../db-implementation.js';
 
 describe('TokenRecorder', () => {

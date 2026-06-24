@@ -1,8 +1,9 @@
 import type { FastifyInstance } from 'fastify';
 import type { TokenRecorder } from './token-recorder.js';
 import type { AuditLogger } from './audit-logger.js';
-import { recordTokenSchema, UnknownModelError } from './token-recorder.js';
-import { createAuditEntrySchema } from './audit-logger.js';
+import { UnknownModelError } from './token-recorder.js';
+import { recordTokenSchema } from './validation/token-schemas.js';
+import { createAuditEntrySchema } from './validation/audit-schemas.js';
 import { z } from 'zod';
 import { TIME_PERIODS } from '@agenthub/shared/constants';
 

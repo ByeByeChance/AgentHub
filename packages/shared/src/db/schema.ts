@@ -68,17 +68,7 @@ export const messages = pgTable('messages', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
-// Message part types for JSONB column
-export interface MessagePart {
-  type: 'text' | 'thinking' | 'tool_use' | 'tool_result' | 'artifact_ref';
-  content?: string;
-  toolCallId?: string;
-  toolName?: string;
-  toolInput?: Record<string, unknown>;
-  toolResult?: unknown;
-  artifactId?: string;
-  isError?: boolean;
-}
+import type { MessagePart } from './repository.interface.js';
 
 // ---- Documents Table (Knowledge Base, pgvector) ----
 export const documents = pgTable('documents', {

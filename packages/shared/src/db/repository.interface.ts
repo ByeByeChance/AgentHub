@@ -1,4 +1,14 @@
-import type { MessagePart } from './schema.js';
+// ---- Message Part (shared DTO for message JSONB column) ----
+export interface MessagePart {
+  type: 'text' | 'thinking' | 'tool_use' | 'tool_result' | 'artifact_ref';
+  content?: string;
+  toolCallId?: string;
+  toolName?: string;
+  toolInput?: Record<string, unknown>;
+  toolResult?: unknown;
+  artifactId?: string;
+  isError?: boolean;
+}
 
 // ---- Agent Repository ----
 export interface AgentRecord {

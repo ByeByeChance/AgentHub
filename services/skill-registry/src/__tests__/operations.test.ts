@@ -4,11 +4,10 @@ import {
   SkillAlreadyExistsError,
   SkillNotFoundError,
   InvalidVersionError,
-  createSkillSchema,
-  publishVersionSchema,
 } from '../operations.js';
+import { createSkillSchema, publishVersionSchema } from '../validation/skill-schemas.js';
+import type { CreateSkillInput, PublishVersionInput } from '../validation/skill-schemas.js';
 import { InMemorySkillDB } from '../db-implementation.js';
-import type { CreateSkillInput, PublishVersionInput } from '../operations.js';
 
 function validCreateInput(): CreateSkillInput {
   return {

@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { SkillRegistryOperations } from './operations.js';
-import { createSkillSchema, publishVersionSchema } from './operations.js';
 import { SkillAlreadyExistsError, SkillNotFoundError, InvalidVersionError } from './operations.js';
+import { createSkillSchema, publishVersionSchema } from './validation/skill-schemas.js';
 import { z } from 'zod';
 
 export function registerSkillRoutes(

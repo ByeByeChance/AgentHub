@@ -1,21 +1,8 @@
 import { createHash, randomUUID } from 'node:crypto';
-import { z } from 'zod';
 import type { ObservabilityDatabase, AuditEntryData } from './repository.interface.js';
-
-// ---- Zod Schema ----
-export const createAuditEntrySchema = z.object({
-  entryType: z.string().min(1).max(128),
-  payload: z.record(z.unknown()).default({}),
-});
-
-export type CreateAuditEntryInput = z.infer<typeof createAuditEntrySchema>;
-
-export interface ChainVerificationResult {
-  valid: boolean;
-  brokenAt: string | null;
-  expectedHash: string | null;
-  actualHash: string | null;
-}
+import { createAuditEntrySchema } from './validation/audit-schemas.js';
+import type { CreateAuditEntryInput } from './validation/audit-schemas.js';
+import type { ChainVerificationResult } from './interfaces/audit.interface.js';
 
 // ---- AuditLogger ----
 export class AuditLogger {
