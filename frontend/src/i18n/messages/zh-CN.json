@@ -38,6 +38,7 @@
     "retry": "重试",
     "delete": "删除",
     "thinking": "思考中...",
+    "streaming": "生成中",
     "generationFailed": "生成失败",
     "generationAborted": "生成已中止",
     "toolInvocation": "工具调用...",

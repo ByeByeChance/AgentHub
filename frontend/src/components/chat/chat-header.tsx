@@ -4,18 +4,11 @@ import { useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import type { Conversation, AgentMetadata } from '@/store/interfaces';
 import { useStore } from '@/store/index';
-import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { PanelRight, Pin, Archive, Search, X } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 import { useMessageSearchQuery, useIsMessageSearchOpen } from '@/store/selectors/message-selectors';
 import { OrchestratorDialog } from '@/components/orchestrator/orchestrator-dialog';
+import { AgentSwitcher } from './chat-header/agent-switcher';
+import { MessageSearchBar } from './chat-header/message-search-bar';
+import { HeaderActions } from './chat-header/header-actions';
 
 interface ChatHeaderProps {
   conversation: Conversation;
@@ -59,27 +52,12 @@ export function ChatHeader({ conversation, agent }: ChatHeaderProps) {
             {conversation.title}
           </h1>
           <div className="flex items-center gap-2">
-            {conversationAgents.length > 1 ? (
-              <Select
-                value={displayAgentId ?? ''}
-                onValueChange={(v) => setActiveAgent(v)}
-              >
-                <SelectTrigger className="h-6 text-xs border-0 bg-transparent px-0 gap-1 min-w-0 w-auto interactive">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {conversationAgents.map((a) => (
-                    <SelectItem key={a.id} value={a.id}>
-                      {a.emoji} {a.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            ) : (
-              <p className="text-xs text-muted-foreground">
-                {displayAgent?.name ?? t('agent')}
-              </p>
-            )}
+            <AgentSwitcher
+              agents={conversationAgents}
+              activeAgentId={displayAgentId ?? null}
+              onAgentChange={setActiveAgent}
+              defaultLabel={t('agent')}
+            />
             <span className="text-xs text-muted-foreground">
               · {conversation.mode}
             </span>
@@ -89,66 +67,19 @@ export function ChatHeader({ conversation, agent }: ChatHeaderProps) {
 
       <div className="flex items-center gap-1">
         <OrchestratorDialog conversationId={conversation.id} />
-
-        {isMessageSearchOpen ? (
-          <div className="flex items-center gap-1 animate-fade-in-right">
-            <Input
-              value={messageSearchQuery}
-              onChange={(e) => setMessageSearchQuery(e.target.value)}
-              placeholder={t('searchPlaceholder')}
-              className="h-8 w-48 text-xs"
-              autoFocus
-              onKeyDown={(e) => { if (e.key === 'Escape') toggleMessageSearch(); }}
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              className="w-7 h-7 interactive press-scale rounded-lg"
-              onClick={toggleMessageSearch}
-            >
-              <X className="w-3.5 h-3.5" />
-            </Button>
-          </div>
-        ) : (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="w-8 h-8 interactive press-scale rounded-lg"
-            onClick={toggleMessageSearch}
-            aria-label={t('searchAria')}
-          >
-            <Search className="w-4 h-4" />
-          </Button>
-        )}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="w-8 h-8 interactive press-scale rounded-lg"
-          onClick={() => pinConversation(conversation.id)}
-          aria-label={conversation.pinnedAt ? t('unpin') : t('pin')}
-        >
-          <Pin
-            className={`w-4 h-4 ${conversation.pinnedAt ? 'fill-current text-accent' : ''}`}
-          />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="w-8 h-8 interactive press-scale rounded-lg"
-          onClick={() => archiveConversation(conversation.id)}
-          aria-label={t('archive')}
-        >
-          <Archive className="w-4 h-4" />
-        </Button>
-        <Button
-          variant={isDetailPanelOpen ? 'secondary' : 'ghost'}
-          size="icon"
-          className="w-8 h-8 interactive press-scale rounded-lg"
-          onClick={() => setDetailPanelOpen(!isDetailPanelOpen)}
-          aria-label={t('toggleDetail')}
-        >
-          <PanelRight className="w-4 h-4" />
-        </Button>
+        <MessageSearchBar
+          isOpen={isMessageSearchOpen}
+          query={messageSearchQuery}
+          onToggle={toggleMessageSearch}
+          onQueryChange={setMessageSearchQuery}
+        />
+        <HeaderActions
+          isPinned={!!conversation.pinnedAt}
+          isDetailOpen={isDetailPanelOpen}
+          onPin={() => pinConversation(conversation.id)}
+          onArchive={() => archiveConversation(conversation.id)}
+          onToggleDetail={() => setDetailPanelOpen(!isDetailPanelOpen)}
+        />
       </div>
     </div>
   );

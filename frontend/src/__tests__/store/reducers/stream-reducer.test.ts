@@ -204,6 +204,29 @@ describe('stream-reducer', () => {
         toolName: 'bash',
       });
     });
+
+    it('should NOT duplicate when TOOL_CALL already created the part', () => {
+      const state = createMockState();
+      state.messages['m1'] = {
+        id: 'm1',
+        conversationId: 'c1',
+        role: 'assistant',
+        parts: [{ type: 'tool_use', toolCallId: 'tc1', toolName: 'bash', toolInput: { cmd: 'ls' } }],
+        status: 'streaming',
+        createdAt: new Date().toISOString(),
+      };
+
+      // MESSAGE_PART_TOOL_USE after TOOL_CALL → should skip duplicate
+      applyStreamEvent(state, makeEvent(EVENT_TYPES.MESSAGE_PART_TOOL_USE, {
+        messageId: 'm1',
+        toolCallId: 'tc1',
+        toolName: 'bash',
+      }));
+
+      expect(state.messages['m1']!.parts).toHaveLength(1);
+      // Should preserve the toolInput from TOOL_CALL
+      expect(state.messages['m1']!.parts[0]!.toolInput).toEqual({ cmd: 'ls' });
+    });
   });
 
   describe('MESSAGE_PART_TOOL_RESULT', () => {
@@ -233,6 +256,31 @@ describe('stream-reducer', () => {
         isError: true,
       });
     });
+
+    it('should NOT duplicate when TOOL_RESULT already created the part', () => {
+      const state = createMockState();
+      state.messages['m1'] = {
+        id: 'm1',
+        conversationId: 'c1',
+        role: 'assistant',
+        parts: [{ type: 'tool_result', toolCallId: 'tc1', toolName: 'bash', toolResult: 'ok', isError: false }],
+        status: 'streaming',
+        createdAt: new Date().toISOString(),
+      };
+
+      // MESSAGE_PART_TOOL_RESULT after TOOL_RESULT → should skip duplicate
+      applyStreamEvent(state, makeEvent(EVENT_TYPES.MESSAGE_PART_TOOL_RESULT, {
+        messageId: 'm1',
+        toolCallId: 'tc1',
+        toolName: 'bash',
+        result: 'other',
+        isError: false,
+      }));
+
+      expect(state.messages['m1']!.parts).toHaveLength(1);
+      // Should preserve the original result from TOOL_RESULT
+      expect(state.messages['m1']!.parts[0]!.toolResult).toBe('ok');
+    });
   });
 
   describe('ARTIFACT_CREATED', () => {
@@ -261,6 +309,105 @@ describe('stream-reducer', () => {
       expect(() => {
         applyStreamEvent(state, makeEvent('custom.unknown', {}));
       }).not.toThrow();
+    });
+  });
+
+  describe('TOOL_CALL deduplication', () => {
+    it('should update existing tool_use part instead of creating duplicate', () => {
+      const state = createMockState();
+      state.messages['m1'] = {
+        id: 'm1',
+        conversationId: 'c1',
+        role: 'assistant',
+        parts: [{ type: 'tool_use', toolCallId: 'tc1', toolName: 'bash' }],
+        status: 'streaming',
+        createdAt: new Date().toISOString(),
+      };
+
+      // TOOL_CALL with the same toolCallId as existing MESSAGE_PART_TOOL_USE
+      applyStreamEvent(state, makeEvent(EVENT_TYPES.TOOL_CALL, {
+        messageId: 'm1',
+        toolCallId: 'tc1',
+        toolName: 'bash',
+        input: { cmd: 'ls' },
+      }));
+
+      expect(state.messages['m1']!.parts).toHaveLength(1); // NOT 2
+      expect(state.messages['m1']!.parts[0]).toMatchObject({
+        type: 'tool_use',
+        toolCallId: 'tc1',
+        toolInput: { cmd: 'ls' },
+      });
+    });
+
+    it('should create new tool_use part when no existing match', () => {
+      const state = createMockState();
+      state.messages['m1'] = {
+        id: 'm1',
+        conversationId: 'c1',
+        role: 'assistant',
+        parts: [],
+        status: 'streaming',
+        createdAt: new Date().toISOString(),
+      };
+
+      applyStreamEvent(state, makeEvent(EVENT_TYPES.TOOL_CALL, {
+        messageId: 'm1',
+        toolCallId: 'tc1',
+        toolName: 'bash',
+        input: { cmd: 'ls' },
+      }));
+
+      expect(state.messages['m1']!.parts).toHaveLength(1);
+      expect(state.messages['m1']!.parts[0]!.type).toBe('tool_use');
+    });
+  });
+
+  describe('TOOL_RESULT deduplication', () => {
+    it('should update existing tool_result part instead of creating duplicate', () => {
+      const state = createMockState();
+      state.messages['m1'] = {
+        id: 'm1',
+        conversationId: 'c1',
+        role: 'assistant',
+        parts: [{ type: 'tool_result', toolCallId: 'tc1', toolName: 'bash', toolResult: 'partial', isError: false }],
+        status: 'streaming',
+        createdAt: new Date().toISOString(),
+      };
+
+      // TOOL_RESULT with same toolCallId
+      applyStreamEvent(state, makeEvent(EVENT_TYPES.TOOL_RESULT, {
+        messageId: 'm1',
+        toolCallId: 'tc1',
+        toolName: 'bash',
+        result: 'file1.txt\nfile2.txt',
+        isError: false,
+      }));
+
+      expect(state.messages['m1']!.parts).toHaveLength(1); // NOT 2
+      expect(state.messages['m1']!.parts[0]!.toolResult).toBe('file1.txt\nfile2.txt');
+    });
+
+    it('should not match across different toolCallIds', () => {
+      const state = createMockState();
+      state.messages['m1'] = {
+        id: 'm1',
+        conversationId: 'c1',
+        role: 'assistant',
+        parts: [{ type: 'tool_result', toolCallId: 'tc1', toolName: 'bash', toolResult: 'ok', isError: false }],
+        status: 'streaming',
+        createdAt: new Date().toISOString(),
+      };
+
+      applyStreamEvent(state, makeEvent(EVENT_TYPES.TOOL_RESULT, {
+        messageId: 'm1',
+        toolCallId: 'tc2', // different toolCallId
+        toolName: 'read',
+        result: 'content',
+        isError: false,
+      }));
+
+      expect(state.messages['m1']!.parts).toHaveLength(2); // Different tool, so keep both
     });
   });
 });

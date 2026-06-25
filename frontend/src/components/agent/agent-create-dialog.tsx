@@ -3,16 +3,7 @@
 import { useState, type ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { useStore } from '@/store/index';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
@@ -21,6 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { FormDialog } from '@/components/ui/form-dialog';
+import { DialogFormField } from '@/components/ui/dialog-form-field';
 import { useAgentCategories } from '@/store/selectors/agent-selectors';
 
 interface AgentCreateDialogProps {
@@ -57,7 +50,6 @@ export function AgentCreateDialog({ children }: AgentCreateDialogProps) {
       category: finalCategory,
       systemPrompt,
     });
-    setOpen(false);
     setName('');
     setEmoji('');
     setDescription('');
@@ -69,90 +61,76 @@ export function AgentCreateDialog({ children }: AgentCreateDialogProps) {
   const isValid = name && emoji && description && (category || newCategory) && systemPrompt;
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{t('createCustomAgent')}</DialogTitle>
-        </DialogHeader>
+    <FormDialog
+      open={open}
+      onOpenChange={setOpen}
+      title={t('createCustomAgent')}
+      trigger={children}
+      cancelLabel={t('cancel')}
+      submitLabel={t('createAgentButton')}
+      onSubmit={handleCreate}
+      submitDisabled={!isValid}
+    >
+      <div className="grid grid-cols-4 gap-3">
+        <DialogFormField label={t('emoji')} htmlFor="emoji" className="col-span-1">
+          <Input
+            id="emoji"
+            placeholder="🤖"
+            value={emoji}
+            onChange={(e) => setEmoji(e.target.value.slice(0, 2))}
+            className="text-center text-xl"
+          />
+        </DialogFormField>
+        <DialogFormField label={t('name')} htmlFor="name" className="col-span-3">
+          <Input
+            id="name"
+            placeholder={t('namePlaceholder')}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </DialogFormField>
+      </div>
 
-        <div className="space-y-4 pt-2">
-          <div className="grid grid-cols-4 gap-3">
-            <div className="space-y-2 col-span-1">
-              <Label htmlFor="emoji">{t('emoji')}</Label>
-              <Input
-                id="emoji"
-                placeholder="🤖"
-                value={emoji}
-                onChange={(e) => setEmoji(e.target.value.slice(0, 2))}
-                className="text-center text-xl"
-              />
-            </div>
-            <div className="space-y-2 col-span-3">
-              <Label htmlFor="name">{t('name')}</Label>
-              <Input
-                id="name"
-                placeholder={t('namePlaceholder')}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-          </div>
+      <DialogFormField label={t('description')} htmlFor="description">
+        <Input
+          id="description"
+          placeholder={t('descriptionPlaceholder')}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </DialogFormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="description">{t('description')}</Label>
-            <Input
-              id="description"
-              placeholder={t('descriptionPlaceholder')}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
+      <DialogFormField label={t('category')}>
+        <Select value={category} onValueChange={setCategory}>
+          <SelectTrigger id="category">
+            <SelectValue placeholder={t('selectCategory')} />
+          </SelectTrigger>
+          <SelectContent>
+            {existingCategories.map((c) => (
+              <SelectItem key={c} value={c}>
+                {c}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Input
+          placeholder={t('newCategory')}
+          value={newCategory}
+          onChange={(e) => setNewCategory(e.target.value)}
+          className="text-sm mt-2"
+        />
+      </DialogFormField>
 
-          <div className="space-y-2">
-            <Label htmlFor="category">{t('category')}</Label>
-            <Select value={category} onValueChange={setCategory}>
-              <SelectTrigger id="category">
-                <SelectValue placeholder={t('selectCategory')} />
-              </SelectTrigger>
-              <SelectContent>
-                {existingCategories.map((c) => (
-                  <SelectItem key={c} value={c}>
-                    {c}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Input
-              placeholder={t('newCategory')}
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
-              className="text-sm"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="systemPrompt">{t('systemPrompt')}</Label>
-            <Textarea
-              id="systemPrompt"
-              placeholder={t('systemPromptPlaceholder')}
-              value={systemPrompt}
-              onChange={(e) => setSystemPrompt(e.target.value)}
-              className="min-h-[100px]"
-              rows={5}
-            />
-          </div>
-
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setOpen(false)}>
-              {t('cancel')}
-            </Button>
-            <Button onClick={handleCreate} disabled={!isValid}>
-              {t('createAgentButton')}
-            </Button>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+      <DialogFormField label={t('systemPrompt')} htmlFor="systemPrompt">
+        <Textarea
+          id="systemPrompt"
+          placeholder={t('systemPromptPlaceholder')}
+          value={systemPrompt}
+          onChange={(e) => setSystemPrompt(e.target.value)}
+          className="min-h-[100px]"
+          rows={5}
+        />
+      </DialogFormField>
+    </FormDialog>
   );
 }

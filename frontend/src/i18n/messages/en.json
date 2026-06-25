@@ -38,6 +38,7 @@
     "retry": "Retry",
     "delete": "Delete",
     "thinking": "Thinking...",
+    "streaming": "Streaming",
     "generationFailed": "Generation failed",
     "generationAborted": "Generation aborted",
     "toolInvocation": "Tool invocation...",

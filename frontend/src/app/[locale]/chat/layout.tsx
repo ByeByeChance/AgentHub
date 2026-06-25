@@ -1,6 +1,5 @@
 'use client';
 
-import { AppShell } from '@/components/layout/app-shell';
 import { ConversationList } from '@/components/conversation/conversation-list';
 import { SSEProvider } from '@/components/providers/sse-provider';
 
@@ -11,10 +10,8 @@ export default function ChatLayout({
 }) {
   return (
     <SSEProvider>
-      <AppShell>
-        <ConversationList />
-        {children}
-      </AppShell>
+      <ConversationList />
+      {children}
     </SSEProvider>
   );
 }

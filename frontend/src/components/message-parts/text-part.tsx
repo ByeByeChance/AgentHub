@@ -3,6 +3,13 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { Components } from 'react-markdown';
+import {
+  codeRenderer,
+  headingRenderers,
+  tableRenderers,
+  blockquoteRenderer,
+  listRenderers,
+} from './markdown';
 
 interface TextPartProps {
   content: string;
@@ -10,59 +17,62 @@ interface TextPartProps {
 
 export function TextPart({ content }: TextPartProps) {
   const components: Components = {
+    // Links
     a({ href, children }) {
       return (
         <a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary underline underline-offset-4 hover:text-primary/80"
+          className="text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-colors"
         >
           {children}
         </a>
       );
     },
-    code({ className, children, ...props }) {
-      const match = /language-(\w+)/.exec(className ?? '');
-      const isInline = !match && !className;
-      return isInline ? (
-        <code
-          className="bg-muted px-1 py-0.5 rounded text-sm font-mono"
-          {...props}
-        >
-          {children}
-        </code>
-      ) : (
-        <pre className="bg-muted rounded-md p-3 overflow-x-auto text-sm font-mono">
-          <code className={className} {...props}>
-            {children}
-          </code>
-        </pre>
-      );
-    },
+
+    // Code
+    code: codeRenderer,
+
+    // Paragraphs
     p({ children }) {
-      return <p className="mb-2 last:mb-0">{children}</p>;
+      return <p className="mb-3 last:mb-0 leading-relaxed">{children}</p>;
     },
-    ul({ children }) {
-      return <ul className="list-disc pl-5 mb-2 space-y-1">{children}</ul>;
+
+    // Headings
+    ...headingRenderers,
+
+    // Lists
+    ...listRenderers,
+
+    // Blockquote
+    blockquote: blockquoteRenderer,
+
+    // Horizontal Rule
+    hr() {
+      return <hr className="my-4 border-border/40" />;
     },
-    ol({ children }) {
-      return <ol className="list-decimal pl-5 mb-2 space-y-1">{children}</ol>;
+
+    // Table
+    ...tableRenderers,
+
+    // Strong / Emphasis
+    strong({ children }) {
+      return <strong className="font-semibold text-foreground">{children}</strong>;
     },
-    h1({ children }) {
-      return <h1 className="text-xl font-bold mb-2 mt-4 first:mt-0">{children}</h1>;
+    em({ children }) {
+      return <em className="italic">{children}</em>;
     },
-    h2({ children }) {
-      return <h2 className="text-lg font-bold mb-2 mt-3 first:mt-0">{children}</h2>;
-    },
-    h3({ children }) {
-      return <h3 className="text-base font-bold mb-1 mt-2 first:mt-0">{children}</h3>;
-    },
-    blockquote({ children }) {
+
+    // Images
+    img({ src, alt }) {
       return (
-        <blockquote className="border-l-2 border-muted-foreground/30 pl-3 italic text-muted-foreground mb-2">
-          {children}
-        </blockquote>
+        <img
+          src={src}
+          alt={alt ?? ''}
+          className="max-w-full rounded-lg my-3 border border-border/30"
+          loading="lazy"
+        />
       );
     },
   };

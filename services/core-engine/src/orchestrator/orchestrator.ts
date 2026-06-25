@@ -12,6 +12,7 @@ import type { AgentConfig } from '@agenthub/shared/adapter';
 import type { TokenRecorderLike, AuditLoggerLike } from '../services/interfaces/agent-runner.interface.js';
 import { createEventEnvelope, EVENT_TYPES } from '@agenthub/contracts';
 import { parsePlan, type ParsedExecutionPlan } from './plan-parser.js';
+import { AGGREGATE_SYSTEM_PROMPT, renderPlanPrompt } from './prompts.js';
 import { randomUUID } from 'node:crypto';
 
 export interface OrchestratorInput {
@@ -41,37 +42,6 @@ export interface OrchestratorResult {
   aggregateOutput: string;
   totalTokens: { in: number; out: number };
 }
-
-const PLAN_SYSTEM_PROMPT = `You are a task planning agent. Given a user goal and available agents, produce a JSON execution plan.
-
-Available agents:
-{{AGENT_LIST}}
-
-Output ONLY valid JSON matching this structure:
-{
-  "tasks": [
-    {
-      "id": "task-1",
-      "agentId": "<agent id>",
-      "input": "<task prompt>",
-      "dependsOn": [],
-      "config": { "maxRetries": 1 }
-    }
-  ],
-  "strategy": "dag",
-  "globalTimeout": 120000,
-  "maxConcurrent": 4
-}
-
-Rules:
-- Each task.id must be unique.
-- dependsOn must reference only existing task IDs.
-- Choose strategy: "dag" for complex dependencies, "sequential" for linear pipelines, "parallel" for independent work.
-- Agent IDs MUST come from the available agents list.`;
-
-const AGGREGATE_SYSTEM_PROMPT = `You are a result aggregation agent. Given the user's original goal and the outputs from all tasks, produce a comprehensive final answer.
-
-Synthesize the task outputs, resolve contradictions, and present a clear, actionable result.`;
 
 export class Orchestrator {
   /**
@@ -111,10 +81,7 @@ export class Orchestrator {
     eventBus.emit(planStartEvent);
     yield planStartEvent;
 
-    const agentList = agents
-      .map((a) => `- id: "${a.id}", name: "${a.name}"`)
-      .join('\n');
-    const planSystemPrompt = PLAN_SYSTEM_PROMPT.replace('{{AGENT_LIST}}', agentList);
+    const planSystemPrompt = renderPlanPrompt(agents);
 
     let plan: ParsedExecutionPlan | null = null;
     let planRetries = 0;

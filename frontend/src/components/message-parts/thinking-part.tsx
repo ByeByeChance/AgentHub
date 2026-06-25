@@ -13,22 +13,22 @@ export function ThinkingPart({ content }: ThinkingPartProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border border-border rounded-lg overflow-hidden">
+    <div className="border-l-2 border-primary/20 bg-muted/30 rounded-r-lg overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 w-full px-3 py-2 text-xs text-muted-foreground hover:bg-muted/50 transition-colors"
+        className="flex items-center gap-2 w-full px-3 py-1.5 text-xs text-muted-foreground hover:bg-muted/30 interactive"
       >
-        <Brain className="w-3.5 h-3.5" />
+        <Brain className="w-3 h-3 text-primary/50 flex-shrink-0" />
         <span className="font-medium">{t('thinking')}</span>
         <ChevronDown
-          className={`w-3.5 h-3.5 ml-auto transition-transform ${
+          className={`w-3 h-3 ml-auto transition-transform duration-200 flex-shrink-0 ${
             isOpen ? 'rotate-180' : ''
           }`}
         />
       </button>
       {isOpen && (
-        <div className="px-3 py-2 border-t border-border bg-muted/30">
-          <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-mono">
+        <div className="px-3 pb-2 pt-0.5">
+          <pre className="text-xs text-muted-foreground whitespace-pre-wrap font-mono leading-relaxed opacity-80">
             {content}
           </pre>
         </div>

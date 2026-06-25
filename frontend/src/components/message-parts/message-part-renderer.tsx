@@ -9,9 +9,11 @@ import { ArtifactRefPart } from './artifact-ref-part';
 
 interface MessagePartRendererProps {
   part: MessagePart;
+  /** Whether the parent message is currently streaming */
+  isStreaming?: boolean;
 }
 
-export function MessagePartRenderer({ part }: MessagePartRendererProps) {
+export function MessagePartRenderer({ part, isStreaming = false }: MessagePartRendererProps) {
   switch (part.type) {
     case 'text':
       return <TextPart content={part.content ?? ''} />;
@@ -23,6 +25,7 @@ export function MessagePartRenderer({ part }: MessagePartRendererProps) {
           toolCallId={part.toolCallId ?? ''}
           toolName={part.toolName ?? 'unknown'}
           toolInput={part.toolInput}
+          isStreaming={isStreaming}
         />
       );
     case 'tool_result':

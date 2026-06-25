@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { CheckCircle, XCircle, ChevronDown } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
 
 interface ToolResultPartProps {
   toolCallId: string;
@@ -26,55 +25,54 @@ export function ToolResultPart({
       ? result
       : JSON.stringify(result, null, 2);
 
+  const borderColor = isError
+    ? 'border-red-300 dark:border-red-700'
+    : 'border-green-300 dark:border-green-700';
+  const bgColor = isError
+    ? 'bg-red-50/40 dark:bg-red-950/15'
+    : 'bg-green-50/40 dark:bg-green-950/15';
+
   return (
-    <Card
-      className={
-        isError
-          ? 'border-red-200 dark:border-red-800 bg-red-50/50 dark:bg-red-950/20'
-          : 'border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-950/20'
-      }
-    >
-      <CardContent className="p-3">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2 w-full text-sm"
-        >
-          {isError ? (
-            <XCircle className="w-4 h-4 text-red-500" />
-          ) : (
-            <CheckCircle className="w-4 h-4 text-green-500" />
-          )}
-          <span
-            className={`font-medium ${
-              isError
-                ? 'text-red-900 dark:text-red-100'
-                : 'text-green-900 dark:text-green-100'
-            }`}
-          >
-            {isError
-              ? t('errorFrom', { toolName })
-              : t('resultFrom', { toolName })}
-          </span>
-          <ChevronDown
-            className={`w-3.5 h-3.5 ml-auto transition-transform ${
-              isError ? 'text-red-500' : 'text-green-500'
-            } ${isExpanded ? 'rotate-180' : ''}`}
-          />
-        </button>
-        {isExpanded && (
-          <pre
-            className={`mt-2 p-2 rounded text-xs font-mono overflow-x-auto max-h-48 overflow-y-auto ${
-              isError
-                ? 'bg-red-100/50 dark:bg-red-900/30'
-                : 'bg-green-100/50 dark:bg-green-900/30'
-            }`}
-          >
-            {resultStr.length > 2000
-              ? `${resultStr.slice(0, 2000)}${t('truncated')}`
-              : resultStr}
-          </pre>
+    <div className={`border-l-2 ${borderColor} ${bgColor} rounded-r-lg overflow-hidden`}>
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="flex items-center gap-2 w-full px-3 py-1.5 text-sm interactive"
+      >
+        {isError ? (
+          <XCircle className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
+        ) : (
+          <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
         )}
-      </CardContent>
-    </Card>
+        <span
+          className={`text-xs ${
+            isError
+              ? 'text-red-800 dark:text-red-200'
+              : 'text-green-800 dark:text-green-200'
+          }`}
+        >
+          {isError
+            ? t('errorFrom', { toolName })
+            : t('resultFrom', { toolName })}
+        </span>
+        <ChevronDown
+          className={`w-3 h-3 ml-auto flex-shrink-0 transition-transform duration-200 ${
+            isError ? 'text-red-400' : 'text-green-400'
+          } ${isExpanded ? 'rotate-180' : ''}`}
+        />
+      </button>
+      {isExpanded && (
+        <pre
+          className={`mx-3 mb-2 p-2 rounded text-xs font-mono leading-relaxed overflow-x-auto max-h-48 overflow-y-auto ${
+            isError
+              ? 'bg-red-100/40 dark:bg-red-900/20 text-red-900 dark:text-red-100'
+              : 'bg-green-100/40 dark:bg-green-900/20 text-green-900 dark:text-green-100'
+          }`}
+        >
+          {resultStr.length > 2000
+            ? `${resultStr.slice(0, 2000)}${t('truncated')}`
+            : resultStr}
+        </pre>
+      )}
+    </div>
   );
 }

@@ -97,11 +97,17 @@ export function applyStreamEvent(
       const payload = event.payload as MessagePartToolUsePayload;
       const msg = draft.messages[payload.messageId];
       if (!msg) break;
-      msg.parts.push({
-        type: 'tool_use',
-        toolCallId: payload.toolCallId,
-        toolName: payload.toolName,
-      });
+      // Dedup: TOOL_CALL may have already created this tool_use part
+      const existing = msg.parts.find(
+        (p) => p.type === 'tool_use' && p.toolCallId === payload.toolCallId,
+      );
+      if (!existing) {
+        msg.parts.push({
+          type: 'tool_use',
+          toolCallId: payload.toolCallId,
+          toolName: payload.toolName,
+        });
+      }
       break;
     }
 
@@ -109,13 +115,19 @@ export function applyStreamEvent(
       const payload = event.payload as MessagePartToolResultPayload;
       const msg = draft.messages[payload.messageId];
       if (!msg) break;
-      msg.parts.push({
-        type: 'tool_result',
-        toolCallId: payload.toolCallId,
-        toolName: payload.toolName,
-        toolResult: payload.result,
-        isError: payload.isError,
-      });
+      // Dedup: TOOL_RESULT may have already created this tool_result part
+      const existing = msg.parts.find(
+        (p) => p.type === 'tool_result' && p.toolCallId === payload.toolCallId,
+      );
+      if (!existing) {
+        msg.parts.push({
+          type: 'tool_result',
+          toolCallId: payload.toolCallId,
+          toolName: payload.toolName,
+          toolResult: payload.result,
+          isError: payload.isError,
+        });
+      }
       break;
     }
 
@@ -132,30 +144,48 @@ export function applyStreamEvent(
     }
 
     // ---- Tool Events ----
+    // NOTE: TOOL_CALL may arrive AFTER MESSAGE_PART_TOOL_USE for the same toolCallId.
+    // Deduplicate by updating the existing part if found; otherwise create new.
     case EVENT_TYPES.TOOL_CALL: {
       const payload = event.payload as ToolCallPayload;
       const msg = draft.messages[payload.messageId];
       if (!msg) break;
-      msg.parts.push({
-        type: 'tool_use',
-        toolCallId: payload.toolCallId,
-        toolName: payload.toolName,
-        toolInput: payload.input,
-      });
+      const existing = msg.parts.find(
+        (p) => p.type === 'tool_use' && p.toolCallId === payload.toolCallId,
+      );
+      if (existing) {
+        existing.toolInput = payload.input;
+      } else {
+        msg.parts.push({
+          type: 'tool_use',
+          toolCallId: payload.toolCallId,
+          toolName: payload.toolName,
+          toolInput: payload.input,
+        });
+      }
       break;
     }
 
+    // NOTE: TOOL_RESULT may arrive AFTER MESSAGE_PART_TOOL_RESULT for the same toolCallId.
     case EVENT_TYPES.TOOL_RESULT: {
       const payload = event.payload as ToolResultPayload;
       const msg = draft.messages[payload.messageId];
       if (!msg) break;
-      msg.parts.push({
-        type: 'tool_result',
-        toolCallId: payload.toolCallId,
-        toolName: payload.toolName,
-        toolResult: payload.result,
-        isError: payload.isError,
-      });
+      const existing = msg.parts.find(
+        (p) => p.type === 'tool_result' && p.toolCallId === payload.toolCallId,
+      );
+      if (existing) {
+        existing.toolResult = payload.result;
+        existing.isError = payload.isError;
+      } else {
+        msg.parts.push({
+          type: 'tool_result',
+          toolCallId: payload.toolCallId,
+          toolName: payload.toolName,
+          toolResult: payload.result,
+          isError: payload.isError,
+        });
+      }
       break;
     }
 
