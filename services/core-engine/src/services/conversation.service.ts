@@ -79,4 +79,12 @@ export class ConversationService {
       throw new Error(`Failed to update status for message '${messageId}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
     }
   }
+
+  async deleteMessage(messageId: string): Promise<void> {
+    try {
+      await this.db.messages.delete(messageId);
+    } catch (err) {
+      throw new Error(`Failed to delete message '${messageId}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+    }
+  }
 }

@@ -25,7 +25,9 @@ import { registerOrchestratorRoute } from './routes/orchestrator.js';
 import { registerAuthMiddleware } from './auth/middleware.js';
 import type { AgentAdapter } from '@agenthub/shared/adapter';
 import { join } from 'node:path';
-import { mkdir } from 'node:fs/promises';
+import { mkdir, readFile, readdir, stat as fsStat } from 'node:fs/promises';
+import { extname } from 'node:path';
+import { seedAgents } from './db/seed.js';
 
 const port = Number(process.env.CORE_ENGINE_PORT) || SERVICE_DEFAULTS.ports.coreEngine;
 
@@ -40,6 +42,9 @@ async function main(): Promise<void> {
     : new InMemoryDB();
   if (dbUrl) {
     logger.info('Using PostgreSQL database');
+    // Ensure tables exist (CREATE IF NOT EXISTS — idempotent)
+    await (db as DrizzleDB).ensureTables();
+    logger.info('Database tables verified');
   } else {
     logger.warn('DATABASE_URL not set, using in-memory database (data will not persist!)');
   }
@@ -53,6 +58,20 @@ async function main(): Promise<void> {
   const agentRegistry = new AgentRegistry(db);
   const conversationService = new ConversationService(db);
   const toolExecutor = new ToolExecutor();
+
+  // Seed built-in agents at startup (idempotent — skips duplicates)
+  const agentsDir = join(root, 'data', 'agency-agents');
+  try {
+    const agentFiles = await collectAgentFiles(agentsDir);
+    if (agentFiles.length > 0) {
+      const imported = await seedAgents(agentRegistry, agentFiles);
+      logger.info(`Seeded ${imported} built-in agent(s) (${agentFiles.length} found)`);
+    } else {
+      logger.warn(`No agent seed files found in ${agentsDir}`);
+    }
+  } catch (err) {
+    logger.warn(`Agent seeding skipped: ${err instanceof Error ? err.message : String(err)}`);
+  }
 
   const workspaceRoot = process.env.WORKSPACE_ROOT ?? join(process.cwd(), '.agenthub-data', 'workspaces');
   await mkdir(workspaceRoot, { recursive: true });
@@ -115,6 +134,42 @@ async function main(): Promise<void> {
 
   process.on('SIGTERM', () => shutdown('SIGTERM'));
   process.on('SIGINT', () => shutdown('SIGINT'));
+
+  // ---- Helpers ----
+
+  /** Collect all .md files recursively from an agent directory. */
+  async function collectAgentFiles(
+    dir: string,
+  ): Promise<Array<{ path: string; content: string }>> {
+    const files: Array<{ path: string; content: string }> = [];
+
+    async function walk(currentDir: string): Promise<void> {
+      let entries: { name: string; isDirectory: () => boolean; isFile: () => boolean }[];
+      try {
+        entries = await readdir(currentDir, { withFileTypes: true });
+      } catch {
+        return; // directory doesn't exist or can't be read
+      }
+      for (const entry of entries) {
+        const fullPath = join(currentDir, entry.name);
+        if (entry.isDirectory()) {
+          await walk(fullPath);
+        } else if (entry.isFile() && extname(entry.name) === '.md') {
+          const content = await readFile(fullPath, 'utf-8');
+          files.push({ path: fullPath, content });
+        }
+      }
+    }
+
+    try {
+      await fsStat(dir);
+      await walk(dir);
+    } catch {
+      // directory doesn't exist — return empty
+    }
+
+    return files;
+  }
 
   try {
     await app.listen({ port, host: SERVICE_DEFAULTS.host });

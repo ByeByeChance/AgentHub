@@ -62,6 +62,7 @@ class InMemoryMessageRepo {
     this.store.set(id, updated);
     return updated;
   }
+  async delete(id: string) { this.store.delete(id); }
   clear() { this.store.clear(); }
 }
 

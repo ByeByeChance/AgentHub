@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { MessageBubble } from './message-bubble';
 import { StreamingIndicator } from './streaming-indicator';
@@ -12,6 +13,7 @@ interface MessageListProps {
 }
 
 export function MessageList({ messages }: MessageListProps) {
+  const t = useTranslations('message');
   const scrollRef = useRef<HTMLDivElement>(null);
   const streamingMessageId = useStreamingMessageId();
 
@@ -31,7 +33,7 @@ export function MessageList({ messages }: MessageListProps) {
       <div ref={scrollRef} className="max-w-3xl mx-auto px-4 py-6 space-y-6">
         {messages.length === 0 && (
           <div className="flex items-center justify-center h-full min-h-[200px] text-sm text-muted-foreground">
-            No messages yet. Start a conversation!
+            {t('startConversation')}
           </div>
         )}
         {messages.map((message) => (

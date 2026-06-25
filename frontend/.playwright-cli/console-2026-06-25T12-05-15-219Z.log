@@ -1,0 +1,67 @@
+[     189ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[     266ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[     300ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/favicon.ico:0
+[     404ms] [ERROR] React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://react.dev/link/rules-of-hooks
+
+   Previous render            Next render
+   ------------------------------------------------------
+%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ ConversationList 1. useCallback                useCallback
+2. useCallback                useCallback
+3. useSyncExternalStore       useSyncExternalStore
+4. useDebugValue              useDebugValue
+5. useMemo                    useMemo
+6. useCallback                useCallback
+7. useCallback                useCallback
+8. useSyncExternalStore       useSyncExternalStore
+9. useDebugValue              useDebugValue
+10. useMemo                   useMemo
+11. undefined                 useCallback
+ @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[     416ms] Error: Rendered more hooks than during the previous render.
+    at updateWorkInProgressHook (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:4734:23)
+    at updateCallback (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:5380:20)
+    at Object.useCallback (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:15432:20)
+    at exports.useCallback (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_11ojj_9._.js:1707:36)
+    at useStore (http://localhost:3000/_next/static/chunks/node_modules__pnpm_0po-wnl._.js:381:793)
+    at useBoundStore (http://localhost:3000/_next/static/chunks/node_modules__pnpm_0po-wnl._.js:397:39)
+    at useLastMessagePreview (http://localhost:3000/_next/static/chunks/frontend_src_1dl-4bc._.js:1175:171)
+    at http://localhost:3000/_next/static/chunks/frontend_src_1dl-4bc._.js:2971:240
+    at Array.map (<anonymous>)
+    at ConversationList (http://localhost:3000/_next/static/chunks/frontend_src_1dl-4bc._.js:2967:49)
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:15037:24)
+    at renderWithHooks (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:4620:24)
+    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:6081:21)
+    at beginWork (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:6691:24)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:965:74)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:9555:97)
+    at workLoopSync (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:9449:40)
+    at renderRootSync (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:9433:13)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:9098:47)
+    at performSyncWorkOnRoot (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:10263:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:10179:316)
+    at processRootScheduleInMicrotask (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:10200:106)
+    at http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:10274:158
+[   26641ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   26642ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   26686ms] [LOG] [Fast Refresh] done in 19ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   26847ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   26862ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   53497ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=VKHbYgkzQyACX23WPQic7' failed:  @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   53499ms] [WARNING] [2026-06-25T12:06:08.716Z] [WARN] SSE disconnected, reconnecting... {"delayMs":1817.8722280942775,"retry":1} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   53501ms] [ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2836
+[   54503ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=VKHbYgkzQyACX23WPQic7' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   55319ms] [WARNING] [2026-06-25T12:06:10.538Z] [WARN] SSE disconnected, reconnecting... {"delayMs":2224.02492650169,"retry":2} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   55321ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/api/events:0
+[   55333ms] [ERROR] WebSocket is already in CLOSING or CLOSED state. @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2836
+[   55505ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=VKHbYgkzQyACX23WPQic7' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   56510ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   58654ms] [WARNING] [2026-06-25T12:06:13.872Z] [WARN] SSE disconnected, reconnecting... {"delayMs":4725.0128019022595,"retry":3} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   59002ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   59110ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   89164ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[   89165ms] [WARNING] [2026-06-25T12:06:44.383Z] [WARN] SSE disconnected, reconnecting... {"delayMs":1360.2645181587827,"retry":1} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   89297ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   89450ms] [LOG] [Fast Refresh] done in 254ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   89550ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   89609ms] [LOG] [Fast Refresh] done in 160ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477

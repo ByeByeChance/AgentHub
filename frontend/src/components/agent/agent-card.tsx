@@ -1,15 +1,18 @@
 'use client';
 
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import type { AgentMetadata } from '@/store/interfaces';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { Link } from '@/i18n/navigation';
 
 interface AgentCardProps {
   agent: AgentMetadata;
 }
 
 export function AgentCard({ agent }: AgentCardProps) {
+  const t = useTranslations('agent');
+
   return (
     <Link href={`/agents/${agent.id}`}>
       <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
@@ -17,7 +20,7 @@ export function AgentCard({ agent }: AgentCardProps) {
           <div className="flex items-start justify-between">
             <span className="text-2xl">{agent.emoji}</span>
             <Badge variant={agent.isBuiltin ? 'secondary' : 'outline'} className="text-xs">
-              {agent.isBuiltin ? 'Built-in' : 'Custom'}
+              {agent.isBuiltin ? t('builtIn') : t('custom')}
             </Badge>
           </div>
           <div className="space-y-1">

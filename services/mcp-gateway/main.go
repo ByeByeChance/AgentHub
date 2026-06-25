@@ -26,8 +26,33 @@ func main() {
 	// Initialize components
 	jsonrpcHandler := jsonrpc.NewHandler()
 	toolRegistry := tools.NewRegistry()
-	authStrategy := &auth.NoopAuth{}
-	rateLimiter := &ratelimit.NoopStrategy{}
+
+	// Select auth strategy (default: noop)
+	var authStrategy auth.Strategy
+	authName := os.Getenv("MCP_AUTH_STRATEGY")
+	switch authName {
+	case "apikey":
+		authStrategy = auth.NewAPIKeyAuth()
+		if len(os.Getenv("MCP_GATEWAY_API_KEYS")) == 0 {
+			log.Println("WARNING: MCP_AUTH_STRATEGY=apikey but MCP_GATEWAY_API_KEYS is empty — all requests will be denied")
+		}
+		log.Println("Auth strategy: apikey")
+	default:
+		authStrategy = &auth.NoopAuth{}
+		log.Println("Auth strategy: noop (no authentication)")
+	}
+
+	// Select rate limit strategy (default: noop)
+	var rateLimiter ratelimit.Strategy
+	rlName := os.Getenv("MCP_RATE_LIMIT_STRATEGY")
+	switch rlName {
+	case "tokenbucket":
+		rateLimiter = ratelimit.NewTokenBucketStrategy()
+		log.Println("Rate limit strategy: tokenbucket")
+	default:
+		rateLimiter = &ratelimit.NoopStrategy{}
+		log.Println("Rate limit strategy: noop (no rate limiting)")
+	}
 
 	// Register Echo tool
 	toolRegistry.Register(tools.NewEchoTool())

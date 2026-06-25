@@ -12,6 +12,7 @@ function createMockState(): AgentHubState {
     artifacts: {},
     ui: {
       activeConversationId: null,
+      activeAgentId: null,
       isDetailPanelOpen: false,
       detailPanelTab: 'agent',
       selectedArtifactId: null,
@@ -21,6 +22,8 @@ function createMockState(): AgentHubState {
       streamingMessageId: null,
       globalSSEStatus: 'disconnected',
       conversationSearchQuery: '',
+      messageSearchQuery: '',
+      isMessageSearchOpen: false,
       agentSearchQuery: '',
       agentCategoryFilter: null,
     },

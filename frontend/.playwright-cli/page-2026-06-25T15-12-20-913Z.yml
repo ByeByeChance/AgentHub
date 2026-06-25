@@ -1,0 +1,46 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - img [ref=e6]
+      - generic [ref=e9]:
+        - heading "设置" [level=1] [ref=e10]
+        - paragraph [ref=e11]: 管理你的 API 密钥和偏好设置
+    - generic [ref=e13]:
+      - heading "主题" [level=3] [ref=e14]
+      - generic [ref=e15]:
+        - button "浅色" [ref=e16]:
+          - img
+          - text: 浅色
+        - button "深色" [ref=e17]:
+          - img
+          - text: 深色
+        - button "跟随系统" [pressed] [ref=e18]:
+          - img
+          - text: 跟随系统
+    - generic [ref=e20]:
+      - generic [ref=e22]:
+        - img [ref=e24]
+        - generic [ref=e28]:
+          - generic [ref=e29]: API 密钥
+          - generic [ref=e30]: 管理你的 LLM 服务商 API 密钥。密钥存储在浏览器本地。
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - text: 服务商
+            - combobox "服务商" [ref=e34]:
+              - generic: 选择服务商...
+              - img [ref=e35]
+          - generic [ref=e37]:
+            - text: API 密钥
+            - generic [ref=e38]:
+              - textbox "API 密钥" [ref=e39]:
+                - /placeholder: sk-...
+              - button [disabled]:
+                - img
+        - generic [ref=e41]:
+          - img [ref=e42]
+          - paragraph [ref=e44]: 尚未配置 API 密钥。添加一个以开始。
+        - generic [ref=e45]:
+          - img [ref=e46]
+          - paragraph [ref=e48]: API 密钥存储在浏览器的本地存储中。生产环境应将密钥存储在服务端。
+  - alert [ref=e49]

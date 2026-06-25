@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { useStore } from '@/store/index';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,6 +28,7 @@ interface AgentCreateDialogProps {
 }
 
 export function AgentCreateDialog({ children }: AgentCreateDialogProps) {
+  const t = useTranslations('agent');
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState('');
@@ -71,13 +73,13 @@ export function AgentCreateDialog({ children }: AgentCreateDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Create Custom Agent</DialogTitle>
+          <DialogTitle>{t('createCustomAgent')}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 pt-2">
           <div className="grid grid-cols-4 gap-3">
             <div className="space-y-2 col-span-1">
-              <Label htmlFor="emoji">Emoji</Label>
+              <Label htmlFor="emoji">{t('emoji')}</Label>
               <Input
                 id="emoji"
                 placeholder="🤖"
@@ -87,10 +89,10 @@ export function AgentCreateDialog({ children }: AgentCreateDialogProps) {
               />
             </div>
             <div className="space-y-2 col-span-3">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">{t('name')}</Label>
               <Input
                 id="name"
-                placeholder="Agent name..."
+                placeholder={t('namePlaceholder')}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -98,20 +100,20 @@ export function AgentCreateDialog({ children }: AgentCreateDialogProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t('description')}</Label>
             <Input
               id="description"
-              placeholder="Brief description..."
+              placeholder={t('descriptionPlaceholder')}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="category">Category</Label>
+            <Label htmlFor="category">{t('category')}</Label>
             <Select value={category} onValueChange={setCategory}>
               <SelectTrigger id="category">
-                <SelectValue placeholder="Select or type new..." />
+                <SelectValue placeholder={t('selectCategory')} />
               </SelectTrigger>
               <SelectContent>
                 {existingCategories.map((c) => (
@@ -122,7 +124,7 @@ export function AgentCreateDialog({ children }: AgentCreateDialogProps) {
               </SelectContent>
             </Select>
             <Input
-              placeholder="Or type a new category..."
+              placeholder={t('newCategory')}
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
               className="text-sm"
@@ -130,10 +132,10 @@ export function AgentCreateDialog({ children }: AgentCreateDialogProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="systemPrompt">System Prompt</Label>
+            <Label htmlFor="systemPrompt">{t('systemPrompt')}</Label>
             <Textarea
               id="systemPrompt"
-              placeholder="You are a helpful agent..."
+              placeholder={t('systemPromptPlaceholder')}
               value={systemPrompt}
               onChange={(e) => setSystemPrompt(e.target.value)}
               className="min-h-[100px]"
@@ -143,10 +145,10 @@ export function AgentCreateDialog({ children }: AgentCreateDialogProps) {
 
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setOpen(false)}>
-              Cancel
+              {t('cancel')}
             </Button>
             <Button onClick={handleCreate} disabled={!isValid}>
-              Create Agent
+              {t('createAgentButton')}
             </Button>
           </div>
         </div>

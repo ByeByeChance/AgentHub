@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Wrench, ChevronDown, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -15,6 +16,7 @@ export function ToolUsePart({
   toolName,
   toolInput,
 }: ToolUsePartProps) {
+  const t = useTranslations('messageParts');
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -26,7 +28,14 @@ export function ToolUsePart({
         >
           <Wrench className="w-4 h-4 text-amber-600 dark:text-amber-400" />
           <span className="font-medium text-amber-900 dark:text-amber-100">
-            Using tool: <code className="text-xs bg-amber-100 dark:bg-amber-900 px-1 py-0.5 rounded">{toolName}</code>
+            {t.rich('usingTool', {
+              toolName,
+              code: (chunks) => (
+                <code className="text-xs bg-amber-100 dark:bg-amber-900 px-1 py-0.5 rounded">
+                  {chunks}
+                </code>
+              ),
+            })}
           </span>
           <Loader2 className="w-3.5 h-3.5 ml-auto animate-spin text-amber-500" />
           <ChevronDown

@@ -34,6 +34,7 @@ export type {
 
 const initialUI: UIState = {
   activeConversationId: null,
+  activeAgentId: null,
   isDetailPanelOpen: false,
   detailPanelTab: 'agent',
   selectedArtifactId: null,
@@ -43,6 +44,8 @@ const initialUI: UIState = {
   streamingMessageId: null,
   globalSSEStatus: 'disconnected',
   conversationSearchQuery: '',
+  messageSearchQuery: '',
+  isMessageSearchOpen: false,
   agentSearchQuery: '',
   agentCategoryFilter: null,
 };
@@ -142,12 +145,17 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
     }
   },
 
-  sendMessage: async (conversationId: string, content: string) => {
+  sendMessage: async (conversationId: string, content: string, agentId?: string) => {
     const state = get();
     const conv = state.conversations[conversationId];
     if (!conv) return;
 
+    // Use the specified agent, or the active agent, or the first assigned agent
+    const resolvedAgentId = agentId ?? state.ui.activeAgentId ?? conv.agentIds[0];
+    if (!resolvedAgentId) return;
+
     // Optimistic user message
+    const now = Date.now();
     const userMsgId = crypto.randomUUID();
     const userMsg: Message = {
       id: userMsgId,
@@ -155,10 +163,11 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
       role: 'user',
       parts: [{ type: 'text', content }],
       status: 'complete',
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(now).toISOString(),
     };
 
     // Optimistic assistant message (will be filled by stream)
+    // Offset by 1ms so the user message always sorts first when timestamps are compared
     const assistantMsgId = crypto.randomUUID();
     const assistantMsg: Message = {
       id: assistantMsgId,
@@ -166,7 +175,7 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
       role: 'assistant',
       parts: [],
       status: 'streaming',
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(now + 1).toISOString(),
     };
 
     set((draft) => {
@@ -176,10 +185,16 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
       draft.ui.streamingMessageId = assistantMsgId;
     });
 
+    // Create an AbortController so the stop button can cancel this stream
+    if (activeStreamController) activeStreamController.abort();
+    const controller = new AbortController();
+    activeStreamController = controller;
+
     try {
       const stream = await apiClient.streamPost(
         `/api/conversations/${conversationId}/messages`,
-        { content, userMessageId: userMsgId, assistantMessageId: assistantMsgId },
+        { content, userMessageId: userMsgId, assistantMessageId: assistantMsgId, agentId: resolvedAgentId },
+        controller.signal,
       );
 
       const reader = stream.getReader();
@@ -210,14 +225,29 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
         }
       }
     } catch (err) {
-      logger.error('Stream error', { error: String(err) });
+      const isAborted = err instanceof DOMException && err.name === 'AbortError';
+      logger.error(isAborted ? 'Stream aborted by user' : 'Stream error', { error: String(err) });
       set((draft) => {
         const msg = draft.messages[assistantMsgId];
-        if (msg) msg.status = 'failed';
+        if (msg) msg.status = isAborted ? 'aborted' : 'failed';
         draft.ui.isStreaming = false;
         draft.ui.streamingMessageId = null;
       });
+    } finally {
+      if (activeStreamController === controller) {
+        activeStreamController = null;
+      }
     }
+  },
+
+  stopStreaming: () => {
+    if (activeStreamController) {
+      activeStreamController.abort();
+    }
+    set((draft) => {
+      draft.ui.isStreaming = false;
+      draft.ui.streamingMessageId = null;
+    });
   },
 
   addOptimisticMessage: (message: Message) => {
@@ -245,6 +275,26 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
         msg.status = status;
       }
     });
+  },
+
+  deleteMessage: async (conversationId: string, messageId: string) => {
+    // Optimistic removal
+    set((draft) => {
+      delete draft.messages[messageId];
+    });
+    try {
+      await apiClient.delete(`/api/conversations/${conversationId}/messages/${messageId}`);
+    } catch (err) {
+      logger.error('Failed to delete message', { error: String(err), messageId });
+      // Re-fetch messages to restore state on failure
+      const state = get();
+      try { await state.fetchMessages(conversationId); } catch { /* best-effort */ }
+    }
+  },
+
+  resendMessage: async (conversationId: string, content: string) => {
+    const state = get();
+    await state.sendMessage(conversationId, content);
   },
 
   // ---- Agents ----
@@ -311,6 +361,12 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
     });
   },
 
+  setActiveAgent: (id) => {
+    set((draft) => {
+      draft.ui.activeAgentId = id;
+    });
+  },
+
   setDetailPanelOpen: (open) => {
     set((draft) => {
       draft.ui.isDetailPanelOpen = open;
@@ -353,6 +409,21 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
     });
   },
 
+  setMessageSearchQuery: (query) => {
+    set((draft) => {
+      draft.ui.messageSearchQuery = query;
+    });
+  },
+
+  toggleMessageSearch: () => {
+    set((draft) => {
+      draft.ui.isMessageSearchOpen = !draft.ui.isMessageSearchOpen;
+      if (!draft.ui.isMessageSearchOpen) {
+        draft.ui.messageSearchQuery = '';
+      }
+    });
+  },
+
   setAgentCategoryFilter: (category) => {
     set((draft) => {
       draft.ui.agentCategoryFilter = category;
@@ -387,5 +458,8 @@ const storeCreator: StateCreator<AgentHubStore, [['zustand/immer', never]]> = (
     });
   },
 });
+
+// AbortController ref for stopping active streams (not serializable, kept outside store)
+let activeStreamController: AbortController | null = null;
 
 export const useStore = create<AgentHubStore>()(immer(storeCreator));

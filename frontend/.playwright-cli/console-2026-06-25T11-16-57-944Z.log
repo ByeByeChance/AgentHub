@@ -1,0 +1,72 @@
+[     135ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[     183ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[     224ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/favicon.ico:0
+[     234ms] [ERROR] The result of getServerSnapshot should be cached to avoid an infinite loop @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[     297ms] [ERROR] Maximum update depth exceeded. This can happen when a component calls setState inside useEffect, but useEffect either doesn't have a dependency array, or one of the dependencies changes on every render. @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[     312ms] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+    at getRootForUpdatedFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:2967:171)
+    at enqueueConcurrentRenderForLane (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:2955:16)
+    at forceStoreRerender (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:5010:20)
+    at updateStoreInstance (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:4992:41)
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:15087:22)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:965:74)
+    at commitHookEffectListMount (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:7255:167)
+    at commitHookPassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:7290:60)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8689:33)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8750:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8750:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8750:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8750:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8750:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8693:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8693:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8693:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8750:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0ji3_next_dist_compiled_react-dom_1wwnjpc._.js:8676:316)
+[   61567ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed:  @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   62572ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   63576ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   64580ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   65584ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   66587ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   71594ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   76608ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   81623ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   86667ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   91739ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[   96871ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[  101985ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=yLJ8_IJdGxx4Q3z-mA37T' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_client_125nw-b._.js:13422
+[  108609ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/chat:0
+[  108913ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  108979ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477

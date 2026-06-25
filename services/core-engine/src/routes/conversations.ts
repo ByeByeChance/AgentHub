@@ -69,10 +69,18 @@ export function registerConversationRoutes(
       return { error: 'Conversation not found' };
     }
 
-    const agentId = conversation.agentIds[0];
+    // Use caller-specified agentId, or fall back to the first assigned agent
+    const agentId =
+      bodyResult.data.agentId ?? conversation.agentIds[0];
     if (!agentId) {
       reply.code(400);
       return { error: 'No agent assigned to conversation' };
+    }
+
+    // Validate that the requested agent belongs to this conversation
+    if (!conversation.agentIds.includes(agentId)) {
+      reply.code(400);
+      return { error: 'Agent is not assigned to this conversation' };
     }
 
     const agent = await agentRegistry.getById(agentId);
@@ -145,5 +153,22 @@ export function registerConversationRoutes(
     }
 
     await transport.streamEvents(streamWithComplete(), toTransportReply(reply), signal);
+  });
+
+  // DELETE a message by ID
+  app.delete('/api/conversations/:id/messages/:messageId', async (request, reply) => {
+    const { messageId } = request.params as { id: string; messageId: string };
+    try {
+      await conversationService.deleteMessage(messageId);
+      reply.code(204);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.includes('not found')) {
+        reply.code(404);
+        return { error: 'Message not found' };
+      }
+      reply.code(500);
+      return { error: msg };
+    }
   });
 }

@@ -1,5 +1,6 @@
 export interface UIState {
   activeConversationId: string | null;
+  activeAgentId: string | null;
   isDetailPanelOpen: boolean;
   detailPanelTab: 'agent' | 'artifacts';
   selectedArtifactId: string | null;
@@ -9,6 +10,8 @@ export interface UIState {
   streamingMessageId: string | null;
   globalSSEStatus: 'connecting' | 'connected' | 'disconnected';
   conversationSearchQuery: string;
+  messageSearchQuery: string;
+  isMessageSearchOpen: boolean;
   agentSearchQuery: string;
   agentCategoryFilter: string | null;
 }

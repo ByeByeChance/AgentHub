@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { CheckCircle, XCircle, ChevronDown } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -17,6 +18,7 @@ export function ToolResultPart({
   result,
   isError,
 }: ToolResultPartProps) {
+  const t = useTranslations('messageParts');
   const [isExpanded, setIsExpanded] = useState(false);
 
   const resultStr =
@@ -49,16 +51,9 @@ export function ToolResultPart({
                 : 'text-green-900 dark:text-green-100'
             }`}
           >
-            {isError ? 'Error' : 'Result'} from{' '}
-            <code
-              className={`text-xs px-1 py-0.5 rounded ${
-                isError
-                  ? 'bg-red-100 dark:bg-red-900'
-                  : 'bg-green-100 dark:bg-green-900'
-              }`}
-            >
-              {toolName}
-            </code>
+            {isError
+              ? t('errorFrom', { toolName })
+              : t('resultFrom', { toolName })}
           </span>
           <ChevronDown
             className={`w-3.5 h-3.5 ml-auto transition-transform ${
@@ -75,7 +70,7 @@ export function ToolResultPart({
             }`}
           >
             {resultStr.length > 2000
-              ? `${resultStr.slice(0, 2000)}... (truncated)`
+              ? `${resultStr.slice(0, 2000)}${t('truncated')}`
               : resultStr}
           </pre>
         )}

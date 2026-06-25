@@ -10,4 +10,5 @@ export const sendMessageSchema = z.object({
   content: z.string().min(1),
   userMessageId: z.string().optional(),
   assistantMessageId: z.string().optional(),
+  agentId: z.string().optional(),
 });

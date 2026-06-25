@@ -1,30 +1,39 @@
+import { useMemo } from 'react';
 import { useStore } from '../index';
 
 export function usePinnedConversations() {
-  return useStore((s) =>
-    Object.values(s.conversations)
-      .filter((c) => c.pinnedAt !== null)
-      .sort((a, b) =>
-        (b.pinnedAt ?? '') > (a.pinnedAt ?? '') ? 1 : -1,
-      ),
+  const conversations = useStore((s) => s.conversations);
+  return useMemo(
+    () =>
+      Object.values(conversations)
+        .filter((c) => c.pinnedAt !== null)
+        .sort((a, b) =>
+          (b.pinnedAt ?? '') > (a.pinnedAt ?? '') ? 1 : -1,
+        ),
+    [conversations],
   );
 }
 
 export function useRecentConversations() {
-  return useStore((s) =>
-    Object.values(s.conversations)
-      .filter((c) => c.pinnedAt === null)
-      .sort((a, b) => (b.createdAt > a.createdAt ? -1 : 1)),
+  const conversations = useStore((s) => s.conversations);
+  return useMemo(
+    () =>
+      Object.values(conversations)
+        .filter((c) => c.pinnedAt === null)
+        .sort((a, b) => (b.createdAt > a.createdAt ? -1 : 1)),
+    [conversations],
   );
 }
 
 export function useFilteredConversations() {
-  return useStore((s) => {
-    const query = s.ui.conversationSearchQuery.toLowerCase();
-    const all = Object.values(s.conversations);
-    if (!query) return all;
-    return all.filter((c) => c.title.toLowerCase().includes(query));
-  });
+  const conversations = useStore((s) => s.conversations);
+  const query = useStore((s) => s.ui.conversationSearchQuery);
+  return useMemo(() => {
+    const lowerQuery = query.toLowerCase();
+    const all = Object.values(conversations);
+    if (!lowerQuery) return all;
+    return all.filter((c) => c.title.toLowerCase().includes(lowerQuery));
+  }, [conversations, query]);
 }
 
 export function useConversation(id: string | null) {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useStore } from '@/store/index';
 import { useFilteredAgents } from '@/store/selectors/agent-selectors';
 import { AgentCard } from '@/components/agent/agent-card';
@@ -12,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Plus } from 'lucide-react';
 
 export default function AgentsPage() {
+  const t = useTranslations('agent');
   const fetchAgents = useStore((s) => s.fetchAgents);
   const setSidebarTab = useStore((s) => s.setSidebarTab);
   const agents = useFilteredAgents();
@@ -28,15 +30,15 @@ export default function AgentsPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Agents</h1>
+            <h1 className="text-2xl font-bold">{t('title')}</h1>
             <p className="text-sm text-muted-foreground">
-              Browse, search, and create AI agents
+              {t('subtitle')}
             </p>
           </div>
           <AgentCreateDialog>
             <Button size="sm" className="gap-2">
               <Plus className="w-4 h-4" />
-              Create Agent
+              {t('createAgent')}
             </Button>
           </AgentCreateDialog>
         </div>
@@ -56,7 +58,7 @@ export default function AgentsPage() {
           </div>
         ) : agents.length === 0 ? (
           <div className="text-center py-12 text-sm text-muted-foreground">
-            No agents found.
+            {t('noAgentsFound')}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

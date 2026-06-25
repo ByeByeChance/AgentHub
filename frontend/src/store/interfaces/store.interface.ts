@@ -38,6 +38,7 @@ export interface AgentHubActions {
   sendMessage: (
     conversationId: string,
     content: string,
+    agentId?: string,
   ) => Promise<void>;
   addOptimisticMessage: (message: Message) => void;
   appendMessagePart: (messageId: string, part: MessagePart) => void;
@@ -45,6 +46,9 @@ export interface AgentHubActions {
     messageId: string,
     status: Message['status'],
   ) => void;
+  deleteMessage: (conversationId: string, messageId: string) => Promise<void>;
+  resendMessage: (conversationId: string, content: string) => Promise<void>;
+  stopStreaming: () => void;
 
   // Agents
   fetchAgents: (category?: string, search?: string) => Promise<void>;
@@ -60,12 +64,15 @@ export interface AgentHubActions {
 
   // UI actions
   setActiveConversation: (id: string | null) => void;
+  setActiveAgent: (id: string | null) => void;
   setDetailPanelOpen: (open: boolean) => void;
   setDetailPanelTab: (tab: 'agent' | 'artifacts') => void;
   setSelectedArtifact: (id: string | null) => void;
   setSidebarTab: (tab: 'chat' | 'agents' | 'settings') => void;
   setSSEStatus: (status: 'connecting' | 'connected' | 'disconnected') => void;
   setConversationSearchQuery: (query: string) => void;
+  setMessageSearchQuery: (query: string) => void;
+  toggleMessageSearch: () => void;
   setAgentSearchQuery: (query: string) => void;
   setAgentCategoryFilter: (category: string | null) => void;
 

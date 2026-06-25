@@ -2,16 +2,18 @@
 
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useStore } from '@/store/index';
 import { useAgentDetail } from '@/store/selectors/agent-selectors';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export function AgentProfile() {
+  const t = useTranslations('agent');
   const { agentId } = useParams<{ agentId: string }>();
   const fetchAgentDetail = useStore((s) => s.fetchAgentDetail);
   const agent = useAgentDetail(agentId ?? null);
@@ -37,7 +39,7 @@ export function AgentProfile() {
       <Link href="/agents">
         <Button variant="ghost" size="sm" className="gap-2">
           <ArrowLeft className="w-4 h-4" />
-          Back to Agents
+          {t('backToAgents')}
         </Button>
       </Link>
 
@@ -49,7 +51,7 @@ export function AgentProfile() {
           <div className="flex gap-2 mt-2">
             <Badge variant="secondary">{agent.category}</Badge>
             <Badge variant={agent.isBuiltin ? 'secondary' : 'outline'}>
-              {agent.isBuiltin ? 'Built-in' : 'Custom'}
+              {agent.isBuiltin ? t('builtIn') : t('custom')}
             </Badge>
           </div>
         </div>
@@ -58,7 +60,7 @@ export function AgentProfile() {
       <Card>
         <CardContent className="p-4 space-y-4">
           <div>
-            <h3 className="text-sm font-semibold mb-1">Model</h3>
+            <h3 className="text-sm font-semibold mb-1">{t('model')}</h3>
             <p className="text-sm text-muted-foreground">
               {agent.adapterName} / {agent.modelId}
             </p>
@@ -66,11 +68,11 @@ export function AgentProfile() {
 
           {agent.toolNames.length > 0 && (
             <div>
-              <h3 className="text-sm font-semibold mb-1">Tools</h3>
+              <h3 className="text-sm font-semibold mb-1">{t('tools')}</h3>
               <div className="flex flex-wrap gap-1">
-                {agent.toolNames.map((t) => (
-                  <Badge key={t} variant="outline" className="text-xs">
-                    {t}
+                {agent.toolNames.map((tool) => (
+                  <Badge key={tool} variant="outline" className="text-xs">
+                    {tool}
                   </Badge>
                 ))}
               </div>
@@ -78,7 +80,7 @@ export function AgentProfile() {
           )}
 
           <div>
-            <h3 className="text-sm font-semibold mb-1">System Prompt</h3>
+            <h3 className="text-sm font-semibold mb-1">{t('systemPrompt')}</h3>
             <pre className="text-sm bg-muted p-3 rounded-md whitespace-pre-wrap">
               {agent.systemPrompt}
             </pre>

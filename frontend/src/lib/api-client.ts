@@ -44,6 +44,11 @@ async function request<T>(
     throw new ApiError(response.status, errorText);
   }
 
+  // 204 No Content — no body to parse
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
   const data = (await response.json()) as T;
   return data;
 }
@@ -51,12 +56,14 @@ async function request<T>(
 async function streamPost(
   path: string,
   body: unknown,
+  signal?: AbortSignal,
 ): Promise<ReadableStream<Uint8Array>> {
   const url = `${path}`;
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    signal,
   });
 
   if (!response.ok) {
@@ -79,7 +86,8 @@ async function streamPost(
 export const apiClient = {
   get: <T>(path: string) => request<T>('GET', path),
   post: <T>(path: string, body?: unknown) => request<T>('POST', path, body),
-  streamPost: (path: string, body: unknown) => streamPost(path, body),
+  delete: (path: string) => request<void>('DELETE', path),
+  streamPost: (path: string, body: unknown, signal?: AbortSignal) => streamPost(path, body, signal),
 };
 
 export { ApiError };

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { useSSE } from '@/hooks/use-sse';
 
 interface SSEContextValue {
@@ -20,8 +20,10 @@ export function useSSEContext(): SSEContextValue {
 export function SSEProvider({ children }: { children: ReactNode }) {
   const { status, reconnect } = useSSE({ enabled: true });
 
+  const value = useMemo(() => ({ status, reconnect }), [status, reconnect]);
+
   return (
-    <SSEContext.Provider value={{ status, reconnect }}>
+    <SSEContext.Provider value={value}>
       {children}
     </SSEContext.Provider>
   );

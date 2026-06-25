@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import type { Artifact } from '@/store/interfaces';
 import { ArtifactIframe } from './artifact-iframe';
 import { ArtifactMarkdown } from './artifact-markdown';
@@ -10,12 +11,14 @@ interface ArtifactPreviewProps {
 }
 
 export function ArtifactPreview({ artifact }: ArtifactPreviewProps) {
+  const t = useTranslations('artifact');
+
   return (
     <div className="space-y-3">
       <div>
         <h3 className="font-semibold text-sm">{artifact.title}</h3>
         <p className="text-xs text-muted-foreground">
-          v{artifact.version} · {artifact.type}
+          {t('version', { version: artifact.version, type: artifact.type })}
         </p>
       </div>
 

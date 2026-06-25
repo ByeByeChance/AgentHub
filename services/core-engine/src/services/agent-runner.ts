@@ -17,7 +17,6 @@ export class AgentRunner {
       messages,
       toolExecutor,
       adapter,
-      eventBus,
       source,
       conversationService,
       workspaceService,
@@ -46,7 +45,6 @@ export class AgentRunner {
         conversationId,
         messageId,
       });
-      eventBus.emit(startEvent);
       yield startEvent;
 
       // 2. Build initial messages
@@ -87,7 +85,6 @@ export class AgentRunner {
                 messageId,
                 content: chunk.content,
               });
-              eventBus.emit(event);
               yield event;
               // Append to DB
               await conversationService.appendPart(messageId, {
@@ -101,7 +98,6 @@ export class AgentRunner {
                 messageId,
                 content: chunk.content,
               });
-              eventBus.emit(event);
               yield event;
               await conversationService.appendPart(messageId, {
                 type: 'thinking',
@@ -116,7 +112,6 @@ export class AgentRunner {
                 toolName: chunk.name,
                 phase: 'start',
               });
-              eventBus.emit(event);
               yield event;
               break;
             }
@@ -176,7 +171,6 @@ export class AgentRunner {
             result: result.result,
             isError: result.isError,
           });
-          eventBus.emit(event);
           yield event;
 
           // Append to DB
@@ -211,7 +205,6 @@ export class AgentRunner {
           completionTokens: totalCompletionTokens,
         },
       });
-      eventBus.emit(completeEvent);
       yield completeEvent;
 
       // 7. Record token usage (best-effort)
@@ -243,7 +236,6 @@ export class AgentRunner {
           conversationId,
           messageId,
         });
-        eventBus.emit(abortEvent);
         yield abortEvent;
         await conversationService.updateStatus(messageId, 'aborted');
         logger.warn('Agent run aborted', {
@@ -258,7 +250,6 @@ export class AgentRunner {
           messageId,
           error: errorMessage,
         });
-        eventBus.emit(failEvent);
         yield failEvent;
         await conversationService.updateStatus(messageId, 'failed');
 

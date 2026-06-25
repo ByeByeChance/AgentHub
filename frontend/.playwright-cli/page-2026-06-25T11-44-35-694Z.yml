@@ -1,0 +1,57 @@
+- generic:
+  - generic:
+    - complementary:
+      - generic: AH
+      - link:
+        - /url: /chat
+        - button:
+          - img
+      - link:
+        - /url: /agents
+        - button:
+          - img
+      - link:
+        - /url: /settings
+        - button:
+          - img
+    - generic:
+      - generic:
+        - heading [level=2]: Conversations
+        - button [expanded]:
+          - img
+      - generic:
+        - generic:
+          - img
+          - textbox:
+            - /placeholder: Search conversations...
+      - generic:
+        - generic:
+          - generic: No conversations yet. Create one to get started.
+    - generic:
+      - generic:
+        - generic:
+          - img
+        - heading [level=2]: AgentHub
+        - paragraph: Select a conversation from the list or create a new one to start chatting with an agent.
+  - button "Open Next.js Dev Tools" [ref=e38] [cursor=pointer]:
+    - img [ref=e39]
+  - alert
+  - dialog "New Conversation" [ref=e44]:
+    - heading "New Conversation" [level=2] [ref=e46]
+    - generic [ref=e47]:
+      - generic [ref=e48]:
+        - text: Title (optional)
+        - textbox "Title (optional)" [active] [ref=e49]:
+          - /placeholder: Conversation title...
+      - generic [ref=e50]:
+        - text: Mode
+        - combobox [ref=e51]:
+          - generic: Single Agent
+          - img [ref=e52]
+      - generic [ref=e54]: Select Agent
+      - generic [ref=e59]:
+        - button "Cancel" [ref=e60]
+        - button "Create" [disabled]
+    - button "Close" [ref=e61]:
+      - img [ref=e62]
+      - generic [ref=e65]: Close

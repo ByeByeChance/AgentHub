@@ -1,0 +1,673 @@
+[     174ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[     226ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[     253ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/favicon.ico:0
+[   30304ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[   30306ms] [WARNING] [2026-06-25T12:07:38.936Z] [WARN] SSE disconnected, reconnecting... {"delayMs":1826.986615490861,"retry":1} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   62147ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[   62147ms] [WARNING] [2026-06-25T12:08:10.778Z] [WARN] SSE disconnected, reconnecting... {"delayMs":2987.3144319684793,"retry":2} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   95155ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[   95156ms] [WARNING] [2026-06-25T12:08:43.786Z] [WARN] SSE disconnected, reconnecting... {"delayMs":4540.151193395444,"retry":3} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[   99861ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  100410ms] [LOG] [Fast Refresh] done in 649ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  129772ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  129773ms] [WARNING] [2026-06-25T12:09:18.403Z] [WARN] SSE disconnected, reconnecting... {"delayMs":8554.182052538801,"retry":4} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  168340ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  168341ms] [WARNING] [2026-06-25T12:09:56.971Z] [WARN] SSE disconnected, reconnecting... {"delayMs":16123.778922321771,"retry":5} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  214482ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  214483ms] [WARNING] [2026-06-25T12:10:43.113Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30652.653714285825,"retry":6} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  275156ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  275157ms] [WARNING] [2026-06-25T12:11:43.787Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30654.81428790604,"retry":7} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  335832ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  335833ms] [WARNING] [2026-06-25T12:12:44.463Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30175.278926119943,"retry":8} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  396029ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  396030ms] [WARNING] [2026-06-25T12:13:44.660Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30090.9690027835,"retry":9} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  456141ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  456142ms] [WARNING] [2026-06-25T12:14:44.772Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30587.882658431485,"retry":10} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  516752ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  516753ms] [WARNING] [2026-06-25T12:15:45.383Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30001.10286523991,"retry":11} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  576774ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  576775ms] [WARNING] [2026-06-25T12:16:45.405Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30254.927892045693,"retry":12} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  637050ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  637051ms] [WARNING] [2026-06-25T12:17:45.681Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30073.749148118775,"retry":13} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  697144ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  697145ms] [WARNING] [2026-06-25T12:18:45.775Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30977.39752820169,"retry":14} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  758141ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  758142ms] [WARNING] [2026-06-25T12:19:46.772Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30235.973085751135,"retry":15} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  818395ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  818396ms] [WARNING] [2026-06-25T12:20:47.026Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30633.830085370013,"retry":16} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  879049ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[  879050ms] [WARNING] [2026-06-25T12:21:47.680Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30175.661700307737,"retry":17} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[  904771ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1503960ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 1503960ms] [WARNING] [2026-06-25T12:32:12.590Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30929.973938912488,"retry":18} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1504064ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1504070ms] [LOG] [Fast Refresh] done in 108ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1725405ms] [LOG] [2026-06-25T12:35:54.035Z] [INFO] SSE connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1725423ms] [WARNING] [2026-06-25T12:35:54.054Z] [WARN] SSE disconnected, reconnecting... {"delayMs":1284.3874061493398,"retry":1} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1726760ms] [LOG] [2026-06-25T12:35:55.390Z] [INFO] SSE connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1754971ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1755354ms] [LOG] [Fast Refresh] done in 483ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1758393ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 1758543ms] [LOG] [Fast Refresh] done in 252ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2126494ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2126560ms] [LOG] [Fast Refresh] done in 131ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2131422ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2131452ms] [LOG] [Fast Refresh] done in 38ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2169295ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2169352ms] [LOG] [Fast Refresh] done in 52ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2196434ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2196461ms] [LOG] [Fast Refresh] done in 35ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2205170ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2205199ms] [LOG] [Fast Refresh] done in 31ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2208037ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2208054ms] [LOG] [Fast Refresh] done in 37ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2238107ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2238110ms] [WARNING] [2026-06-25T12:44:26.738Z] [WARN] SSE disconnected, reconnecting... {"delayMs":1323.629733351175,"retry":1} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2257981ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2258012ms] [LOG] [Fast Refresh] done in 46ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2270127ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2270233ms] [LOG] [Fast Refresh] done in 171ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2284355ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2284384ms] [LOG] [Fast Refresh] done in 31ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2288026ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2288027ms] [WARNING] [2026-06-25T12:45:16.657Z] [WARN] SSE disconnected, reconnecting... {"delayMs":2763.793903657152,"retry":2} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2320802ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2320803ms] [WARNING] [2026-06-25T12:45:49.433Z] [WARN] SSE disconnected, reconnecting... {"delayMs":4720.904614720532,"retry":3} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2355535ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2355537ms] [WARNING] [2026-06-25T12:46:24.167Z] [WARN] SSE disconnected, reconnecting... {"delayMs":8936.815613330702,"retry":4} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2377171ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2377195ms] [LOG] [Fast Refresh] done in 48ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2394484ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2394484ms] [WARNING] [2026-06-25T12:47:03.114Z] [WARN] SSE disconnected, reconnecting... {"delayMs":16598.48241411952,"retry":5} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2441096ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2441096ms] [WARNING] [2026-06-25T12:47:49.726Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30362.327170844943,"retry":6} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2501482ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2501483ms] [WARNING] [2026-06-25T12:48:50.113Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30277.89777701973,"retry":7} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2561779ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2561779ms] [WARNING] [2026-06-25T12:49:50.409Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30951.170672256925,"retry":8} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2622751ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2622752ms] [WARNING] [2026-06-25T12:50:51.382Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30883.592592160207,"retry":9} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2683651ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2683652ms] [WARNING] [2026-06-25T12:51:52.282Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30816.21001369849,"retry":10} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2744488ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2744489ms] [WARNING] [2026-06-25T12:52:53.119Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30851.697915858917,"retry":11} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2805361ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2805362ms] [WARNING] [2026-06-25T12:53:53.992Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30353.961668223863,"retry":12} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2865733ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2865734ms] [WARNING] [2026-06-25T12:54:54.365Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30869.065089546773,"retry":13} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2926627ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2926627ms] [WARNING] [2026-06-25T12:55:55.258Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30154.065144922733,"retry":14} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 2986802ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 2986803ms] [WARNING] [2026-06-25T12:56:55.433Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30475.61717817266,"retry":15} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3047300ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3047301ms] [WARNING] [2026-06-25T12:57:55.931Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30961.448690708814,"retry":16} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3108283ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3108284ms] [WARNING] [2026-06-25T12:58:56.914Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30804.888704133235,"retry":17} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3169110ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3169111ms] [WARNING] [2026-06-25T12:59:57.741Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30347.840249017194,"retry":18} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3229476ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3229477ms] [WARNING] [2026-06-25T13:00:58.107Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30496.527058994096,"retry":19} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3289995ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3289996ms] [WARNING] [2026-06-25T13:01:58.626Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30976.15244056466,"retry":20} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3350992ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3350993ms] [WARNING] [2026-06-25T13:02:59.623Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30971.154515957773,"retry":21} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3411977ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3411979ms] [WARNING] [2026-06-25T13:04:00.608Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30118.722304548824,"retry":22} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3472112ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3472112ms] [WARNING] [2026-06-25T13:05:00.742Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30207.17527729631,"retry":23} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3527283ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3527285ms] [WARNING] [2026-06-25T13:05:55.915Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30685.05822458431,"retry":24} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3554412ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3554437ms] [LOG] [Fast Refresh] done in 39ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3559273ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3559308ms] [LOG] [Fast Refresh] done in 32ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3563447ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3563475ms] [LOG] [Fast Refresh] done in 27ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3567860ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3567865ms] [ERROR] The final argument passed to %s changed size between renders. The order and size of this array must remain constant.
+
+Previous: %s
+Incoming: %s useEffect [126db10a-654b-4642-8dea-232890196679, (id)=>{
+            set((draft)=>{
+                draft.ui.activeConversationId = id;
+            });
+        }, (id)=>{
+            set((draft)=>{
+                draft.ui.activeAgentId = id;
+            });
+        }, (tab)=>{
+            set((draft)=>{
+                draft.ui.sidebarTab = tab;
+            });
+        }, async (conversationId)=>{
+            try {
+                const data = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$api$2d$client$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["apiClient"].get(`/api/conversations/${conversationId}/messages`);
+                set((draft)=>{
+                    for (const m of data){
+                        draft.messages[m.id] = m;
+                    }
+                });
+            } catch (err) {
+                __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$logger$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["logger"].error('Failed to fetch messages', {
+                    error: String(err)
+                });
+            }
+        }, async (agentId)=>{
+            try {
+                const data = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$api$2d$client$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["apiClient"].get(`/api/agents/${agentId}`);
+                set((draft)=>{
+                    draft.agentDetails[agentId] = data;
+                });
+            } catch (err) {
+                __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$logger$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["logger"].error('Failed to fetch agent detail', {
+                    error: String(err)
+                });
+            }
+        }] [126db10a-654b-4642-8dea-232890196679, (id)=>{
+            set((draft)=>{
+                draft.ui.activeConversationId = id;
+            });
+        }, (id)=>{
+            set((draft)=>{
+                draft.ui.activeAgentId = id;
+            });
+        }, (tab)=>{
+            set((draft)=>{
+                draft.ui.sidebarTab = tab;
+            });
+        }, async (conversationId)=>{
+            try {
+                const data = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$api$2d$client$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["apiClient"].get(`/api/conversations/${conversationId}/messages`);
+                set((draft)=>{
+                    for (const m of data){
+                        draft.messages[m.id] = m;
+                    }
+                });
+            } catch (err) {
+                __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$logger$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["logger"].error('Failed to fetch messages', {
+                    error: String(err)
+                });
+            }
+        }, async (category, search)=>{
+            try {
+                const params = new URLSearchParams();
+                if (category) params.set('category', category);
+                if (search) params.set('search', search);
+                const queryStr = params.toString();
+                const path = queryStr ? `/api/agents?${queryStr}` : '/api/agents';
+                const data = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$api$2d$client$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["apiClient"].get(path);
+                set((draft)=>{
+                    for (const a of data){
+                        draft.agents[a.id] = a;
+                    }
+                });
+            } catch (err) {
+                __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$logger$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["logger"].error('Failed to fetch agents', {
+                    error: String(err)
+                });
+            }
+        }, async (agentId)=>{
+            try {
+                const data = await __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$api$2d$client$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["apiClient"].get(`/api/agents/${agentId}`);
+                set((draft)=>{
+                    draft.agentDetails[agentId] = data;
+                });
+            } catch (err) {
+                __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$logger$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["logger"].error('Failed to fetch agent detail', {
+                    error: String(err)
+                });
+            }
+        }] @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[ 3567930ms] [LOG] [Fast Refresh] done in 26ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3587979ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3587980ms] [WARNING] [2026-06-25T13:06:56.610Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30894.06257237168,"retry":25} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3648888ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3648889ms] [WARNING] [2026-06-25T13:07:57.519Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30239.892367201028,"retry":26} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3709148ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3709149ms] [WARNING] [2026-06-25T13:08:57.779Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30627.106633033814,"retry":27} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3769796ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3769797ms] [WARNING] [2026-06-25T13:09:58.427Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30570.42542805198,"retry":28} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3830388ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3830389ms] [WARNING] [2026-06-25T13:10:59.019Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30036.01932913579,"retry":29} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3890442ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3890443ms] [WARNING] [2026-06-25T13:11:59.073Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30055.18310455826,"retry":30} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 3950513ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 3950513ms] [WARNING] [2026-06-25T13:12:59.143Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30208.37519297519,"retry":31} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4010746ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4010747ms] [WARNING] [2026-06-25T13:13:59.377Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30732.4593757608,"retry":32} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4071498ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4071500ms] [WARNING] [2026-06-25T13:15:00.130Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30378.278401830943,"retry":33} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4131901ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4131902ms] [WARNING] [2026-06-25T13:16:00.532Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30427.7946316556,"retry":34} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4186108ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4186150ms] [LOG] [Fast Refresh] done in 54ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4192341ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4192341ms] [WARNING] [2026-06-25T13:17:00.972Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30444.783883547134,"retry":35} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4207058ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4207085ms] [LOG] [Fast Refresh] done in 48ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4252802ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4252806ms] [WARNING] [2026-06-25T13:18:01.435Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30775.56231714352,"retry":36} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4313601ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4313602ms] [WARNING] [2026-06-25T13:19:02.232Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30959.193513320693,"retry":37} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4374581ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4374582ms] [WARNING] [2026-06-25T13:20:03.212Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30145.74574949589,"retry":38} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4434749ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4434749ms] [WARNING] [2026-06-25T13:21:03.380Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30889.98718003262,"retry":39} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4495657ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4495658ms] [WARNING] [2026-06-25T13:22:04.288Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30156.270087378332,"retry":40} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4555834ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4555834ms] [WARNING] [2026-06-25T13:23:04.465Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30708.177437020167,"retry":41} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4616560ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4616562ms] [WARNING] [2026-06-25T13:24:05.192Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30092.74940726102,"retry":42} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4676670ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4676671ms] [WARNING] [2026-06-25T13:25:05.301Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30917.819399607033,"retry":43} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4737612ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4737613ms] [WARNING] [2026-06-25T13:26:06.243Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30796.170227873452,"retry":44} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4798430ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4798431ms] [WARNING] [2026-06-25T13:27:07.061Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30359.672124133926,"retry":45} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4858811ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4858812ms] [WARNING] [2026-06-25T13:28:07.442Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30027.533598907325,"retry":46} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4918858ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4918859ms] [WARNING] [2026-06-25T13:29:07.489Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30451.221373656022,"retry":47} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4945420ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4945431ms] [LOG] [Fast Refresh] done in 113ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 4979330ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 4979335ms] [WARNING] [2026-06-25T13:30:07.964Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30008.394667559696,"retry":48} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5039365ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5039366ms] [WARNING] [2026-06-25T13:31:07.996Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30118.975929904896,"retry":49} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5099497ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5099499ms] [WARNING] [2026-06-25T13:32:08.129Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30377.085534841524,"retry":50} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5159910ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5159912ms] [WARNING] [2026-06-25T13:33:08.542Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30195.2044741071,"retry":51} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5207259ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5207260ms] [WARNING] [2026-06-25T13:33:55.891Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30577.72735947313,"retry":52} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5265426ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5265429ms] [WARNING] [2026-06-25T13:34:54.058Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30716.86514579905,"retry":53} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5295096ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5295195ms] [LOG] [Fast Refresh] done in 42ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5302698ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5302748ms] [LOG] [Fast Refresh] done in 44ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5324060ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5324429ms] [LOG] [Fast Refresh] done in 293ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5332803ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5332804ms] [WARNING] [2026-06-25T13:36:01.434Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30836.8508496237,"retry":54} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5333704ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5333737ms] [LOG] [Fast Refresh] done in 41ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5363753ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5363755ms] [WARNING] [2026-06-25T13:36:32.385Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30271.962734477995,"retry":55} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5378034ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5378063ms] [LOG] [Fast Refresh] done in 40ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5383612ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5383642ms] [LOG] [Fast Refresh] done in 33ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5397122ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5397152ms] [LOG] [Fast Refresh] done in 26ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5405060ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5405086ms] [LOG] [Fast Refresh] done in 28ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5413540ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5413565ms] [LOG] [Fast Refresh] done in 50ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5413652ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5413653ms] [WARNING] [2026-06-25T13:37:22.283Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30293.423989682993,"retry":56} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5419635ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5419663ms] [LOG] [Fast Refresh] done in 46ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5431226ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5431254ms] [LOG] [Fast Refresh] done in 33ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5436213ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5436242ms] [LOG] [Fast Refresh] done in 44ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5473970ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5473990ms] [WARNING] [2026-06-25T13:38:22.616Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30269.765943148115,"retry":57} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5534283ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5534285ms] [WARNING] [2026-06-25T13:39:22.915Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30333.21936959008,"retry":58} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5559819ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5559853ms] [LOG] [Fast Refresh] done in 63ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5564854ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5564879ms] [LOG] [Fast Refresh] done in 43ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5569164ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5569436ms] [LOG] [Fast Refresh] done in 196ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5594631ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5594631ms] [WARNING] [2026-06-25T13:40:23.262Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30274.375463837747,"retry":59} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5624114ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5624422ms] [LOG] [Fast Refresh] done in 354ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5649469ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5649493ms] [LOG] [Fast Refresh] done in 41ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5652610ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5652638ms] [LOG] [Fast Refresh] done in 33ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5654916ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5654917ms] [WARNING] [2026-06-25T13:41:23.547Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30174.78249044728,"retry":60} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5715115ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5715117ms] [WARNING] [2026-06-25T13:42:23.747Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30048.664526105145,"retry":61} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5775177ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5775178ms] [WARNING] [2026-06-25T13:43:23.808Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30875.284671659523,"retry":62} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5836070ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5836070ms] [WARNING] [2026-06-25T13:44:24.700Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30347.968396976215,"retry":63} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5878311ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5878353ms] [LOG] [Fast Refresh] done in 86ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5886637ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5886665ms] [LOG] [Fast Refresh] done in 36ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5891522ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5891549ms] [LOG] [Fast Refresh] done in 30ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5894760ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5894793ms] [LOG] [Fast Refresh] done in 34ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5901164ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5901193ms] [LOG] [Fast Refresh] done in 31ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5909240ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5909268ms] [LOG] [Fast Refresh] done in 23ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5913163ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5913194ms] [LOG] [Fast Refresh] done in 20ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5921491ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5921522ms] [LOG] [Fast Refresh] done in 39ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5931198ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5931199ms] [WARNING] [2026-06-25T13:45:59.829Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30337.185016279607,"retry":64} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5967414ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5967443ms] [LOG] [Fast Refresh] done in 45ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 5991552ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 5991555ms] [WARNING] [2026-06-25T13:47:00.185Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30440.396366408935,"retry":65} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6052010ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6052011ms] [WARNING] [2026-06-25T13:48:00.641Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30021.8446193385,"retry":66} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6112052ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6112053ms] [WARNING] [2026-06-25T13:49:00.683Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30637.01970064315,"retry":67} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6172710ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6172711ms] [WARNING] [2026-06-25T13:50:01.341Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30524.81328376185,"retry":68} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6233256ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6233257ms] [WARNING] [2026-06-25T13:51:01.887Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30324.15454809423,"retry":69} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6293600ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6293601ms] [WARNING] [2026-06-25T13:52:02.231Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30116.347953750785,"retry":70} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6353737ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6353738ms] [WARNING] [2026-06-25T13:53:02.368Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30189.482850163276,"retry":71} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6413948ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6413948ms] [WARNING] [2026-06-25T13:54:02.579Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30075.30283856252,"retry":72} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6474043ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6474044ms] [WARNING] [2026-06-25T13:55:02.675Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30156.88679580746,"retry":73} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6534096ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6534096ms] [WARNING] [2026-06-25T13:56:02.727Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30524.269990236993,"retry":74} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6594641ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6594642ms] [WARNING] [2026-06-25T13:57:03.272Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30656.401609049815,"retry":75} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6655314ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6655315ms] [WARNING] [2026-06-25T13:58:03.945Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30489.674607538967,"retry":76} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6715900ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6715909ms] [WARNING] [2026-06-25T13:59:04.534Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30703.464045547553,"retry":77} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6776636ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6776637ms] [WARNING] [2026-06-25T14:00:05.267Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30931.867096710943,"retry":78} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6837597ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6837599ms] [WARNING] [2026-06-25T14:01:06.229Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30133.50665204918,"retry":79} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6897746ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6897746ms] [WARNING] [2026-06-25T14:02:06.377Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30322.090669807945,"retry":80} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 6958078ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 6958080ms] [WARNING] [2026-06-25T14:03:06.710Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30000.348143309096,"retry":81} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7018095ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7018095ms] [WARNING] [2026-06-25T14:04:06.726Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30909.908743704033,"retry":82} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7079018ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7079019ms] [WARNING] [2026-06-25T14:05:07.649Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30514.818982654306,"retry":83} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7139552ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7139553ms] [WARNING] [2026-06-25T14:06:08.183Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30045.609779346487,"retry":84} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7199608ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7199610ms] [WARNING] [2026-06-25T14:07:08.240Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30340.775110123715,"retry":85} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7259992ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7260002ms] [WARNING] [2026-06-25T14:08:08.627Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30480.875946554384,"retry":86} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7320504ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7320505ms] [WARNING] [2026-06-25T14:09:09.135Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30225.1739286715,"retry":87} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7380742ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7380742ms] [WARNING] [2026-06-25T14:10:09.373Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30982.778334496987,"retry":88} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7441735ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7441735ms] [WARNING] [2026-06-25T14:11:10.366Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30164.316479527482,"retry":89} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7474904ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7474987ms] [LOG] [Fast Refresh] done in 148ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7484093ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7485207ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[ 7485389ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/chat/126db10a-654b-4642-8dea-232890196679?_rsc=ZKbwRZ9DU4L8IL3n:0
+[ 7485432ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/chat/126db10a-654b-4642-8dea-232890196679?_rsc=ZKbwRZ9DU4L8IL3n:0
+[ 7485471ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/chat/126db10a-654b-4642-8dea-232890196679?_rsc=ZKbwRZ9DU4L8IL3n:0
+[ 7485483ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[ 7485565ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[ 7485675ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7485736ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/chat/126db10a-654b-4642-8dea-232890196679?_rsc=ZKbwRZ9DU4L8IL3n:0
+[ 7485752ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[ 7485797ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[ 7485854ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7485867ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:3318
+[ 7485939ms] [WARNING] [2026-06-25T14:11:54.570Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30722.759430088114,"retry":90} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7485947ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/chat/126db10a-654b-4642-8dea-232890196679:0
+[ 7486177ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/02ca_react-dom_0ntjfa7._.js:15305
+[ 7486266ms] Error: ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./frontend/src/app/layout.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at Object.getCompilationErrors (file:///Users/liquanxi/GitProject/AgentHub/node_modules/.pnpm/next@16.2.9_@babel+core@7.29.7_@playwright+test@1.61.1_react-dom@19.2.7_react@19.2.7__react@19.2.7/node_modules/next/dist/server/dev/hot-reloader-turbopack.js:1186:59)
+    at DevBundlerService.getCompilationError (file:///Users/liquanxi/GitProject/AgentHub/node_modules/.pnpm/next@16.2.9_@babel+core@7.29.7_@playwright+test@1.61.1_react-dom@19.2.7_react@19.2.7__react@19.2.7/node_modules/next/dist/server/lib/dev-bundler-service.js:44:55)
+    at DevServer.getCompilationError (file:///Users/liquanxi/GitProject/AgentHub/node_modules/.pnpm/next@16.2.9_@babel+core@7.29.7_@playwright+test@1.61.1_react-dom@19.2.7_react@19.2.7__react@19.2.7/node_modules/next/dist/server/dev/next-dev-server.js:720:42)
+    at DevServer.findPageComponents (file:///Users/liquanxi/GitProject/AgentHub/node_modules/.pnpm/next@16.2.9_@babel+core@7.29.7_@playwright+test@1.61.1_react-dom@19.2.7_react@19.2.7__react@19.2.7/node_modules/next/dist/server/dev/next-dev-server.js:690:43)
+    at async DevServer.renderErrorToResponseImpl (file:///Users/liquanxi/GitProject/AgentHub/node_modules/.pnpm/next@16.2.9_@babel+core@7.29.7_@playwright+test@1.61.1_react-dom@19.2.7_react@19.2.7__react@19.2.7/node_modules/next/dist/server/base-server.js:1753:26)
+[ 7486270ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:1380
+[ 7486275ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:2099
+[ 7486275ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:2099
+[ 7486275ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:2099
+[ 7486275ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:2099
+[ 7486342ms] [ERROR] ./frontend/src/app/layout.tsx:4:1
+Module not found: Can't resolve '@/components/settings/theme-init-script'
+  2 | import { Inter } from 'next/font/google';
+  3 | import { TooltipProvider } from '@/components/ui/tooltip';
+> 4 | import { ThemeInitScript } from '@/components/settings/theme-init-script';
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import './globals.css';
+  6 |
+  7 | const inter = Inter({
+
+Import map: aliased to relative './src/components/settings/theme-init-script' inside of [project]/frontend
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:2099
+[ 7490973ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:1380
+[ 7491204ms] [LOG] [Fast Refresh] done in 65ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:1380
+[ 7491637ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:1380
+[ 7491688ms] [LOG] [Fast Refresh] done in 152ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_0gjvqki._.js:1380
+[ 7491816ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7491855ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7521977ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7521978ms] [WARNING] [2026-06-25T14:12:30.608Z] [WARN] SSE disconnected, reconnecting... {"delayMs":1341.351395261984,"retry":1} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7526402ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7526432ms] [LOG] [Fast Refresh] done in 50ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7543402ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7543433ms] [LOG] [Fast Refresh] done in 64ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7553332ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7553332ms] [WARNING] [2026-06-25T14:13:01.963Z] [WARN] SSE disconnected, reconnecting... {"delayMs":2731.3486600912884,"retry":2} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7566176ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7566200ms] [LOG] [Fast Refresh] done in 62ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7578892ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7578920ms] [LOG] [Fast Refresh] done in 60ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7586074ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7586075ms] [WARNING] [2026-06-25T14:13:34.705Z] [WARN] SSE disconnected, reconnecting... {"delayMs":4634.827405601997,"retry":3} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7593898ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7593928ms] [LOG] [Fast Refresh] done in 59ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7608382ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7608411ms] [LOG] [Fast Refresh] done in 63ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7620726ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7620726ms] [WARNING] [2026-06-25T14:14:09.357Z] [WARN] SSE disconnected, reconnecting... {"delayMs":8703.797249528357,"retry":4} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7626384ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7627102ms] [LOG] [Fast Refresh] done in 330ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7634015ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7634050ms] [LOG] [Fast Refresh] done in 28ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7652902ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7653129ms] [LOG] [Fast Refresh] done in 317ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7653284ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7653429ms] [LOG] [Fast Refresh] done in 246ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7653737ms] [WARNING] [2026-06-25T14:14:42.367Z] [WARN] SSE disconnected, reconnecting... {"delayMs":16492.87126740641,"retry":5} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7653864ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7653889ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7661179ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7661221ms] [LOG] [Fast Refresh] done in 60ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7682402ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7682431ms] [LOG] [Fast Refresh] done in 49ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7684086ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7684087ms] [WARNING] [2026-06-25T14:15:12.717Z] [WARN] SSE disconnected, reconnecting... {"delayMs":1430.4980748248504,"retry":1} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7698819ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7698854ms] [LOG] [Fast Refresh] done in 83ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7715525ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7715525ms] [WARNING] [2026-06-25T14:15:44.156Z] [WARN] SSE disconnected, reconnecting... {"delayMs":2921.063992533337,"retry":2} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7722151ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7722318ms] [LOG] [Fast Refresh] done in 93ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7729066ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7729116ms] [LOG] [Fast Refresh] done in 92ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7742554ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7742794ms] [LOG] [Fast Refresh] done in 186ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7748455ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7748455ms] [WARNING] [2026-06-25T14:16:17.086Z] [WARN] SSE disconnected, reconnecting... {"delayMs":4863.181308675778,"retry":3} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7783335ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7783336ms] [WARNING] [2026-06-25T14:16:51.966Z] [WARN] SSE disconnected, reconnecting... {"delayMs":8937.118291490886,"retry":4} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7822288ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7822290ms] [WARNING] [2026-06-25T14:17:30.920Z] [WARN] SSE disconnected, reconnecting... {"delayMs":16135.263450448967,"retry":5} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7868441ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7868443ms] [WARNING] [2026-06-25T14:18:17.073Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30066.150351445685,"retry":6} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7928529ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7928531ms] [WARNING] [2026-06-25T14:19:17.161Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30655.174168973455,"retry":7} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 7989205ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 7989208ms] [WARNING] [2026-06-25T14:20:17.837Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30353.41128558308,"retry":8} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8046817ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8046862ms] [LOG] [Fast Refresh] done in 146ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8049607ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 8049613ms] [WARNING] [2026-06-25T14:21:18.243Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30589.76435880001,"retry":9} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8090350ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8090373ms] [LOG] [Fast Refresh] done in 123ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8091128ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8091219ms] [LOG] [Fast Refresh] done in 192ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8095194ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8095201ms] [LOG] [Fast Refresh] done in 108ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8095303ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8096253ms] [LOG] [Fast Refresh] done in 1046ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8097231ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8097361ms] [LOG] [Fast Refresh] done in 231ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8110219ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/events:0
+[ 8110220ms] [WARNING] [2026-06-25T14:22:18.850Z] [WARN] SSE disconnected, reconnecting... {"delayMs":30071.454864993702,"retry":10} @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8110403ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477
+[ 8110430ms] [LOG] [Fast Refresh] done in 128ms @ http://localhost:3000/_next/static/chunks/0ji3_next_dist_1bpeoos._.js:2477

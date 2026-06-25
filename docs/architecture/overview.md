@@ -10,6 +10,8 @@
 ```
                     Frontend (Next.js 16)
                     [M3 阶段实现]
+                    [next-intl proxy 中间件]
+                    [URL: /{zh-CN|en}/chat]
                          │
                          │ SSE + REST
                          ▼
@@ -59,6 +61,8 @@
 | 语言 | TypeScript (strict) + Go | TS 5.7+, Go 1.24 |
 | 包管理 | pnpm | 9.x |
 | 后端框架 | Fastify | 5.x |
+| 前端框架 | Next.js 16 App Router + React 19 | shadcn/ui + Tailwind CSS v4 |
+| 前端 i18n | next-intl v4 | zh-CN 默认, `[locale]` 路由 |
 | ORM | Drizzle ORM | 0.42+ |
 | 数据库 | PostgreSQL + pgvector | 16 |
 | 验证 | Zod | 3.x |
@@ -100,7 +104,11 @@ agenthub/
 │   ├── skill-registry/     # @agenthub/skill-registry — Skill 注册中心
 │   ├── knowledge-base/     # @agenthub/knowledge-base — 知识库 + EventConsumer
 │   └── observability/      # @agenthub/observability — 可观测性 + EventConsumer
-├── frontend/               # Next.js 16 — 三栏 IM UI
+├── frontend/               # Next.js 16 — 三栏 IM UI，next-intl zh-CN 默认
+│   ├── src/
+│   │   ├── app/[locale]/   # 国际化路由（zh-CN/en）
+│   │   ├── i18n/           # next-intl 配置 + messages/{locale}.json
+│   │   └── proxy.ts        # next-intl middleware（locale 检测/重定向）
 ├── docker-compose.yml      # PostgreSQL + Redis + RabbitMQ 基础设施栈
 ├── data/
 │   └── agency-agents/      # 254 个内置 Agent（git submodule）

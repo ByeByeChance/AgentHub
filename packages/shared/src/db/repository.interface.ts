@@ -67,6 +67,7 @@ export interface MessageRepository {
   findById(id: string): Promise<MessageRecord | null>;
   listByConversation(conversationId: string): Promise<MessageRecord[]>;
   update(id: string, updates: Partial<Pick<MessageRecord, 'parts' | 'status'>>): Promise<MessageRecord | null>;
+  delete(id: string): Promise<void>;
 }
 
 // ---- Artifact Repository ----

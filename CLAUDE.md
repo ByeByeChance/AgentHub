@@ -23,6 +23,7 @@
 | 层 | 选型 | 备注 |
 |---|---|---|
 | 前端 | Next.js 16 App Router + React 19 + shadcn/ui + Tailwind CSS v4 | 同 AgentHub 的验证过的技术栈 |
+| 前端 i18n | next-intl v4 | zh-CN（默认） + en，`[locale]` 路由段，ICU 消息 |
 | 前端状态 | Zustand + Immer | 归一化 store，reducer 应用 StreamEvent |
 | 流式传输 | SSE（单条全局连接） | 不用 WebSocket |
 | 后端框架 | Fastify 5.x | 性能优先，支持 SSE |
@@ -130,6 +131,25 @@ interface EventEnvelope {
 - Agent 间通信**只通过**：Orchestrator 分派（`plan_tasks`）或 Shared Memory（向量检索）
 - 子 Agent **不看到**完整群聊历史，只看到 Orchestrator 构造的隔离上下文
 - 每个 Agent 有独立的 System Prompt、Tool Set、Model Config
+
+### 3.7 前端国际化（i18n）
+
+```
+src/i18n/
+├── routing.ts          # defineRouting({ locales: ['zh-CN','en'], defaultLocale: 'zh-CN' })
+├── request.ts          # getRequestConfig — 动态加载 messages/{locale}.json
+├── navigation.ts       # createNavigation → Link/redirect/useRouter/usePathname
+└── messages/
+    ├── zh-CN.json      # 主翻译文件（~110 条，10 命名空间）
+    └── en.json         # 英文备选
+```
+
+- **默认语言**：`zh-CN`（简体中文），`en` 备选
+- **路由格式**：所有页面在 `app/[locale]/` 下 → URL 始终带 locale 前缀（`/zh-CN/chat`）
+- **中间件**：`src/proxy.ts` — next-intl middleware 负责 locale 检测、cookie 写入、重定向
+- **客户端组件**：通过 `useTranslations('namespace')` 获取翻译文本
+- **服务端组件**：通过 `getTranslations({ locale })` 生成 locale-aware metadata
+- **命名空间**：`metadata` · `sidebar` · `chat` · `message` · `conversation` · `agent` · `detailPanel` · `settings` · `orchestrator` · `messageParts` · `artifact` · `ui`
 
 ---
 

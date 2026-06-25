@@ -34,6 +34,79 @@ export class DrizzleDB implements Database {
     this.documents = new DrizzleDocumentRepo(db, this.pool);
   }
 
+  /** Create tables and indexes if they don't exist (idempotent). */
+  async ensureTables(): Promise<void> {
+    const sql = await this.pool.connect();
+    try {
+      await sql.query('CREATE EXTENSION IF NOT EXISTS vector');
+      await sql.query(`
+        CREATE TABLE IF NOT EXISTS agents (
+          id TEXT PRIMARY KEY,
+          name TEXT NOT NULL,
+          emoji TEXT NOT NULL,
+          description TEXT NOT NULL,
+          category TEXT NOT NULL,
+          system_prompt TEXT NOT NULL,
+          adapter_name TEXT NOT NULL DEFAULT 'deepseek',
+          model_id TEXT NOT NULL DEFAULT 'deepseek-v4-pro',
+          tool_names JSONB NOT NULL DEFAULT '[]',
+          is_builtin BOOLEAN NOT NULL DEFAULT false,
+          is_orchestrator BOOLEAN NOT NULL DEFAULT false,
+          created_at TIMESTAMP NOT NULL DEFAULT now(),
+          updated_at TIMESTAMP NOT NULL DEFAULT now()
+        )
+      `);
+      await sql.query(`
+        CREATE TABLE IF NOT EXISTS conversations (
+          id TEXT PRIMARY KEY,
+          title TEXT NOT NULL DEFAULT 'New Conversation',
+          mode TEXT NOT NULL DEFAULT 'single',
+          agent_ids JSONB NOT NULL DEFAULT '[]',
+          pinned_at TIMESTAMP,
+          created_at TIMESTAMP NOT NULL DEFAULT now()
+        )
+      `);
+      await sql.query(`
+        CREATE TABLE IF NOT EXISTS messages (
+          id TEXT PRIMARY KEY,
+          conversation_id TEXT NOT NULL REFERENCES conversations(id),
+          role TEXT NOT NULL,
+          parts JSONB NOT NULL DEFAULT '[]',
+          status TEXT NOT NULL DEFAULT 'streaming',
+          created_at TIMESTAMP NOT NULL DEFAULT now()
+        )
+      `);
+      await sql.query(`
+        CREATE TABLE IF NOT EXISTS artifacts (
+          id TEXT PRIMARY KEY,
+          conversation_id TEXT NOT NULL REFERENCES conversations(id),
+          type TEXT NOT NULL,
+          title TEXT NOT NULL,
+          content JSONB NOT NULL,
+          version INTEGER NOT NULL DEFAULT 1,
+          parent_artifact_id TEXT,
+          created_at TIMESTAMP NOT NULL DEFAULT now()
+        )
+      `);
+      await sql.query(`
+        CREATE TABLE IF NOT EXISTS documents (
+          id TEXT PRIMARY KEY,
+          content TEXT NOT NULL,
+          embedding vector(1536),
+          metadata JSONB NOT NULL DEFAULT '{}',
+          source TEXT,
+          created_at TIMESTAMP NOT NULL DEFAULT now()
+        )
+      `);
+      // Index for message lookups by conversation
+      await sql.query('CREATE INDEX IF NOT EXISTS idx_messages_conversation_id ON messages(conversation_id)');
+      // Index for artifact lookups by conversation
+      await sql.query('CREATE INDEX IF NOT EXISTS idx_artifacts_conversation_id ON artifacts(conversation_id)');
+    } finally {
+      sql.release();
+    }
+  }
+
   async close(): Promise<void> {
     await this.pool.end();
   }
@@ -239,6 +312,14 @@ class DrizzleMessageRepo {
       return this.findById(id);
     } catch (err) {
       throw wrapDbError('messages.update', err);
+    }
+  }
+
+  async delete(id: string): Promise<void> {
+    try {
+      await this.db.delete(messages).where(eq(messages.id, id));
+    } catch (err) {
+      throw wrapDbError('messages.delete', err);
     }
   }
 }

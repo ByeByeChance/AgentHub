@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Brain, ChevronDown } from 'lucide-react';
 
 interface ThinkingPartProps {
@@ -8,6 +9,7 @@ interface ThinkingPartProps {
 }
 
 export function ThinkingPart({ content }: ThinkingPartProps) {
+  const t = useTranslations('messageParts');
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -17,7 +19,7 @@ export function ThinkingPart({ content }: ThinkingPartProps) {
         className="flex items-center gap-2 w-full px-3 py-2 text-xs text-muted-foreground hover:bg-muted/50 transition-colors"
       >
         <Brain className="w-3.5 h-3.5" />
-        <span className="font-medium">Thinking...</span>
+        <span className="font-medium">{t('thinking')}</span>
         <ChevronDown
           className={`w-3.5 h-3.5 ml-auto transition-transform ${
             isOpen ? 'rotate-180' : ''
