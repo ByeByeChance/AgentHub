@@ -9,13 +9,12 @@ import { MockQueueBackend } from './mock-queue-backend.js';
  *
  * Additional backends (redis, nats) can be added in future milestones.
  */
-export function createQueueBackend(url?: string): QueueBackend {
+export async function createQueueBackend(url?: string): Promise<QueueBackend> {
   const backend = process.env.QUEUE_BACKEND ?? 'mock';
 
   if (backend === 'rabbitmq') {
-    // Lazy import to avoid requiring amqplib when using mock
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { RabbitMQBackend } = require('./rabbitmq-backend.js') as typeof import('./rabbitmq-backend.js');
+    // Dynamic import (ESM-compatible) to avoid loading amqplib when using mock
+    const { RabbitMQBackend } = await import('./rabbitmq-backend.js');
     const rabbitUrl = url ?? process.env.RABBITMQ_URL ?? 'amqp://localhost:5672';
     return new RabbitMQBackend(rabbitUrl);
   }

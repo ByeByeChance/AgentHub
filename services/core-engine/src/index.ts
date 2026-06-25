@@ -1,3 +1,9 @@
+// Load .env from project root (tsx cwd is the service directory)
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
+const root = dirname(dirname(dirname(dirname(fileURLToPath(import.meta.url)))));
+try { process.loadEnvFile?.(resolve(root, '.env')); } catch { /* optional */ }
+
 import { createHealthServer } from '@agenthub/shared/server';
 import { getEventBus, EventBridge } from '@agenthub/shared/event-bus';
 import { InMemoryDB, DrizzleDB, type Database } from '@agenthub/shared/db';

@@ -1,3 +1,8 @@
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
+const root = dirname(dirname(dirname(dirname(fileURLToPath(import.meta.url)))));
+try { process.loadEnvFile?.(resolve(root, '.env')); } catch { /* optional */ }
+
 import { createHealthServer } from '@agenthub/shared/server';
 import { SERVICE_DEFAULTS, STRATEGY_NAMES } from '@agenthub/shared/constants';
 import { createPinoLogger } from '@agenthub/shared/logging';
