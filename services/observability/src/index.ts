@@ -35,7 +35,7 @@ async function main(): Promise<void> {
   registerObservabilityRoutes(server, tokenRecorder, auditLogger);
 
   // RabbitMQ consumer: subscribes to audit.* events from the EventBridge
-  const queueBackend = createQueueBackend();
+  const queueBackend = await createQueueBackend();
   if (queueBackend.name !== 'mock') {
     const consumer = new ObservabilityEventConsumer(queueBackend, auditLogger, logger);
     await consumer.start();

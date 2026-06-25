@@ -91,7 +91,7 @@ async function main(): Promise<void> {
   registerKnowledgeRoutes(server, knowledgeService, memoryService);
 
   // RabbitMQ consumer: subscribes to knowledge.* events from the EventBridge
-  const queueBackend = createQueueBackend();
+  const queueBackend = await createQueueBackend();
   if (queueBackend.name !== 'mock') {
     const consumer = new KnowledgeEventConsumer(queueBackend, knowledgeService, logger);
     await consumer.start();

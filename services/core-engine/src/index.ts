@@ -74,7 +74,7 @@ async function main(): Promise<void> {
   // Pluggable strategies — controlled by environment variables
   const transport = createTransport();
   const executionStrategy = createExecutionStrategy();
-  const queueBackend = createQueueBackend();
+  const queueBackend = await createQueueBackend();
 
   logger.info('Active strategies', {
     transport: transport.name,

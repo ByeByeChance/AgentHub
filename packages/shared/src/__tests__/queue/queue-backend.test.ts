@@ -127,7 +127,7 @@ describe('QueueBackend', () => {
       process.env.QUEUE_BACKEND = 'mock';
       try {
         const { createQueueBackend } = await import('../../queue/factory.js');
-        const backend = createQueueBackend();
+        const backend = await createQueueBackend();
         expect(backend.name).toBe('mock');
       } finally {
         if (prev) process.env.QUEUE_BACKEND = prev; else delete process.env.QUEUE_BACKEND;
@@ -139,7 +139,7 @@ describe('QueueBackend', () => {
       delete process.env.QUEUE_BACKEND;
       try {
         const { createQueueBackend } = await import('../../queue/factory.js');
-        const backend = createQueueBackend();
+        const backend = await createQueueBackend();
         expect(backend.name).toBe('mock');
       } finally {
         if (prev) process.env.QUEUE_BACKEND = prev;
