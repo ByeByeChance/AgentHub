@@ -10,7 +10,8 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "db:seed": "tsx src/db/seed-cli.ts"
   },
   "dependencies": {
     "@agenthub/contracts": "workspace:*",

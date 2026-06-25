@@ -25,7 +25,7 @@
 | 前端 | Next.js 16 App Router + React 19 + shadcn/ui + Tailwind CSS v4 | 同 AgentHub 的验证过的技术栈 |
 | 前端状态 | Zustand + Immer | 归一化 store，reducer 应用 StreamEvent |
 | 流式传输 | SSE（单条全局连接） | 不用 WebSocket |
-| 后端框架 | Fastify / Hono（待定） | 性能优先，需支持 SSE |
+| 后端框架 | Fastify 5.x | 性能优先，支持 SSE |
 | 语言 | TypeScript（strict）为主，Go（MCP Gateway） | 严禁 `any` |
 | ORM | Drizzle | 不用 Prisma |
 | DB | PostgreSQL | 元数据 + 向量（pgvector） |

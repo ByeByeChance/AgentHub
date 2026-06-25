@@ -2,9 +2,11 @@ import { createHealthServer } from '@agenthub/shared/server';
 import { SERVICE_DEFAULTS, STRATEGY_NAMES } from '@agenthub/shared/constants';
 import { createPinoLogger } from '@agenthub/shared/logging';
 import { createInMemoryDB, DrizzleDB } from '@agenthub/shared/db';
+import { createQueueBackend } from '@agenthub/shared/queue';
 import type { Database } from '@agenthub/shared/db';
 import { KnowledgeService } from './knowledge-service.js';
 import { MemoryService } from './memory-service.js';
+import { KnowledgeEventConsumer } from './event-consumer.js';
 import {
   DeepSeekEmbeddingStrategy,
   RecursiveChunker,
@@ -23,6 +25,10 @@ function createEmbeddingStrategy(): EmbeddingStrategy {
   const strategy = process.env.EMBEDDING_STRATEGY ?? STRATEGY_NAMES.EMBEDDING[0];
   switch (strategy) {
     case STRATEGY_NAMES.EMBEDDING[0]:
+      if (!process.env.DEEPSEEK_API_KEY) {
+        // Gracefully fall back to mock when API key is not configured
+        return new MockEmbeddingStrategy(SERVICE_DEFAULTS.embedding.dimension);
+      }
       return new DeepSeekEmbeddingStrategy();
     case STRATEGY_NAMES.EMBEDDING[1]:
       return new MockEmbeddingStrategy(SERVICE_DEFAULTS.embedding.dimension);
@@ -79,8 +85,16 @@ async function main(): Promise<void> {
   // Register API routes
   registerKnowledgeRoutes(server, knowledgeService, memoryService);
 
+  // RabbitMQ consumer: subscribes to knowledge.* events from the EventBridge
+  const queueBackend = createQueueBackend();
+  if (queueBackend.name !== 'mock') {
+    const consumer = new KnowledgeEventConsumer(queueBackend, knowledgeService, logger);
+    await consumer.start();
+  }
+
   const shutdown = async (signal: string) => {
     logger.info(`knowledge-base received ${signal}, shutting down...`);
+    await queueBackend.close().catch(() => {});
     await server.close();
     process.exit(0);
   };

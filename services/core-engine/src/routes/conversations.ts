@@ -1,8 +1,10 @@
 import type { FastifyInstance } from 'fastify';
-import { EVENT_TYPES } from '@agenthub/contracts';
+import { EVENT_TYPES, createEventEnvelope } from '@agenthub/contracts';
+import type { EventEnvelope } from '@agenthub/contracts';
 import { createPinoLogger } from '@agenthub/shared/logging';
 import type { ConversationRouteDeps } from '../services/interfaces/conversation-routes.interface.js';
 import { createConvSchema, sendMessageSchema } from './validation/conversation-schemas.js';
+import { toTransportReply } from './transport-reply.js';
 
 export function registerConversationRoutes(
   app: FastifyInstance,
@@ -18,6 +20,9 @@ export function registerConversationRoutes(
     source,
     db,
     adapterFactory,
+    transport,
+    tokenRecorder,
+    auditLogger,
   } = deps;
 
   app.post('/api/conversations', async (request, reply) => {
@@ -92,13 +97,6 @@ export function registerConversationRoutes(
       id: bodyResult.data.assistantMessageId,
     });
 
-    // Set up SSE response
-    reply.raw.writeHead(200, {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      Connection: 'keep-alive',
-    });
-
     const controller = new AbortController();
     const signal = controller.signal;
     request.raw.on('close', () => controller.abort());
@@ -109,47 +107,43 @@ export function registerConversationRoutes(
       route: 'conversations',
     });
 
-    try {
-      const stream = agentRunner.run(
-        {
-          agentConfig: {
-            id: agent.id,
-            name: agent.name,
-            systemPrompt: agent.systemPrompt,
-            adapterName: agent.adapterName,
-            modelId: agent.modelId,
-            toolNames: agent.toolNames,
-          },
-          conversationId,
-          messages: [
-            { role: 'user', content: bodyResult.data.content },
-          ],
-          toolExecutor,
-          adapter,
-          eventBus,
-          source,
-          conversationService,
-          workspaceService,
-          db,
-          signal,
-          logger,
+    const rawStream = agentRunner.run(
+      {
+        agentConfig: {
+          id: agent.id,
+          name: agent.name,
+          systemPrompt: agent.systemPrompt,
+          adapterName: agent.adapterName,
+          modelId: agent.modelId,
+          toolNames: agent.toolNames,
         },
-        assistantMessage.id,
-      );
+        conversationId,
+        messages: [
+          { role: 'user', content: bodyResult.data.content },
+        ],
+        toolExecutor,
+        adapter,
+        eventBus,
+        source,
+        conversationService,
+        workspaceService,
+        db,
+        signal,
+        logger,
+        tokenRecorder,
+        auditLogger,
+      },
+      assistantMessage.id,
+    );
 
-      for await (const event of stream) {
-        reply.raw.write(`data: ${JSON.stringify(event)}\n\n`);
+    // Wrap to append the terminating message.complete event
+    async function* streamWithComplete(): AsyncGenerator<EventEnvelope> {
+      for await (const event of rawStream) {
+        yield event;
       }
-
-      reply.raw.write(
-        `data: ${JSON.stringify({ eventType: EVENT_TYPES.MESSAGE_COMPLETE, conversationId })}\n\n`,
-      );
-    } catch (err) {
-      reply.raw.write(
-        `data: ${JSON.stringify({ eventType: EVENT_TYPES.AGENT_RUN_FAILED, payload: { error: String(err) } })}\n\n`,
-      );
-    } finally {
-      reply.raw.end();
+      yield createEventEnvelope(EVENT_TYPES.MESSAGE_COMPLETE, { conversationId }, source);
     }
+
+    await transport.streamEvents(streamWithComplete(), toTransportReply(reply), signal);
   });
 }

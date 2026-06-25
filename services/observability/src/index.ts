@@ -1,8 +1,10 @@
 import { createHealthServer } from '@agenthub/shared/server';
 import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 import { createPinoLogger } from '@agenthub/shared/logging';
+import { createQueueBackend } from '@agenthub/shared/queue';
 import { TokenRecorder } from './token-recorder.js';
 import { AuditLogger } from './audit-logger.js';
+import { ObservabilityEventConsumer } from './event-consumer.js';
 import { DrizzleObservabilityDB, InMemoryObservabilityDB } from './db-implementation.js';
 import type { ObservabilityDatabase } from './repository.interface.js';
 import { registerObservabilityRoutes } from './routes.js';
@@ -27,8 +29,16 @@ async function main(): Promise<void> {
   // Register API routes
   registerObservabilityRoutes(server, tokenRecorder, auditLogger);
 
+  // RabbitMQ consumer: subscribes to audit.* events from the EventBridge
+  const queueBackend = createQueueBackend();
+  if (queueBackend.name !== 'mock') {
+    const consumer = new ObservabilityEventConsumer(queueBackend, auditLogger, logger);
+    await consumer.start();
+  }
+
   const shutdown = async (signal: string) => {
     logger.info(`observability received ${signal}, shutting down...`);
+    await queueBackend.close().catch(() => {});
     await server.close();
     process.exit(0);
   };

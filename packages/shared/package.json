@@ -13,7 +13,12 @@
     "./security": "./src/security/index.ts",
     "./db": "./src/db/index.ts",
     "./constants": "./src/constants/index.ts",
-    "./logging": "./src/logging/index.ts"
+    "./logging": "./src/logging/index.ts",
+    "./auth": "./src/auth/index.ts",
+    "./queue": "./src/queue/index.ts",
+    "./reliability": "./src/reliability/index.ts",
+    "./transport": "./src/transport/index.ts",
+    "./execution": "./src/execution/index.ts"
   },
   "scripts": {
     "dev": "tsc --watch",
@@ -24,6 +29,8 @@
   },
   "dependencies": {
     "@agenthub/contracts": "workspace:*",
+    "@types/amqplib": "^0.10.8",
+    "amqplib": "^2.0.1",
     "drizzle-orm": "catalog:",
     "fastify": "^5.3.0",
     "pg": "^8.13.0",
