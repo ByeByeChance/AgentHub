@@ -5,8 +5,39 @@ import * as SelectPrimitive from "@radix-ui/react-select"
 import { Check, ChevronDown, ChevronUp } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useDialogChildContext } from "@/components/ui/dialog"
 
-const Select = SelectPrimitive.Root
+function Select(props: React.ComponentProps<typeof SelectPrimitive.Root>) {
+  const dialogCtx = useDialogChildContext();
+  const { open: controlledOpen, onOpenChange, ...rest } = props;
+
+  // Track internal open state so Dialog knows when a portal dropdown is shown.
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const isOpen = controlledOpen ?? internalOpen;
+
+  React.useEffect(() => {
+    if (isOpen && dialogCtx) {
+      const unregister = dialogCtx.register();
+      return unregister;
+    }
+  }, [isOpen, dialogCtx]);
+
+  const handleOpenChange = React.useCallback(
+    (open: boolean) => {
+      setInternalOpen(open);
+      onOpenChange?.(open);
+    },
+    [onOpenChange],
+  );
+
+  return (
+    <SelectPrimitive.Root
+      open={controlledOpen}
+      onOpenChange={handleOpenChange}
+      {...rest}
+    />
+  );
+}
 
 const SelectGroup = SelectPrimitive.Group
 

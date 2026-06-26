@@ -4,8 +4,38 @@ import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 
 import { cn } from "@/lib/utils"
+import { useDialogChildContext } from "@/components/ui/dialog"
 
-const Popover = PopoverPrimitive.Root
+function Popover(props: React.ComponentProps<typeof PopoverPrimitive.Root>) {
+  const dialogCtx = useDialogChildContext();
+  const { open: controlledOpen, onOpenChange, ...rest } = props;
+
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const isOpen = controlledOpen ?? internalOpen;
+
+  React.useEffect(() => {
+    if (isOpen && dialogCtx) {
+      const unregister = dialogCtx.register();
+      return unregister;
+    }
+  }, [isOpen, dialogCtx]);
+
+  const handleOpenChange = React.useCallback(
+    (open: boolean) => {
+      setInternalOpen(open);
+      onOpenChange?.(open);
+    },
+    [onOpenChange],
+  );
+
+  return (
+    <PopoverPrimitive.Root
+      open={controlledOpen}
+      onOpenChange={handleOpenChange}
+      {...rest}
+    />
+  );
+}
 
 const PopoverTrigger = PopoverPrimitive.Trigger
 

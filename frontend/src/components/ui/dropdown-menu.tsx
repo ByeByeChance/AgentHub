@@ -5,8 +5,38 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useDialogChildContext } from "@/components/ui/dialog"
 
-const DropdownMenu = DropdownMenuPrimitive.Root
+function DropdownMenu(props: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
+  const dialogCtx = useDialogChildContext();
+  const { open: controlledOpen, onOpenChange, ...rest } = props;
+
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const isOpen = controlledOpen ?? internalOpen;
+
+  React.useEffect(() => {
+    if (isOpen && dialogCtx) {
+      const unregister = dialogCtx.register();
+      return unregister;
+    }
+  }, [isOpen, dialogCtx]);
+
+  const handleOpenChange = React.useCallback(
+    (open: boolean) => {
+      setInternalOpen(open);
+      onOpenChange?.(open);
+    },
+    [onOpenChange],
+  );
+
+  return (
+    <DropdownMenuPrimitive.Root
+      open={controlledOpen}
+      onOpenChange={handleOpenChange}
+      {...rest}
+    />
+  );
+}
 
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
 

@@ -45,10 +45,6 @@ interface FormDialogProps {
   /** Max-width preset */
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl';
 
-  /* ── Select protection ── */
-
-  /** Whether a Select dropdown is currently open — prevents dialog from closing on outside click */
-  selectOpen?: boolean;
 }
 
 const MAX_WIDTH_CLASS: Record<string, string> = {
@@ -62,7 +58,8 @@ const MAX_WIDTH_CLASS: Record<string, string> = {
  * Reusable form-in-dialog shell.
  *
  * Features:
- * - Auto-protects Select dropdown from closing the dialog when opened
+ * - Auto-protects portaled child content (Select, DropdownMenu, Popover) from
+ *   closing the Dialog when clicked — handled by the base DialogContent.
  * - Consistent header + title styling
  * - Optional cancel / submit footer buttons
  * - Supports async onSubmit with internal loading state
@@ -81,7 +78,6 @@ export function FormDialog({
   trigger,
   className,
   maxWidth = 'lg',
-  selectOpen = false,
 }: FormDialogProps) {
   const [submitting, setSubmitting] = useState(false);
 
@@ -106,12 +102,6 @@ export function FormDialog({
 
       <DialogContent
         className={`${MAX_WIDTH_CLASS[maxWidth] ?? 'sm:max-w-lg'} overflow-hidden p-5 gap-3 ${className ?? ''}`}
-        onInteractOutside={(e) => {
-          if (selectOpen) e.preventDefault();
-        }}
-        onPointerDownOutside={(e) => {
-          if (selectOpen) e.preventDefault();
-        }}
       >
         <DialogHeader className="space-y-1">
           <DialogTitle className="text-base">{title}</DialogTitle>
