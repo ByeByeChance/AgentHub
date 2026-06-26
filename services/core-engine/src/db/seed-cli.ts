@@ -18,13 +18,16 @@ const AGENTS_DIR = join(process.cwd(), 'data', 'agency-agents');
 async function collectAgentFiles(dir: string): Promise<Array<{ path: string; content: string }>> {
   const files: Array<{ path: string; content: string }> = [];
 
-  async function walk(currentDir: string): Promise<void> {
+  async function walk(currentDir: string, depth: number): Promise<void> {
     const entries = await readdir(currentDir, { withFileTypes: true });
     for (const entry of entries) {
       const fullPath = join(currentDir, entry.name);
       if (entry.isDirectory()) {
-        await walk(fullPath);
-      } else if (entry.isFile() && extname(entry.name) === '.md') {
+        // Skip hidden directories (.github, etc.) and non-category dirs (scripts)
+        if (entry.name.startsWith('.') || entry.name === 'scripts') continue;
+        await walk(fullPath, depth + 1);
+      } else if (entry.isFile() && extname(entry.name) === '.md' && depth > 0) {
+        // Only collect .md files inside category subdirectories (depth > 0)
         const content = await readFile(fullPath, 'utf-8');
         files.push({ path: fullPath, content });
       }
@@ -33,7 +36,7 @@ async function collectAgentFiles(dir: string): Promise<Array<{ path: string; con
 
   try {
     await stat(dir);
-    await walk(dir);
+    await walk(dir, 0);
   } catch {
     console.warn(`[seed] Agent directory not found: ${dir}. Skipping seed.`);
   }

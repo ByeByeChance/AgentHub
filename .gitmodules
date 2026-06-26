@@ -1,0 +1,3 @@
+[submodule "data/agency-agents"]
+	path = data/agency-agents
+	url = git@github.com:msitarzewski/agency-agents.git

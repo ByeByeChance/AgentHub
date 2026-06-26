@@ -44,6 +44,9 @@ export async function seedAgents(
     try {
       const data = await parseAgentContent(file.content, file.path);
 
+      // Skip files without proper agent frontmatter (e.g. README, playbooks, docs)
+      if (data.name === 'Unknown Agent' || !data.name || data.name.trim() === '') continue;
+
       // Check if already imported (idempotent by name + category)
       const existing = await registry.search(data.name);
       const alreadyExists = existing.some(
