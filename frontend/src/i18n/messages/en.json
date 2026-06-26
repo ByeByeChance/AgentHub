@@ -108,6 +108,9 @@
   "settings": {
     "title": "Settings",
     "subtitle": "Manage your API keys and preferences",
+    "language": "Language",
+    "chinese": "中文",
+    "english": "English",
     "theme": "Theme",
     "light": "Light",
     "dark": "Dark",

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useStore } from '@/store/index';
 import { ApiKeyManager } from '@/components/settings/api-key-manager';
 import { ThemeToggle } from '@/components/settings/theme-toggle';
+import { LocaleSwitcher } from '@/components/settings/locale-switcher';
 import { Settings as SettingsIcon } from 'lucide-react';
 
 export default function SettingsPage() {
@@ -31,8 +32,9 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Theme */}
-        <div className="bg-card border border-border/50 rounded-2xl p-5 shadow-sm animate-fade-in-up">
+        {/* Theme & Language */}
+        <div className="bg-card border border-border/50 rounded-2xl p-5 shadow-sm animate-fade-in-up space-y-6">
+          <LocaleSwitcher />
           <ThemeToggle />
         </div>
 

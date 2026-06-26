@@ -108,6 +108,9 @@
   "settings": {
     "title": "设置",
     "subtitle": "管理你的 API 密钥和偏好设置",
+    "language": "语言",
+    "chinese": "中文",
+    "english": "English",
     "theme": "主题",
     "light": "浅色",
     "dark": "深色",
