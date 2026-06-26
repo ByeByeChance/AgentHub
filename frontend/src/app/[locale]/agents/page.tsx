@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useStore } from '@/store/index';
 import { useFilteredAgents } from '@/store/selectors/agent-selectors';
 import { AgentCard } from '@/components/agent/agent-card';
@@ -14,6 +14,7 @@ import { Plus } from 'lucide-react';
 
 export default function AgentsPage() {
   const t = useTranslations('agent');
+  const locale = useLocale();
   const fetchAgents = useStore((s) => s.fetchAgents);
   const setSidebarTab = useStore((s) => s.setSidebarTab);
   const agents = useFilteredAgents();
@@ -21,8 +22,8 @@ export default function AgentsPage() {
 
   useEffect(() => {
     setSidebarTab('agents');
-    void fetchAgents();
-  }, [fetchAgents, setSidebarTab]);
+    void fetchAgents(undefined, undefined, locale);
+  }, [fetchAgents, setSidebarTab, locale]);
 
   return (
     <div className="flex-1 overflow-y-auto">

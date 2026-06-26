@@ -1,6 +1,28 @@
 import type { AgentRegistry } from '../services/agent-registry.js';
 import type { AgentSeedData } from './interfaces/seed.interface.js';
 import { CATEGORY_TOOLS } from './constants/category-tools.js';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+// ── Translation map ─────────────────────────────────────────────────
+// Load the zh-CN translation map bundled with agency-agents
+let translationMap: Record<string, { name: string; description: string }> = {};
+
+function loadTranslationMap(): void {
+  if (Object.keys(translationMap).length > 0) return; // already loaded
+  try {
+    const i18nPath = resolve(process.cwd(), 'data', 'agency-agents', 'scripts', 'i18n', 'agent-names-zh.json');
+    translationMap = JSON.parse(readFileSync(i18nPath, 'utf-8'));
+  } catch {
+    console.warn('[seed] Translation map not found. Agents will use English names only.');
+  }
+}
+
+function buildNameI18n(englishName: string): Record<string, { name: string; description: string }> | undefined {
+  const zh = translationMap[englishName];
+  if (!zh) return undefined;
+  return { 'zh-CN': zh };
+}
 
 // gray-matter imports (dynamic, only when used)
 async function getMatter() {
@@ -38,6 +60,7 @@ export async function seedAgents(
   registry: AgentRegistry,
   agentFiles: Array<{ path: string; content: string }>,
 ): Promise<number> {
+  loadTranslationMap();
   let imported = 0;
 
   for (const file of agentFiles) {
@@ -55,6 +78,7 @@ export async function seedAgents(
       if (alreadyExists) continue;
 
       const toolNames = CATEGORY_TOOLS[data.category] ?? ['write_artifact'];
+      const nameI18n = buildNameI18n(data.name);
 
       await registry.create({
         name: data.name,
@@ -63,6 +87,7 @@ export async function seedAgents(
         category: data.category,
         systemPrompt: data.systemPrompt,
         toolNames,
+        nameI18n,
       });
 
       imported++;

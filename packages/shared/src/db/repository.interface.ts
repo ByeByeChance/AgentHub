@@ -23,6 +23,7 @@ export interface AgentRecord {
   toolNames: string[];
   isBuiltin: boolean;
   isOrchestrator: boolean;
+  nameI18n?: Record<string, { name: string; description: string }>;
   createdAt: string;
   updatedAt: string;
 }

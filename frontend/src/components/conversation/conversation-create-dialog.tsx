@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, type ReactNode } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useStore } from '@/store/index';
 import { Input } from '@/components/ui/input';
 import {
@@ -30,6 +30,7 @@ export function ConversationCreateDialog({
   children,
 }: ConversationCreateDialogProps) {
   const t = useTranslations('conversation');
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [mode, setMode] = useState<'single' | 'group'>('single');
@@ -41,8 +42,8 @@ export function ConversationCreateDialog({
   const createConversation = useStore((s) => s.createConversation);
 
   useEffect(() => {
-    if (open) fetchAgents();
-  }, [open, fetchAgents]);
+    if (open) fetchAgents(undefined, undefined, locale);
+  }, [open, fetchAgents, locale]);
 
   const handleCreate = async () => {
     if (selectedAgentIds.length === 0) return;

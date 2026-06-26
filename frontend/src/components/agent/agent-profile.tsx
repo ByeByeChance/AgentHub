@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useStore } from '@/store/index';
 import { useAgentDetail } from '@/store/selectors/agent-selectors';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,15 +14,16 @@ import { Button } from '@/components/ui/button';
 
 export function AgentProfile() {
   const t = useTranslations('agent');
+  const locale = useLocale();
   const { agentId } = useParams<{ agentId: string }>();
   const fetchAgentDetail = useStore((s) => s.fetchAgentDetail);
   const agent = useAgentDetail(agentId ?? null);
 
   useEffect(() => {
     if (agentId) {
-      void fetchAgentDetail(agentId);
+      void fetchAgentDetail(agentId, locale);
     }
-  }, [agentId, fetchAgentDetail]);
+  }, [agentId, fetchAgentDetail, locale]);
 
   if (!agent) {
     return (

@@ -6,8 +6,8 @@ import { logger } from '@/lib/logger';
 export interface AgentSlice {
   agents: Record<string, AgentMetadata>;
   agentDetails: Record<string, AgentFull>;
-  fetchAgents: (category?: string, search?: string) => Promise<void>;
-  fetchAgentDetail: (agentId: string) => Promise<void>;
+  fetchAgents: (category?: string, search?: string, locale?: string) => Promise<void>;
+  fetchAgentDetail: (agentId: string, locale?: string) => Promise<void>;
   createAgent: (input: {
     name: string;
     emoji: string;
@@ -27,11 +27,12 @@ export const createAgentSlice: StateCreator<
   agents: {},
   agentDetails: {},
 
-  fetchAgents: async (category?: string, search?: string) => {
+  fetchAgents: async (category?: string, search?: string, locale?: string) => {
     try {
       const params = new URLSearchParams();
       if (category) params.set('category', category);
       if (search) params.set('search', search);
+      if (locale) params.set('locale', locale);
       const queryStr = params.toString();
       const path = queryStr ? `/api/agents?${queryStr}` : '/api/agents';
       const data = await apiClient.get<AgentMetadata[]>(path);
@@ -45,10 +46,11 @@ export const createAgentSlice: StateCreator<
     }
   },
 
-  fetchAgentDetail: async (agentId: string) => {
+  fetchAgentDetail: async (agentId: string, locale?: string) => {
     try {
+      const params = locale ? `?locale=${locale}` : '';
       const data = await apiClient.get<AgentFull>(
-        `/api/agents/${agentId}`,
+        `/api/agents/${agentId}${params}`,
       );
       set((draft) => {
         draft.agentDetails[agentId] = data;

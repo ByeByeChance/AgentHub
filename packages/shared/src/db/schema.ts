@@ -39,6 +39,7 @@ export const agents = pgTable('agents', {
   toolNames: jsonb('tool_names').$type<string[]>().notNull().default([]),
   isBuiltin: boolean('is_builtin').notNull().default(false),
   isOrchestrator: boolean('is_orchestrator').notNull().default(false),
+  nameI18n: jsonb('name_i18n').$type<Record<string, { name: string; description: string }>>(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });

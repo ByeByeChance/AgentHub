@@ -4,29 +4,48 @@ import type { AgentMetadata, AgentFull, CreateAgentInput } from './interfaces/ag
 export class AgentRegistry {
   constructor(private readonly db: Database) {}
 
-  async listByCategory(category: string): Promise<AgentMetadata[]> {
+  // ── Locale resolution ────────────────────────────────────────────
+
+  /**
+   * If the requested locale is not English and the agent has a translation
+   * for it, substitute name and description. Otherwise return unchanged.
+   */
+  private resolveLocale(raw: AgentRecord, locale?: string): AgentRecord {
+    if (!locale || locale === 'en' || !raw.nameI18n) return raw;
+    const translation = raw.nameI18n[locale];
+    if (!translation) return raw;
+    return {
+      ...raw,
+      name: translation.name ?? raw.name,
+      description: translation.description ?? raw.description,
+    };
+  }
+
+  // ── Public API ────────────────────────────────────────────────────
+
+  async listByCategory(category: string, locale?: string): Promise<AgentMetadata[]> {
     try {
       const agents = await this.db.agents.listByCategory(category);
-      return agents.map(toAgentMetadata);
+      return agents.map(r => toAgentMetadata(this.resolveLocale(r, locale)));
     } catch (err) {
       throw new Error(`Failed to list agents by category '${category}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
     }
   }
 
-  async listAll(): Promise<AgentMetadata[]> {
+  async listAll(locale?: string): Promise<AgentMetadata[]> {
     try {
       const agents = await this.db.agents.listAll();
-      return agents.map(toAgentMetadata);
+      return agents.map(r => toAgentMetadata(this.resolveLocale(r, locale)));
     } catch (err) {
       throw new Error(`Failed to list all agents: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
     }
   }
 
-  async getById(id: string): Promise<AgentFull | null> {
+  async getById(id: string, locale?: string): Promise<AgentFull | null> {
     try {
       const raw = await this.db.agents.findById(id);
       if (!raw) return null;
-      return toAgentFull(raw);
+      return toAgentFull(this.resolveLocale(raw, locale));
     } catch (err) {
       throw new Error(`Failed to get agent '${id}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
     }
@@ -49,6 +68,7 @@ export class AgentRegistry {
         toolNames: input.toolNames ?? [],
         isBuiltin: false,
         isOrchestrator: false,
+        nameI18n: input.nameI18n,
         createdAt: now,
         updatedAt: now,
       };
@@ -60,10 +80,10 @@ export class AgentRegistry {
     }
   }
 
-  async search(query: string): Promise<AgentMetadata[]> {
+  async search(query: string, locale?: string): Promise<AgentMetadata[]> {
     try {
       const agents = await this.db.agents.search(query);
-      return agents.map(toAgentMetadata);
+      return agents.map(r => toAgentMetadata(this.resolveLocale(r, locale)));
     } catch (err) {
       throw new Error(`Failed to search agents with query '${query}': ${err instanceof Error ? err.message : String(err)}`, { cause: err });
     }

@@ -52,10 +52,13 @@ export class DrizzleDB implements Database {
           tool_names JSONB NOT NULL DEFAULT '[]',
           is_builtin BOOLEAN NOT NULL DEFAULT false,
           is_orchestrator BOOLEAN NOT NULL DEFAULT false,
+          name_i18n JSONB,
           created_at TIMESTAMP NOT NULL DEFAULT now(),
           updated_at TIMESTAMP NOT NULL DEFAULT now()
         )
       `);
+      // Migration: add name_i18n column if table already exists without it
+      await sql.query('ALTER TABLE agents ADD COLUMN IF NOT EXISTS name_i18n JSONB');
       await sql.query(`
         CREATE TABLE IF NOT EXISTS conversations (
           id TEXT PRIMARY KEY,
@@ -129,6 +132,7 @@ class DrizzleAgentRepo {
         toolNames: record.toolNames,
         isBuiltin: record.isBuiltin,
         isOrchestrator: record.isOrchestrator,
+        nameI18n: record.nameI18n ?? null,
         createdAt: new Date(record.createdAt),
         updatedAt: new Date(record.updatedAt),
       });
@@ -153,6 +157,7 @@ class DrizzleAgentRepo {
         id: agents.id, name: agents.name, emoji: agents.emoji,
         description: agents.description, category: agents.category,
         isBuiltin: agents.isBuiltin, isOrchestrator: agents.isOrchestrator,
+        nameI18n: agents.nameI18n,
         createdAt: agents.createdAt, updatedAt: agents.updatedAt,
         systemPrompt: agents.systemPrompt, adapterName: agents.adapterName,
         modelId: agents.modelId, toolNames: agents.toolNames,
@@ -201,6 +206,7 @@ function mapAgent(r: typeof agents.$inferSelect): AgentRecord {
     adapterName: r.adapterName, modelId: r.modelId,
     toolNames: r.toolNames as string[], isBuiltin: r.isBuiltin,
     isOrchestrator: r.isOrchestrator,
+    nameI18n: r.nameI18n as AgentRecord['nameI18n'] | undefined,
     createdAt: r.createdAt instanceof Date ? r.createdAt.toISOString() : String(r.createdAt),
     updatedAt: r.updatedAt instanceof Date ? r.updatedAt.toISOString() : String(r.updatedAt),
   };

@@ -25,4 +25,5 @@ export interface CreateAgentInput {
   adapterName?: string;
   modelId?: string;
   toolNames?: string[];
+  nameI18n?: Record<string, { name: string; description: string }>;
 }

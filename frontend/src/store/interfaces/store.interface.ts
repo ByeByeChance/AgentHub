@@ -51,8 +51,8 @@ export interface AgentHubActions {
   stopStreaming: () => void;
 
   // Agents
-  fetchAgents: (category?: string, search?: string) => Promise<void>;
-  fetchAgentDetail: (agentId: string) => Promise<void>;
+  fetchAgents: (category?: string, search?: string, locale?: string) => Promise<void>;
+  fetchAgentDetail: (agentId: string, locale?: string) => Promise<void>;
   createAgent: (input: {
     name: string;
     emoji: string;
