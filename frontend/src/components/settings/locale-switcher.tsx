@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { usePathname, useRouter } from '@/i18n/navigation';
+import { usePathname } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 
 interface LocaleOption {
@@ -13,7 +13,6 @@ export function LocaleSwitcher() {
   const t = useTranslations('settings');
   const locale = useLocale();
   const pathname = usePathname();
-  const router = useRouter();
 
   const locales: LocaleOption[] = [
     { key: 'zh-CN', label: t('chinese') },
@@ -21,7 +20,11 @@ export function LocaleSwitcher() {
   ];
 
   const handleSwitch = (targetLocale: 'zh-CN' | 'en') => {
-    router.replace(pathname, { locale: targetLocale });
+    if (targetLocale === locale) return;
+    // Force a full navigation through the middleware so the NEXT_LOCALE
+    // cookie is set and the server re-renders with the new locale.
+    // /en/settings → middleware sets cookie → 307 redirect → /settings
+    window.location.assign(`/${targetLocale}${pathname}`);
   };
 
   return (
