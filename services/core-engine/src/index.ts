@@ -108,9 +108,16 @@ async function main(): Promise<void> {
     adapter: process.env.AGENT_ADAPTER ?? 'deepseek',
   });
 
-  // Register auth middleware (AUTH_STRATEGY env var controls which strategy)
-  const authStrategy = createAuthStrategy();
-  registerAuthMiddleware(app, authStrategy);
+  // Register auth middleware (AUTH_STRATEGY env var controls which strategy).
+  // When AUTH_GATEWAY_MODE=behind-proxy, auth is handled by the API Gateway;
+  // Core Engine skips its own auth middleware to avoid double-authentication.
+  const authGatewayMode = process.env.AUTH_GATEWAY_MODE ?? 'standalone';
+  if (authGatewayMode !== 'behind-proxy') {
+    const authStrategy = createAuthStrategy();
+    registerAuthMiddleware(app, authStrategy);
+  } else {
+    logger.info('Auth middleware skipped (AUTH_GATEWAY_MODE=behind-proxy)');
+  }
 
   // Register API routes
   registerAgentRoutes(app, agentRegistry);

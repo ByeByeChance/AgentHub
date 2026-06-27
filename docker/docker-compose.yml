@@ -51,10 +51,36 @@ services:
       - agenthub-net
 
   # === Application Services ===
+  api-gateway:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api-gateway
+    ports:
+      - "${API_GATEWAY_PORT:-3000}:3000"
+    environment:
+      - API_GATEWAY_PORT=3000
+      - CORE_ENGINE_URL=http://core-engine:3001
+      - AUTH_STRATEGY=${AUTH_STRATEGY:-api-key}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000}
+      - LOG_LEVEL=info
+    depends_on:
+      core-engine:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health').then(r => { if (!r.ok) process.exit(1) })"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 3s
+    networks:
+      - agenthub-net
+
   core-engine:
     build:
       context: ..
       dockerfile: docker/Dockerfile.core-engine
+    # When running behind api-gateway, core-engine port does not need to be
+    # exposed externally. Binds to internal agenthub-net only.
     ports:
       - "3001:3001"
     environment:
@@ -66,6 +92,7 @@ services:
       - SKILL_REGISTRY_URL=http://skill-registry:3002
       - KNOWLEDGE_BASE_URL=http://knowledge-base:3003
       - OBSERVABILITY_URL=http://observability:3004
+      - AUTH_GATEWAY_MODE=behind-proxy
       - LOG_LEVEL=info
     depends_on:
       postgres:
@@ -174,9 +201,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_CORE_ENGINE_URL=http://core-engine:3001
+      - NEXT_PUBLIC_CORE_ENGINE_URL=http://api-gateway:3000
     depends_on:
-      core-engine:
+      api-gateway:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then(r => { if (!r.ok) process.exit(1) })"]

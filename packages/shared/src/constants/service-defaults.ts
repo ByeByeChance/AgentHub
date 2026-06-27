@@ -1,7 +1,9 @@
 /** Default values for service configuration — use as fallbacks when env vars are not set. */
 export const SERVICE_DEFAULTS = {
   ports: {
+    apiGateway: 3000,
     coreEngine: 3001,
+    mcpGateway: 8080,
     skillRegistry: 3002,
     knowledgeBase: 3003,
     observability: 3004,
