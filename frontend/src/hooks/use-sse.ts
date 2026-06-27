@@ -27,7 +27,7 @@ export function useSSE(options: UseSSEOptions = {}): UseSSEReturn {
 
     setSSEStatus('connecting');
 
-    const es = new EventSource('/api/events');
+    const es = new EventSource('/v1/api/events');
     eventSourceRef.current = es;
 
     es.onopen = () => {

@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { EVENT_TYPES, createEventEnvelope } from '@agenthub/contracts';
 import type { EventEnvelope } from '@agenthub/contracts';
 import { createPinoLogger } from '@agenthub/shared/logging';
+import { registerApiRoute } from '@agenthub/shared/server';
 import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 import type { ConversationRouteDeps } from '../services/interfaces/conversation-routes.interface.js';
 import { createConvSchema, sendMessageSchema } from './validation/conversation-schemas.js';
@@ -26,7 +27,7 @@ export function registerConversationRoutes(
     auditLogger,
   } = deps;
 
-  app.post('/api/conversations', async (request, reply) => {
+  registerApiRoute(app, 'POST', '/conversations', async (request, reply) => {
     const result = createConvSchema.safeParse(request.body);
     if (!result.success) {
       throw ProblemDetail.fromZodError(result.error, request.url);
@@ -36,11 +37,11 @@ export function registerConversationRoutes(
     return conv;
   });
 
-  app.get('/api/conversations', async () => {
+  registerApiRoute(app, 'GET', '/conversations', async () => {
     return conversationService.listConversations();
   });
 
-  app.get('/api/conversations/:id/messages', async (request) => {
+  registerApiRoute(app, 'GET', '/conversations/:id/messages', async (request) => {
     const { id } = request.params as { id: string };
     const { limit, offset } = request.query as {
       limit?: string;
@@ -53,7 +54,7 @@ export function registerConversationRoutes(
     );
   });
 
-  app.post('/api/conversations/:id/messages', async (request, reply) => {
+  registerApiRoute(app, 'POST', '/conversations/:id/messages', async (request, reply) => {
     const { id: conversationId } = request.params as { id: string };
     const bodyResult = sendMessageSchema.safeParse(request.body);
     if (!bodyResult.success) {
@@ -151,7 +152,7 @@ export function registerConversationRoutes(
   });
 
   // DELETE a message by ID
-  app.delete('/api/conversations/:id/messages/:messageId', async (request, reply) => {
+  registerApiRoute(app, 'DELETE', '/conversations/:id/messages/:messageId', async (request, reply) => {
     const { messageId } = request.params as { id: string; messageId: string };
     try {
       await conversationService.deleteMessage(messageId);

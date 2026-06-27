@@ -1,9 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { apiClient, ApiError } from '@/lib/api-client';
 
-// Ensure fetch uses a valid base URL in jsdom
-const BASE = 'http://localhost:3000';
-
 describe('apiClient', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
@@ -16,9 +13,10 @@ describe('apiClient', () => {
         new Response(JSON.stringify(mockData), { status: 200 }),
       );
 
-      const result = await apiClient.get<typeof mockData>(`${BASE}/api/agents`);
+      const result = await apiClient.get<typeof mockData>('/agents');
       expect(result).toEqual(mockData);
-      expect(fetch).toHaveBeenCalledWith(`${BASE}/api/agents`, expect.objectContaining({ method: 'GET' }));
+      // apiClient prepends /v1/api prefix
+      expect(fetch).toHaveBeenCalledWith('/v1/api/agents', expect.objectContaining({ method: 'GET' }));
     });
 
     it('should throw ApiError on non-2xx response', async () => {
@@ -26,7 +24,7 @@ describe('apiClient', () => {
         new Response('Not Found', { status: 404 }),
       );
 
-      await expect(apiClient.get(`${BASE}/api/agents/missing`)).rejects.toThrow('API Error 404');
+      await expect(apiClient.get('/agents/missing')).rejects.toThrow('API Error 404');
     });
   });
 
@@ -36,9 +34,9 @@ describe('apiClient', () => {
         new Response(JSON.stringify({ id: 'new', ok: true }), { status: 201 }),
       );
 
-      const result = await apiClient.post(`${BASE}/api/conversations`, { title: 'Test' });
+      const result = await apiClient.post('/conversations', { title: 'Test' });
       expect(result).toEqual({ id: 'new', ok: true });
-      expect(fetch).toHaveBeenCalledWith(`${BASE}/api/conversations`, expect.objectContaining({
+      expect(fetch).toHaveBeenCalledWith('/v1/api/conversations', expect.objectContaining({
         method: 'POST',
         body: JSON.stringify({ title: 'Test' }),
       }));
@@ -49,7 +47,7 @@ describe('apiClient', () => {
         new Response(JSON.stringify({ error: 'Validation failed' }), { status: 400 }),
       );
 
-      await expect(apiClient.post(`${BASE}/api/conversations`, {})).rejects.toThrow(ApiError);
+      await expect(apiClient.post('/conversations', {})).rejects.toThrow(ApiError);
     });
   });
 
@@ -66,7 +64,7 @@ describe('apiClient', () => {
         new Response(mockBody, { status: 200 }),
       );
 
-      const stream = await apiClient.streamPost(`${BASE}/api/conversations/1/messages`, { content: 'hi' });
+      const stream = await apiClient.streamPost('/conversations/1/messages', { content: 'hi' });
       expect(stream).toBeInstanceOf(ReadableStream);
     });
 
@@ -76,7 +74,7 @@ describe('apiClient', () => {
       );
 
       await expect(
-        apiClient.streamPost(`${BASE}/api/conversations/1/messages`, { content: 'hi' }),
+        apiClient.streamPost('/conversations/1/messages', { content: 'hi' }),
       ).rejects.toThrow('Response body is not readable');
     });
 
@@ -86,7 +84,7 @@ describe('apiClient', () => {
       );
 
       await expect(
-        apiClient.streamPost(`${BASE}/api/conversations/missing/messages`, { content: 'hi' }),
+        apiClient.streamPost('/conversations/missing/messages', { content: 'hi' }),
       ).rejects.toThrow(ApiError);
     });
   });

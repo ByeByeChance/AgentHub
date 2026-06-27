@@ -1,7 +1,7 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import type { AuthStrategy, AuthRequest } from '@agenthub/shared/auth';
-import { ProblemDetail } from '@agenthub/shared/errors';
-import { ERROR_TYPES } from '@agenthub/shared/errors';
+import { isApiPath } from '@agenthub/shared/constants';
+import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 
 /**
  * Register an authentication preHandler hook on all /api/* routes.
@@ -19,7 +19,7 @@ export function registerAuthMiddleware(
 ): void {
   app.addHook('preHandler', async (request: FastifyRequest, _reply: FastifyReply) => {
     // Only apply to /api/* routes; skip health and other public paths
-    if (!request.url.startsWith('/api/')) return;
+    if (!isApiPath(request.url)) return;
 
     const authRequest: AuthRequest = {
       headers: request.headers as Record<string, string | string[] | undefined>,

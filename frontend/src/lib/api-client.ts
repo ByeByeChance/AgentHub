@@ -1,5 +1,8 @@
 import { logger } from './logger';
 
+/** Current API version prefix — all requests are routed through /v1/api. */
+const API_BASE = '/v1/api';
+
 class ApiError extends Error {
   constructor(
     public readonly status: number,
@@ -15,7 +18,7 @@ async function request<T>(
   path: string,
   body?: unknown,
 ): Promise<T> {
-  const url = `${path}`;
+  const url = `${API_BASE}${path}`;
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
@@ -58,7 +61,7 @@ async function streamPost(
   body: unknown,
   signal?: AbortSignal,
 ): Promise<ReadableStream<Uint8Array>> {
-  const url = `${path}`;
+  const url = `${API_BASE}${path}`;
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

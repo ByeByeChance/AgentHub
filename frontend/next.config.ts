@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
         source: '/api/:path*',
         destination: `${CORE_ENGINE_URL}/api/:path*`,
       },
+      {
+        source: '/v1/api/:path*',
+        destination: `${CORE_ENGINE_URL}/v1/api/:path*`,
+      },
     ];
   },
 };

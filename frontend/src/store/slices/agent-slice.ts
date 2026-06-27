@@ -34,7 +34,7 @@ export const createAgentSlice: StateCreator<
       if (search) params.set('search', search);
       if (locale) params.set('locale', locale);
       const queryStr = params.toString();
-      const path = queryStr ? `/api/agents?${queryStr}` : '/api/agents';
+      const path = queryStr ? `/api/agents?${queryStr}` : '/agents';
       const data = await apiClient.get<AgentMetadata[]>(path);
       set((draft) => {
         for (const a of data) {
@@ -64,7 +64,7 @@ export const createAgentSlice: StateCreator<
 
   createAgent: async (input) => {
     try {
-      const data = await apiClient.post<AgentFull>('/api/agents', input);
+      const data = await apiClient.post<AgentFull>('/agents', input);
       set((draft) => {
         draft.agents[data.id] = {
           id: data.id,

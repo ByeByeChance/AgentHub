@@ -25,7 +25,7 @@ export const createConversationSlice: StateCreator<
 
   fetchConversations: async () => {
     try {
-      const data = await apiClient.get<Conversation[]>('/api/conversations');
+      const data = await apiClient.get<Conversation[]>('/conversations');
       set((draft) => {
         for (const c of data) {
           draft.conversations[c.id] = c;
@@ -41,7 +41,7 @@ export const createConversationSlice: StateCreator<
   createConversation: async (input) => {
     try {
       const data = await apiClient.post<Conversation>(
-        '/api/conversations',
+        '/conversations',
         input,
       );
       set((draft) => {

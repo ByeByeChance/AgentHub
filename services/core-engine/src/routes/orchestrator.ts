@@ -5,6 +5,7 @@ import { Orchestrator } from '../orchestrator/index.js';
 import { toTransportReply } from './transport-reply.js';
 import { createPinoLogger } from '@agenthub/shared/logging';
 import { z } from 'zod';
+import { registerApiRoute } from '@agenthub/shared/server';
 import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 
 const executeGoalSchema = z.object({
@@ -49,7 +50,7 @@ export function registerOrchestratorRoute(
 
   const orchestrator = new Orchestrator();
 
-  app.post('/api/conversations/:id/execute', async (request, reply) => {
+  registerApiRoute(app, 'POST', '/conversations/:id/execute', async (request, reply) => {
     const { id: conversationId } = request.params as { id: string };
 
     const bodyResult = executeGoalSchema.safeParse(request.body);

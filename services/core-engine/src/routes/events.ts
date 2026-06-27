@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { EventBus } from '@agenthub/shared/event-bus';
 import type { TransportStrategy } from '@agenthub/shared/transport';
+import { registerApiRoute } from '@agenthub/shared/server';
 import { toTransportReply } from './transport-reply.js';
 
 export function registerEventRoutes(
@@ -8,7 +9,7 @@ export function registerEventRoutes(
   eventBus: EventBus,
   transport: TransportStrategy,
 ): void {
-  app.get('/api/events', async (request, reply) => {
+  registerApiRoute(app, 'GET', '/events', async (request, reply) => {
     const { topic } = request.query as { topic?: string };
 
     const controller = new AbortController();

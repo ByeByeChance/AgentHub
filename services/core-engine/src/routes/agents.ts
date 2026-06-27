@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import type { AgentRegistry } from '../services/agent-registry.js';
+import { registerApiRoute } from '@agenthub/shared/server';
 import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 
 const createAgentSchema = z.object({
@@ -38,7 +39,7 @@ export function registerAgentRoutes(
   app: FastifyInstance,
   registry: AgentRegistry,
 ): void {
-  app.get('/api/agents', async (request) => {
+  registerApiRoute(app, 'GET', '/agents', async (request) => {
     const { category, search, locale } = request.query as {
       category?: string;
       search?: string;
@@ -55,7 +56,7 @@ export function registerAgentRoutes(
     return registry.listAll(resolvedLocale);
   });
 
-  app.get('/api/agents/:id', async (request) => {
+  registerApiRoute(app, 'GET', '/agents/:id', async (request) => {
     const { id } = request.params as { id: string };
     const { locale } = request.query as { locale?: string };
     const resolvedLocale = resolveLocale(locale, request.headers['accept-language']);
@@ -72,7 +73,7 @@ export function registerAgentRoutes(
     return agent;
   });
 
-  app.post('/api/agents', async (request, reply) => {
+  registerApiRoute(app, 'POST', '/agents', async (request, reply) => {
     const result = createAgentSchema.safeParse(request.body);
     if (!result.success) {
       throw ProblemDetail.fromZodError(result.error, request.url);

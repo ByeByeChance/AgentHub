@@ -42,12 +42,17 @@ async function main(): Promise<void> {
   // HTTP-level rate limiting — protects /api/* routes
   registerRateLimitMiddleware(app, logger);
 
-  // Proxy all /api/* requests to Core Engine
+  // Proxy all /api/* and /v1/api/* requests to Core Engine
   const coreEngineUrl = process.env.CORE_ENGINE_URL ?? 'http://localhost:3001';
   const proxyHandler = createProxyHandler(coreEngineUrl, logger);
   app.route({
     method: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     url: '/api/*',
+    handler: proxyHandler,
+  });
+  app.route({
+    method: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    url: '/v1/api/*',
     handler: proxyHandler,
   });
 

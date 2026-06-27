@@ -1,6 +1,7 @@
 import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { RateLimiter } from '@agenthub/shared/reliability';
 import type { Logger } from '@agenthub/shared/logging';
+import { isApiPath } from '@agenthub/shared/constants';
 import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 
 /**
@@ -18,7 +19,7 @@ export function registerRateLimitMiddleware(
   const rateLimiter = new RateLimiter();
 
   app.addHook('preHandler', async (request: FastifyRequest) => {
-    if (!request.url.startsWith('/api/')) return;
+    if (!isApiPath(request.url)) return;
 
     const clientKey = request.ip ?? 'unknown';
 
