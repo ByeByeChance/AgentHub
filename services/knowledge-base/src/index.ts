@@ -8,7 +8,7 @@ import { SERVICE_DEFAULTS, STRATEGY_NAMES } from '@agenthub/shared/constants';
 import { createPinoLogger } from '@agenthub/shared/logging';
 import { createInMemoryDB, DrizzleDB } from '@agenthub/shared/db';
 import { createQueueBackend } from '@agenthub/shared/queue';
-import type { Database } from '@agenthub/shared/db';
+import type { DocumentRepository } from '@agenthub/shared/db';
 import { KnowledgeService } from './knowledge-service.js';
 import { MemoryService } from './memory-service.js';
 import { KnowledgeEventConsumer } from './event-consumer.js';
@@ -54,11 +54,11 @@ function createChunkingStrategy(): ChunkingStrategy {
   }
 }
 
-function createVectorStore(db: Database): VectorStoreBackend {
+function createVectorStore(documents: DocumentRepository): VectorStoreBackend {
   const backend = process.env.VECTOR_BACKEND ?? STRATEGY_NAMES.VECTOR_BACKENDS[0];
   switch (backend) {
     case STRATEGY_NAMES.VECTOR_BACKENDS[0]:
-      return new PgVectorStore(db);
+      return new PgVectorStore(documents);
     case STRATEGY_NAMES.VECTOR_BACKENDS[1]:
       return new InMemoryVectorStore();
     default:
@@ -68,11 +68,11 @@ function createVectorStore(db: Database): VectorStoreBackend {
 
 async function main(): Promise<void> {
   const databaseUrl = process.env.DATABASE_URL;
-  const db: Database = databaseUrl ? new DrizzleDB(databaseUrl) : createInMemoryDB();
+  const db = databaseUrl ? new DrizzleDB(databaseUrl) : createInMemoryDB();
 
   const embeddingStrategy = createEmbeddingStrategy();
   const chunkingStrategy = createChunkingStrategy();
-  const vectorStore = createVectorStore(db);
+  const vectorStore = createVectorStore(db.documents);
 
   const knowledgeService = new KnowledgeService(
     embeddingStrategy,

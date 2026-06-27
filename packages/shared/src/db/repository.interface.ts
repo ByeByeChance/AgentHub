@@ -123,10 +123,13 @@ export interface SearchResult {
 }
 
 // ---- Combined Database interface ----
+// NOTE: DocumentRepository is intentionally NOT included here.
+// Document storage is owned by the Knowledge Base service; Core Engine
+// and other services communicate with it via knowledge.* events, not
+// through a shared database. See ADR review 2026-06-27.
 export interface Database {
   agents: AgentRepository;
   conversations: ConversationRepository;
   messages: MessageRepository;
   artifacts: ArtifactRepository;
-  documents: DocumentRepository;
 }

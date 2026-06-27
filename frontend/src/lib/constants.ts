@@ -49,18 +49,10 @@ export const EVENT_TYPES = {
 
 export type EventType = (typeof EVENT_TYPES)[keyof typeof EVENT_TYPES];
 
-// Event Envelope type (inlined from @agenthub/contracts)
-export interface EventEnvelope<
-  TEventType extends string = string,
-  TPayload = unknown,
-> {
-  eventId: string;
-  eventType: TEventType;
-  timestamp: string;
-  traceId: string;
-  source: { service: string; instanceId: string };
-  payload: TPayload;
-}
+// Event Envelope type — re-exported from @agenthub/contracts to avoid type drift.
+// Previously inlined due to NodeNext .js extension issues; resolved by Next.js
+// bundler moduleResolution which handles extension-less imports.
+export type { EventEnvelope } from '@agenthub/contracts';
 
 export const CORE_ENGINE_URL =
   process.env.NEXT_PUBLIC_CORE_ENGINE_URL ?? 'http://localhost:3001';

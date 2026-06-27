@@ -3,6 +3,32 @@ import type { QueueBackend } from '../queue/interfaces/queue-backend.interface.j
 import type { EventEnvelope } from '@agenthub/contracts';
 
 /**
+ * Per-event-type failure mode for EventBridge publish failures.
+ * - 'error': log at ERROR level (data-loss risk, e.g. knowledge.write)
+ * - 'warn':  log at WARN level (best-effort acceptable, e.g. audit.log)
+ * - 'info':  log at INFO level (purely informational events)
+ */
+export type BridgeFailureMode = 'error' | 'warn' | 'info';
+
+export interface BridgeConfig {
+  /** Per-event-type or prefix-based failure mode overrides. */
+  failureModes?: Record<string, BridgeFailureMode>;
+  /** Default failure mode for events without a specific override. */
+  defaultFailureMode?: BridgeFailureMode;
+}
+
+/** Minimal logger interface — works with Pino, console, etc. */
+export interface BridgeLogger {
+  error(obj: object, msg?: string): void;
+  warn(obj: object, msg?: string): void;
+  info(obj: object, msg?: string): void;
+}
+
+const DEFAULT_FAILURE_MODE: Record<string, BridgeFailureMode> = {
+  'knowledge.': 'error',
+};
+
+/**
  * Bridges the internal EventBus to a remote QueueBackend (RabbitMQ).
  *
  * Subscribes to all events on the in-memory EventBus and publishes each one
@@ -12,20 +38,27 @@ import type { EventEnvelope } from '@agenthub/contracts';
  * Routing Key:    eventType (e.g. "agent.run.complete", "knowledge.write")
  *
  * Usage:
- *   const bridge = new EventBridge(eventBus, queueBackend);
+ *   const bridge = new EventBridge(eventBus, queueBackend, logger);
  *   await bridge.start();
  *   // ... events now flow from memory bus to queue
  *   await bridge.stop();
  */
 export class EventBridge {
   private readonly exchange = 'agenthub.events';
+  private readonly failureModes: Record<string, BridgeFailureMode>;
+  private readonly defaultMode: BridgeFailureMode;
   private running = false;
   private stopRequested = false;
 
   constructor(
     private readonly eventBus: EventBus,
     private readonly queueBackend: QueueBackend,
-  ) {}
+    private readonly logger: BridgeLogger = console,
+    config?: BridgeConfig,
+  ) {
+    this.failureModes = { ...DEFAULT_FAILURE_MODE, ...config?.failureModes };
+    this.defaultMode = config?.defaultFailureMode ?? 'warn';
+  }
 
   /**
    * Start bridging events from the internal EventBus to the QueueBackend.
@@ -72,6 +105,19 @@ export class EventBridge {
 
   // ── private ──
 
+  /**
+   * Resolve the failure mode for a given event type.
+   * Matches by prefix — e.g. "knowledge." matches "knowledge.write", "knowledge.query".
+   */
+  private resolveFailureMode(eventType: string): BridgeFailureMode {
+    for (const [prefix, mode] of Object.entries(this.failureModes)) {
+      if (eventType.startsWith(prefix)) return mode;
+    }
+    return this.defaultMode;
+  }
+
+  // ── private ──
+
   private async runLoop(): Promise<void> {
     try {
       for await (const envelope of this.eventBus.subscribe('')) {
@@ -83,10 +129,28 @@ export class EventBridge {
             envelope.eventType,
             envelope satisfies EventEnvelope,
           );
-        } catch {
-          // Publish failure is non-fatal — the event is still in the
-          // EventBus memory queue; downstream services can consume
-          // directly if needed.
+        } catch (err) {
+          // Publish failure: event is lost from the RabbitMQ perspective.
+          // Log at the configured severity so the operator can decide if
+          // data recovery is needed (knowledge.* events default to ERROR).
+          const mode = this.resolveFailureMode(envelope.eventType);
+          const logCtx = {
+            eventId: envelope.eventId,
+            eventType: envelope.eventType,
+            traceId: envelope.traceId,
+            source: envelope.source,
+            error: String(err),
+          };
+          switch (mode) {
+            case 'error':
+              this.logger.error(logCtx, `EventBridge publish FAILED [${envelope.eventType}] — event may be lost`);
+              break;
+            case 'warn':
+              this.logger.warn(logCtx, `EventBridge publish failed [${envelope.eventType}]`);
+              break;
+            default:
+              this.logger.info(logCtx, `EventBridge publish failed [${envelope.eventType}]`);
+          }
         }
       }
     } finally {

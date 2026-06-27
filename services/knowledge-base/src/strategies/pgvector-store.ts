@@ -1,24 +1,25 @@
-import type { DocumentRecord, SearchResult, SearchOptions } from '@agenthub/shared/db';
+import type { DocumentRecord, SearchResult, SearchOptions, DocumentRepository } from '@agenthub/shared/db';
 import type { VectorStoreBackend } from './interfaces/vector-store.interface.js';
-import type { Database } from '@agenthub/shared/db';
 
 /**
- * pgvector-backed vector store. Delegates to the shared Database interface.
+ * pgvector-backed vector store. Uses a DocumentRepository directly
+ * rather than the full shared Database interface, so the Knowledge Base
+ * service fully owns its storage surface.
  */
 export class PgVectorStore implements VectorStoreBackend {
   readonly name = 'pgvector';
 
-  constructor(private db: Database) {}
+  constructor(private documents: DocumentRepository) {}
 
   async store(document: DocumentRecord): Promise<void> {
-    await this.db.documents.insert(document);
+    await this.documents.insert(document);
   }
 
   async search(query: number[], options?: SearchOptions): Promise<SearchResult[]> {
-    return this.db.documents.searchByVector(query, options);
+    return this.documents.searchByVector(query, options);
   }
 
   async delete(id: string): Promise<void> {
-    await this.db.documents.delete(id);
+    await this.documents.delete(id);
   }
 }

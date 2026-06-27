@@ -1,9 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { createInMemoryDB } from '../../db/connection.js';
-import type { Database } from '../../db/repository.interface.js';
+import { createInMemoryDB, InMemoryDB } from '../../db/connection.js';
 
 describe('InMemoryDB', () => {
-  let db: Database;
+  let db: InMemoryDB;
 
   beforeEach(() => { db = createInMemoryDB(); });
 

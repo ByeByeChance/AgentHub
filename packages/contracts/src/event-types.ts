@@ -28,6 +28,12 @@ export const EVENT_TYPES = {
   // Skill
   SKILL_INVOKE: 'skill.invoke',
 
+  // Orchestrator
+  ORCHESTRATOR_PLAN_START: 'orchestrator.plan.start',
+  ORCHESTRATOR_PLAN_COMPLETE: 'orchestrator.plan.complete',
+  ORCHESTRATOR_PLAN_FAILED: 'orchestrator.plan.failed',
+  ORCHESTRATOR_AGGREGATE_COMPLETE: 'orchestrator.aggregate.complete',
+
   // Audit
   AUDIT_LOG: 'audit.log',
 
@@ -74,6 +80,13 @@ export const SKILL_EVENTS = [
 
 export const AUDIT_EVENTS = [
   EVENT_TYPES.AUDIT_LOG,
+] as const;
+
+export const ORCHESTRATOR_EVENTS = [
+  EVENT_TYPES.ORCHESTRATOR_PLAN_START,
+  EVENT_TYPES.ORCHESTRATOR_PLAN_COMPLETE,
+  EVENT_TYPES.ORCHESTRATOR_PLAN_FAILED,
+  EVENT_TYPES.ORCHESTRATOR_AGGREGATE_COMPLETE,
 ] as const;
 
 export const SYSTEM_EVENTS = [

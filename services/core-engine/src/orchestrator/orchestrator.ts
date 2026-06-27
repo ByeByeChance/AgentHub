@@ -77,7 +77,7 @@ export class Orchestrator {
       createEventEnvelope(eventType, payload, source);
 
     // ── Stage 1: createPlan ──
-    const planStartEvent = makeEnvelope('orchestrator.plan.start', { goal, conversationId });
+    const planStartEvent = makeEnvelope(EVENT_TYPES.ORCHESTRATOR_PLAN_START, { goal, conversationId });
     eventBus.emit(planStartEvent);
     yield planStartEvent;
 
@@ -88,7 +88,7 @@ export class Orchestrator {
 
     while (!plan && planRetries < maxPlanRetries) {
       if (signal.aborted) {
-        const abortEvent = makeEnvelope('orchestrator.plan.failed', {
+        const abortEvent = makeEnvelope(EVENT_TYPES.ORCHESTRATOR_PLAN_FAILED, {
           error: 'Aborted during plan creation',
         });
         eventBus.emit(abortEvent);
@@ -125,7 +125,7 @@ export class Orchestrator {
     }
 
     if (!plan) {
-      const failEvent = makeEnvelope('orchestrator.plan.failed', {
+      const failEvent = makeEnvelope(EVENT_TYPES.ORCHESTRATOR_PLAN_FAILED, {
         error: `Failed to create a valid plan after ${maxPlanRetries} attempts`,
       });
       eventBus.emit(failEvent);
@@ -133,7 +133,7 @@ export class Orchestrator {
       return;
     }
 
-    const planCompleteEvent = makeEnvelope('orchestrator.plan.complete', {
+    const planCompleteEvent = makeEnvelope(EVENT_TYPES.ORCHESTRATOR_PLAN_COMPLETE, {
       plan,
       conversationId,
     });
@@ -286,7 +286,7 @@ export class Orchestrator {
       }
     }
 
-    const completeEvent = makeEnvelope('orchestrator.aggregate.complete', {
+    const completeEvent = makeEnvelope(EVENT_TYPES.ORCHESTRATOR_AGGREGATE_COMPLETE, {
       conversationId,
       aggregateOutput,
       taskResults,

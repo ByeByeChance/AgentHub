@@ -9,6 +9,7 @@ import {
   SKILL_EVENTS,
   AUDIT_EVENTS,
   SYSTEM_EVENTS,
+  ORCHESTRATOR_EVENTS,
 } from '../event-types.js';
 
 const ALL_NAMESPACE_GROUPS = [
@@ -20,6 +21,7 @@ const ALL_NAMESPACE_GROUPS = [
   SKILL_EVENTS,
   AUDIT_EVENTS,
   SYSTEM_EVENTS,
+  ORCHESTRATOR_EVENTS,
 ] as const;
 
 describe('Event Types', () => {
