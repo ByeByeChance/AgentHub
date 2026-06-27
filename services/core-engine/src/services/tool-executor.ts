@@ -1,9 +1,12 @@
 import type { ToolDefinition, ToolResult } from '@agenthub/shared/adapter';
 import type { ToolContext, ToolRegistration } from './interfaces/tool-executor.interface.js';
+import type { MCPClient } from './mcp-client.js';
 export type { ToolContext, ToolRegistration };
 
 export class ToolExecutor {
   private tools = new Map<string, ToolRegistration>();
+  /** Track which tools came from the MCP Gateway (keyed by prefixed name). */
+  private externalTools = new Set<string>();
 
   constructor() { this.registerBuiltInTools(); }
 
@@ -74,6 +77,48 @@ export class ToolExecutor {
   }
 
   register(tool: ToolRegistration): void { this.tools.set(tool.name, tool); }
+
+  /**
+   * Discover and register external tools from the MCP Gateway.
+   *
+   * External tools are prefixed with `mcp:` to avoid naming collisions
+   * with built-in tools. If the MCP Gateway is unreachable, this method
+   * silently returns (graceful degradation — built-in tools still work).
+   */
+  async registerExternalTools(mcpClient: MCPClient): Promise<void> {
+    try {
+      const externalTools = await mcpClient.discoverTools();
+      for (const tool of externalTools) {
+        const prefixedName = `mcp:${tool.name}`;
+        this.register({
+          name: prefixedName,
+          description: tool.description,
+          parameters: tool.inputSchema,
+          handler: async (args) => {
+            const result = await mcpClient.callTool(tool.name, args);
+            // Collect text content from the result
+            return result.content
+              .filter((c) => c.type === 'text')
+              .map((c) => c.text ?? '')
+              .join('\n');
+          },
+        });
+        this.externalTools.add(prefixedName);
+      }
+    } catch {
+      // Gateway unreachable — external tools unavailable, built-in tools unaffected
+    }
+  }
+
+  /** Check if a tool was registered from the MCP Gateway. */
+  isExternalTool(name: string): boolean {
+    return this.externalTools.has(name);
+  }
+
+  /** Get the names of all external tools. */
+  getExternalToolNames(): string[] {
+    return Array.from(this.externalTools);
+  }
 
   getDefinitions(): ToolDefinition[] {
     return Array.from(this.tools.values()).map(t => ({ name: t.name, description: t.description, parameters: t.parameters }));

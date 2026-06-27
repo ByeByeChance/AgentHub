@@ -17,7 +17,11 @@
     "lint": "pnpm --recursive typecheck",
     "typecheck": "pnpm --recursive typecheck",
     "db:seed": "pnpm --filter @agenthub/core-engine db:seed",
-    "e2e": "echo 'Playwright E2E — coming in M3'"
+    "e2e": "echo 'Playwright E2E — coming in M3'",
+    "load-test:health": "k6 run tests/load/health-check.js",
+    "load-test:agents": "k6 run tests/load/agent-listing.js",
+    "load-test:message": "k6 run tests/load/message-send-sse.js",
+    "load-test": "pnpm load-test:health && pnpm load-test:agents && pnpm load-test:message"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "catalog:",

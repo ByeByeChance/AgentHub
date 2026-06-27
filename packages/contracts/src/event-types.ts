@@ -34,6 +34,10 @@ export const EVENT_TYPES = {
   ORCHESTRATOR_PLAN_FAILED: 'orchestrator.plan.failed',
   ORCHESTRATOR_AGGREGATE_COMPLETE: 'orchestrator.aggregate.complete',
 
+  // MCP (Model Context Protocol)
+  MCP_DISCOVER: 'mcp.discover',
+  MCP_CALL: 'mcp.call',
+
   // Audit
   AUDIT_LOG: 'audit.log',
 
@@ -80,6 +84,11 @@ export const SKILL_EVENTS = [
 
 export const AUDIT_EVENTS = [
   EVENT_TYPES.AUDIT_LOG,
+] as const;
+
+export const MCP_EVENTS = [
+  EVENT_TYPES.MCP_DISCOVER,
+  EVENT_TYPES.MCP_CALL,
 ] as const;
 
 export const ORCHESTRATOR_EVENTS = [

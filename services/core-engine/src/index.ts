@@ -60,6 +60,20 @@ async function main(): Promise<void> {
   const conversationService = new ConversationService(db);
   const toolExecutor = new ToolExecutor();
 
+  // MCP Gateway integration — discover and register external tools.
+  // If the gateway is unreachable, the ToolExecutor gracefully falls back
+  // to built-in tools only (fs_read, fs_write, bash, write_artifact, ask_user).
+  const mcpGatewayUrl = process.env.MCP_GATEWAY_URL;
+  if (mcpGatewayUrl) {
+    const { MCPClient } = await import('./services/mcp-client.js');
+    const mcpClient = new MCPClient(mcpGatewayUrl, logger);
+    await toolExecutor.registerExternalTools(mcpClient);
+    const externalTools = toolExecutor.getExternalToolNames();
+    if (externalTools.length > 0) {
+      logger.info(`MCP external tools registered`, { count: externalTools.length, tools: externalTools });
+    }
+  }
+
   // Seed built-in agents at startup (idempotent — skips duplicates)
   const agentsDir = join(root, 'data', 'agency-agents');
   try {
