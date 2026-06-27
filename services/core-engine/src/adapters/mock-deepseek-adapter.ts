@@ -71,6 +71,25 @@ export class MockDeepSeekAdapter implements AgentAdapter {
     this.setResponses(responses);
   }
 
+  /**
+   * Push a sequence of text responses. Each call to streamChat() consumes
+   * the next element from the queue. Useful for multi-round tests (e.g.
+   * CrossReview with multiple reviewer calls + auto-fix).
+   *
+   * @param texts  Array of text strings — one per streamChat call
+   */
+  setTextSequence(texts: string[]): void {
+    this.responseQueue = texts.map((text) => [
+      { type: 'text_delta', content: text } as StreamChunk,
+      {
+        type: 'done',
+        finishReason: 'stop',
+        usage: { promptTokens: 10, completionTokens: 5 },
+      } as StreamChunk,
+    ]);
+    this.currentIndex = 0;
+  }
+
   setError(errorMessage: string): void {
     this.responseQueue = [];
     // Throw on next call
