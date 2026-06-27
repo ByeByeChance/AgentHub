@@ -21,6 +21,12 @@ export interface SafetyNetConfig {
   enableCostGuard?: boolean;
   /** Enable circuit breaker gate. Default: true */
   enableCircuitBreaker?: boolean;
+  /**
+   * Cost per million tokens for cost guard computation.
+   * Default: $2.00/1M tokens (DeepSeek pricing).
+   * Set to 0 to disable monetary cost tracking (tokens still accumulated).
+   */
+  costPerMillionTokens?: number;
 }
 
 export interface SafetyNetResult {
@@ -35,7 +41,8 @@ export interface SafetyNetResult {
 }
 
 export class SafetyNet {
-  private readonly config: Required<SafetyNetConfig>;
+  private readonly config: Required<Omit<SafetyNetConfig, 'costPerMillionTokens'>>;
+  private readonly costPerMillionTokens: number;
 
   constructor(
     private readonly rateLimiter: RateLimiter | null,
@@ -49,6 +56,7 @@ export class SafetyNet {
       enableCostGuard: config.enableCostGuard ?? true,
       enableCircuitBreaker: config.enableCircuitBreaker ?? true,
     };
+    this.costPerMillionTokens = config.costPerMillionTokens ?? 2.0;
   }
 
   /**
@@ -81,10 +89,15 @@ export class SafetyNet {
 
     // Gate 2: Cost Guard
     if (this.config.enableCostGuard && this.costGuard) {
+      const tokensIn = params.tokensIn ?? 0;
+      const tokensOut = params.tokensOut ?? 0;
+      const tokenCost = this.costPerMillionTokens > 0
+        ? (tokensIn + tokensOut) / 1_000_000 * this.costPerMillionTokens
+        : 0;
       const result: GuardResult = this.costGuard.check({
-        tokensIn: params.tokensIn ?? 0,
-        tokensOut: params.tokensOut ?? 0,
-        cost: 0,
+        tokensIn,
+        tokensOut,
+        cost: tokenCost,
       });
 
       if (!result.allowed) {

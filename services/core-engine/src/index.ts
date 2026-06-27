@@ -15,6 +15,7 @@ import { createTransport } from './transport/index.js';
 import { createExecutionStrategy } from './execution/index.js';
 import { createObservabilityClients } from './observability/index.js';
 import { DeepSeekAdapter } from './adapters/deepseek-adapter.js';
+import { OpenAIAdapter } from './adapters/openai-adapter.js';
 import { AgentRegistry } from './services/agent-registry.js';
 import { ConversationService } from './services/conversation.service.js';
 import { ToolExecutor } from './services/tool-executor.js';
@@ -85,9 +86,13 @@ async function main(): Promise<void> {
 
   const adapterFactory = (): AgentAdapter => {
     const adapterName = process.env.AGENT_ADAPTER ?? 'deepseek';
-    if (adapterName === 'deepseek') return new DeepSeekAdapter();
-    logger.warn(`Unknown AGENT_ADAPTER "${adapterName}" — falling back to DeepSeekAdapter`);
-    return new DeepSeekAdapter();
+    switch (adapterName) {
+      case 'deepseek': return new DeepSeekAdapter();
+      case 'openai':   return new OpenAIAdapter();
+      default:
+        logger.warn(`Unknown AGENT_ADAPTER "${adapterName}" — falling back to DeepSeekAdapter`);
+        return new DeepSeekAdapter();
+    }
   };
 
   // Pluggable strategies — controlled by environment variables

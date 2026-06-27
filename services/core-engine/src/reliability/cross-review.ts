@@ -1,5 +1,6 @@
 import type { AgentAdapter, LLMMessage } from '@agenthub/shared/adapter';
 import type { Logger } from '@agenthub/shared/logging';
+import type { CostGuard } from '@agenthub/shared/reliability';
 
 /**
  * Layer 5 — Cross-Review: multiple agents independently review outputs,
@@ -11,6 +12,7 @@ import type { Logger } from '@agenthub/shared/logging';
  * - threshold:      N out of M must agree (configurable ratio)
  *
  * If consensus fails, auto-fix retries up to `maxRounds` times.
+ * Protected by CostGuard to prevent runaway review costs.
  */
 
 export type ConsensusMode = 'majority_vote' | 'unanimous' | 'threshold';
@@ -26,6 +28,13 @@ export interface CrossReviewConfig {
   maxRounds?: number;
   /** System prompt for reviewer agents. */
   reviewSystemPrompt?: string;
+  /**
+   * Optional cost guard to prevent runaway review costs.
+   * Checked before each review round and auto-fix call.
+   */
+  costGuard?: CostGuard;
+  /** Session ID for cost guard tracking. */
+  sessionId?: string;
 }
 
 export interface ReviewVerdict {
@@ -46,6 +55,8 @@ export interface CrossReviewResult {
   rounds: number;
   /** Aggregated feedback (passed) or aggregated reasons for failure */
   summary: string;
+  /** If blocked by cost guard, the reason */
+  blockedByCostGuard?: boolean;
 }
 
 const DEFAULT_REVIEW_PROMPT = `You are a critical reviewer. Evaluate the following output for correctness, completeness, and safety.
@@ -63,8 +74,13 @@ Respond with a JSON object:
   "suggestedFix": "if not accepted, suggest how to fix"
 }`;
 
+/** Non-optional core config fields, initialized with defaults. */
+type ResolvedCoreConfig = Required<Pick<CrossReviewConfig, 'reviewerCount' | 'mode' | 'thresholdRatio' | 'maxRounds' | 'reviewSystemPrompt'>>;
+
 export class CrossReview {
-  private readonly config: Required<CrossReviewConfig>;
+  private readonly config: ResolvedCoreConfig;
+  private readonly costGuard?: CostGuard;
+  private readonly sessionId?: string;
 
   constructor(config: CrossReviewConfig = {}) {
     this.config = {
@@ -74,6 +90,8 @@ export class CrossReview {
       maxRounds: config.maxRounds ?? 3,
       reviewSystemPrompt: config.reviewSystemPrompt ?? DEFAULT_REVIEW_PROMPT,
     };
+    this.costGuard = config.costGuard;
+    this.sessionId = config.sessionId;
   }
 
   /**
@@ -112,6 +130,33 @@ export class CrossReview {
         };
       }
 
+      // CostGuard check before running reviewer LLM calls
+      if (this.costGuard) {
+        // Estimate: each reviewer call ~2000 input + ~200 output tokens
+        const estTokensIn = this.config.reviewerCount * 2000;
+        const estTokensOut = this.config.reviewerCount * 200;
+        const costCheck = this.costGuard.check({
+          tokensIn: estTokensIn,
+          tokensOut: estTokensOut,
+          cost: (estTokensIn + estTokensOut) / 1_000_000 * 2.0,
+          sessionId: this.sessionId,
+        });
+        if (!costCheck.allowed) {
+          logger.warn('CrossReview blocked by CostGuard', {
+            round: rounds,
+            reason: costCheck.reason,
+          });
+          return {
+            passed: false,
+            verdicts: allVerdicts,
+            mode: this.config.mode,
+            rounds,
+            summary: `Review blocked by cost guard: ${costCheck.reason}`,
+            blockedByCostGuard: true,
+          };
+        }
+      }
+
       // Run independent reviews in parallel
       const verdicts = await this.runReviewers(
         adapter,
@@ -141,6 +186,20 @@ export class CrossReview {
           .map((v) => v.suggestedFix!);
 
         if (fixes.length > 0) {
+          // CostGuard check before auto-fix LLM call
+          if (this.costGuard) {
+            const fixCheck = this.costGuard.check({
+              tokensIn: 3000,
+              tokensOut: 2000,
+              cost: (3000 + 2000) / 1_000_000 * 2.0,
+              sessionId: this.sessionId,
+            });
+            if (!fixCheck.allowed) {
+              logger.warn('CrossReview auto-fix blocked by CostGuard');
+              break;
+            }
+          }
+
           const fixMessage: LLMMessage[] = [
             { role: 'system', content: 'You are fixing an output that was rejected by reviewers. Apply the suggested fixes.' },
             { role: 'user', content: `Original request: ${params.originalRequest}\n\nOutput to fix: ${currentOutput}\n\nReviewer feedback:\n${fixes.map((f, i) => `${i + 1}. ${f}`).join('\n')}\n\nProduce the corrected output.` },
