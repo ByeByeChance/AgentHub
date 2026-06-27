@@ -1,5 +1,6 @@
 import type { FastifyRequest, FastifyReply, RouteHandler } from 'fastify';
 import type { Logger } from '@agenthub/shared/logging';
+import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 
 /**
  * Create a reverse-proxy route handler that forwards requests to Core Engine.
@@ -112,9 +113,12 @@ export function createProxyHandler(
       // Connection refused, timeout, DNS resolution failure
       if ((err as { code?: string }).code === 'ECONNREFUSED') {
         logger.error('Proxy: Core Engine unreachable', { target: targetUrl });
-        return reply.code(503).send({
-          error: 'Service Unavailable',
-          message: 'Core Engine is unreachable',
+        throw new ProblemDetail({
+          type: ERROR_TYPES.SERVICE_UNAVAILABLE,
+          title: 'Service Unavailable',
+          status: 503,
+          detail: 'Core Engine is unreachable',
+          instance: request.url,
         });
       }
       if ((err as { name?: string }).name === 'AbortError') {
@@ -122,9 +126,12 @@ export function createProxyHandler(
         return;
       }
       logger.error('Proxy error', { target: targetUrl, error: String(err) });
-      return reply.code(502).send({
-        error: 'Bad Gateway',
-        message: `Proxy error: ${String(err)}`,
+      throw new ProblemDetail({
+        type: ERROR_TYPES.BAD_GATEWAY,
+        title: 'Bad Gateway',
+        status: 502,
+        detail: `Proxy error: ${String(err)}`,
+        instance: request.url,
       });
     }
   };

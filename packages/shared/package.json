@@ -18,7 +18,8 @@
     "./queue": "./src/queue/index.ts",
     "./reliability": "./src/reliability/index.ts",
     "./transport": "./src/transport/index.ts",
-    "./execution": "./src/execution/index.ts"
+    "./execution": "./src/execution/index.ts",
+    "./errors": "./src/errors/index.ts"
   },
   "scripts": {
     "dev": "tsc --watch",

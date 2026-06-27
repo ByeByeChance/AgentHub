@@ -7,3 +7,4 @@ export * from './auth/index.js';
 export * from './reliability/index.js';
 export * from './execution/index.js';
 export * from './transport/index.js';
+export * from './errors/index.js';

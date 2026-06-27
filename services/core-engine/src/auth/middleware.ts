@@ -1,5 +1,7 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import type { AuthStrategy, AuthRequest } from '@agenthub/shared/auth';
+import { ProblemDetail } from '@agenthub/shared/errors';
+import { ERROR_TYPES } from '@agenthub/shared/errors';
 
 /**
  * Register an authentication preHandler hook on all /api/* routes.
@@ -12,7 +14,7 @@ export function registerAuthMiddleware(
   app: FastifyInstance,
   authStrategy: AuthStrategy,
 ): void {
-  app.addHook('preHandler', async (request: FastifyRequest, reply: FastifyReply) => {
+  app.addHook('preHandler', async (request: FastifyRequest, _reply: FastifyReply) => {
     // Only apply to /api/* routes; skip health and other public paths
     if (!request.url.startsWith('/api/')) return;
 
@@ -25,9 +27,12 @@ export function registerAuthMiddleware(
     const result = await authStrategy.authenticate(authRequest);
 
     if (!result.authenticated) {
-      return reply.code(401).send({
-        error: 'Unauthorized',
-        message: result.error ?? 'Authentication failed',
+      throw new ProblemDetail({
+        type: ERROR_TYPES.UNAUTHORIZED,
+        title: 'Unauthorized',
+        status: 401,
+        detail: result.error ?? 'Authentication failed',
+        instance: request.url,
       });
     }
 

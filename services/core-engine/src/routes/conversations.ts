@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { EVENT_TYPES, createEventEnvelope } from '@agenthub/contracts';
 import type { EventEnvelope } from '@agenthub/contracts';
 import { createPinoLogger } from '@agenthub/shared/logging';
+import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 import type { ConversationRouteDeps } from '../services/interfaces/conversation-routes.interface.js';
 import { createConvSchema, sendMessageSchema } from './validation/conversation-schemas.js';
 import { toTransportReply } from './transport-reply.js';
@@ -28,8 +29,7 @@ export function registerConversationRoutes(
   app.post('/api/conversations', async (request, reply) => {
     const result = createConvSchema.safeParse(request.body);
     if (!result.success) {
-      reply.code(400);
-      return { error: 'Invalid request', details: result.error.issues };
+      throw ProblemDetail.fromZodError(result.error, request.url);
     }
     const conv = await conversationService.createConversation(result.data);
     reply.code(201);
@@ -57,36 +57,31 @@ export function registerConversationRoutes(
     const { id: conversationId } = request.params as { id: string };
     const bodyResult = sendMessageSchema.safeParse(request.body);
     if (!bodyResult.success) {
-      reply.code(400);
-      return { error: 'Invalid request', details: bodyResult.error.issues };
+      throw ProblemDetail.fromZodError(bodyResult.error, request.url);
     }
 
     const conversation = await conversationService.getConversation(
       conversationId,
     );
     if (!conversation) {
-      reply.code(404);
-      return { error: 'Conversation not found' };
+      throw new ProblemDetail({ type: ERROR_TYPES.NOT_FOUND, title: 'Not Found', status: 404, detail: 'Conversation not found', instance: request.url });
     }
 
     // Use caller-specified agentId, or fall back to the first assigned agent
     const agentId =
       bodyResult.data.agentId ?? conversation.agentIds[0];
     if (!agentId) {
-      reply.code(400);
-      return { error: 'No agent assigned to conversation' };
+      throw new ProblemDetail({ type: ERROR_TYPES.VALIDATION_ERROR, title: 'Bad Request', status: 400, detail: 'No agent assigned to conversation', instance: request.url });
     }
 
     // Validate that the requested agent belongs to this conversation
     if (!conversation.agentIds.includes(agentId)) {
-      reply.code(400);
-      return { error: 'Agent is not assigned to this conversation' };
+      throw new ProblemDetail({ type: ERROR_TYPES.VALIDATION_ERROR, title: 'Bad Request', status: 400, detail: 'Agent is not assigned to this conversation', instance: request.url });
     }
 
     const agent = await agentRegistry.getById(agentId);
     if (!agent) {
-      reply.code(404);
-      return { error: 'Agent not found' };
+      throw new ProblemDetail({ type: ERROR_TYPES.NOT_FOUND, title: 'Not Found', status: 404, detail: 'Agent not found', instance: request.url });
     }
 
     // Create user message
@@ -164,11 +159,9 @@ export function registerConversationRoutes(
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       if (msg.includes('not found')) {
-        reply.code(404);
-        return { error: 'Message not found' };
+        throw new ProblemDetail({ type: ERROR_TYPES.NOT_FOUND, title: 'Not Found', status: 404, detail: 'Message not found', instance: request.url });
       }
-      reply.code(500);
-      return { error: msg };
+      throw new ProblemDetail({ type: ERROR_TYPES.INTERNAL_ERROR, title: 'Internal Server Error', status: 500, detail: msg, instance: request.url });
     }
   });
 }

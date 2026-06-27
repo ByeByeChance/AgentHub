@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import type { AgentRegistry } from '../services/agent-registry.js';
+import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 
 const createAgentSchema = z.object({
   name: z.string().min(1),
@@ -54,14 +55,19 @@ export function registerAgentRoutes(
     return registry.listAll(resolvedLocale);
   });
 
-  app.get('/api/agents/:id', async (request, reply) => {
+  app.get('/api/agents/:id', async (request) => {
     const { id } = request.params as { id: string };
     const { locale } = request.query as { locale?: string };
     const resolvedLocale = resolveLocale(locale, request.headers['accept-language']);
     const agent = await registry.getById(id, resolvedLocale);
     if (!agent) {
-      reply.code(404);
-      return { error: 'Agent not found' };
+      throw new ProblemDetail({
+        type: ERROR_TYPES.NOT_FOUND,
+        title: 'Not Found',
+        status: 404,
+        detail: 'Agent not found',
+        instance: request.url,
+      });
     }
     return agent;
   });
@@ -69,8 +75,7 @@ export function registerAgentRoutes(
   app.post('/api/agents', async (request, reply) => {
     const result = createAgentSchema.safeParse(request.body);
     if (!result.success) {
-      reply.code(400);
-      return { error: 'Invalid request', details: result.error.issues };
+      throw ProblemDetail.fromZodError(result.error, request.url);
     }
     const agent = await registry.create(result.data);
     reply.code(201);

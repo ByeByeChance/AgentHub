@@ -8,6 +8,7 @@ import Fastify from 'fastify';
 import { SERVICE_DEFAULTS } from '@agenthub/shared/constants';
 import { createAuthStrategy } from '@agenthub/shared/auth';
 import { createPinoLogger } from '@agenthub/shared/logging';
+import { registerErrorHandler } from '@agenthub/shared/errors';
 import { registerAuthMiddleware } from './middleware/auth.js';
 import { registerRateLimitMiddleware } from './middleware/rate-limit.js';
 import { registerCorsMiddleware } from './middleware/cors.js';
@@ -20,6 +21,9 @@ async function main(): Promise<void> {
     logger: { level: process.env.LOG_LEVEL ?? 'info' },
   });
   const logger = createPinoLogger(app.log, { service: 'api-gateway' });
+
+  // Register RFC 9457 global error handler
+  registerErrorHandler(app);
 
   // Health check (no auth required)
   app.get('/health', async () => ({

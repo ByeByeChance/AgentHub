@@ -70,7 +70,9 @@ describe('Auth Middleware', () => {
       const res = await app.inject({ method: 'GET', url: '/api/agents' });
       expect(res.statusCode).toBe(401);
       const body = JSON.parse(res.payload);
-      expect(body.error).toBe('Unauthorized');
+      expect(body.title).toBe('Unauthorized');
+      expect(body.type).toBe('urn:agenthub:auth#unauthorized');
+      expect(res.headers['content-type']).toContain('application/problem+json');
     });
 
     it('should reject requests with invalid API key', async () => {
@@ -82,6 +84,7 @@ describe('Auth Middleware', () => {
         headers: { authorization: 'Bearer wrong-key' },
       });
       expect(res.statusCode).toBe(401);
+      expect(res.headers['content-type']).toContain('application/problem+json');
     });
 
     it('should reject requests with non-Bearer scheme', async () => {
@@ -93,6 +96,7 @@ describe('Auth Middleware', () => {
         headers: { authorization: 'Basic dXNlcjpwYXNz' },
       });
       expect(res.statusCode).toBe(401);
+      expect(res.headers['content-type']).toContain('application/problem+json');
     });
 
     it('should not apply auth to /health endpoint', async () => {

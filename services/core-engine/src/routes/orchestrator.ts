@@ -5,6 +5,7 @@ import { Orchestrator } from '../orchestrator/index.js';
 import { toTransportReply } from './transport-reply.js';
 import { createPinoLogger } from '@agenthub/shared/logging';
 import { z } from 'zod';
+import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 
 const executeGoalSchema = z.object({
   goal: z.string().min(1),
@@ -53,16 +54,14 @@ export function registerOrchestratorRoute(
 
     const bodyResult = executeGoalSchema.safeParse(request.body);
     if (!bodyResult.success) {
-      reply.code(400);
-      return { error: 'Invalid request', details: bodyResult.error.issues };
+      throw ProblemDetail.fromZodError(bodyResult.error, request.url);
     }
 
     const { goal, agents: inputAgents } = bodyResult.data;
 
     const conversation = await conversationService.getConversation(conversationId);
     if (!conversation) {
-      reply.code(404);
-      return { error: 'Conversation not found' };
+      throw new ProblemDetail({ type: ERROR_TYPES.NOT_FOUND, title: 'Not Found', status: 404, detail: 'Conversation not found', instance: request.url });
     }
 
     // Resolve agents: use provided agents or fetch from conversation
@@ -82,8 +81,7 @@ export function registerOrchestratorRoute(
     }
 
     if (agents.length === 0) {
-      reply.code(400);
-      return { error: 'No agents available for execution' };
+      throw new ProblemDetail({ type: ERROR_TYPES.VALIDATION_ERROR, title: 'Bad Request', status: 400, detail: 'No agents available for execution', instance: request.url });
     }
 
     const controller = new AbortController();

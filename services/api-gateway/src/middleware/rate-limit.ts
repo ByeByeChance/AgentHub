@@ -1,6 +1,7 @@
-import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
+import type { FastifyInstance, FastifyRequest } from 'fastify';
 import { RateLimiter } from '@agenthub/shared/reliability';
 import type { Logger } from '@agenthub/shared/logging';
+import { ProblemDetail, ERROR_TYPES } from '@agenthub/shared/errors';
 
 /**
  * Register HTTP-level rate limiting as a preHandler hook.
@@ -16,16 +17,19 @@ export function registerRateLimitMiddleware(
 ): void {
   const rateLimiter = new RateLimiter();
 
-  app.addHook('preHandler', async (request: FastifyRequest, reply: FastifyReply) => {
+  app.addHook('preHandler', async (request: FastifyRequest) => {
     if (!request.url.startsWith('/api/')) return;
 
     const clientKey = request.ip ?? 'unknown';
 
     if (!rateLimiter.consume(clientKey)) {
       logger.warn('Gateway rate limit exceeded', { clientKey, url: request.url });
-      return reply.code(429).send({
-        error: 'Too Many Requests',
-        message: 'Rate limit exceeded. Please retry later.',
+      throw new ProblemDetail({
+        type: ERROR_TYPES.RATE_LIMITED,
+        title: 'Too Many Requests',
+        status: 429,
+        detail: 'Rate limit exceeded. Please retry later.',
+        instance: request.url,
       });
     }
   });
